@@ -1,0 +1,15 @@
+{
+    "common": {
+        "language": "Langue",
+        "contact": "Contact"
+    },
+    "nav": {
+        "home": "Accueil",
+        "dossera_solve": "Le Problème",
+        "dossera_services": "Nos Services",
+        "dossera_how": "Comment Ça Marche",
+        "dossera_book": "Réserver",
+        "back_portfolio": "← Retour au Portfolio",
+        "toggle_theme": "Basculer le thème"
+    }
+}

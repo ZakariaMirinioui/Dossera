@@ -1,0 +1,17 @@
+<svg width="216" height="216" viewBox="0 0 216 216" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="216" height="216" rx="38" fill="#000000"/>
+  
+  <g transform="translate(0, 10)"> <path d="M 65 60 L 135 60 L 75 145 L 145 145" 
+          stroke="#FFFFFF" 
+          stroke-width="26" 
+          stroke-linecap="butt" 
+          stroke-linejoin="miter" 
+          stroke-miterlimit="10"/>
+          
+    <circle cx="65" cy="60" r="13" fill="#FFFFFF"/>
+    
+    <circle cx="145" cy="145" r="13" fill="#FFFFFF"/>
+  </g>
+
+  <circle cx="180" cy="155" r="13" fill="#FF0000"/>
+</svg>
