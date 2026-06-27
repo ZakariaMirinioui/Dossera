@@ -10,6 +10,18 @@
         "dossera_how": "Comment Ça Marche",
         "dossera_book": "Réserver",
         "back_portfolio": "← Retour au Portfolio",
-        "toggle_theme": "Basculer le thème"
+        "toggle_theme": "Basculer le thème",
+        "open_menu": "Ouvrir le menu",
+        "close_menu": "Fermer le menu"
+    },
+    "footer": {
+        "tagline": "Intelligence documentaire souveraine pour les institutions judiciaires",
+        "column_email": "E-mail",
+        "column_phone": "Téléphone",
+        "column_linkedin": "LinkedIn",
+        "column_github": "GitHub",
+        "dossera_credit": "DOSSERA — Construit à Khouribga. Éprouvé dans les tribunaux.",
+        "copyright": "© 2024 DOSSERA. Tous droits réservés.",
+        "location_line": "Khouribga, Maroc · Service Maroc & Italie"
     }
 }

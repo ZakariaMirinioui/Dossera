@@ -1,14 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 /**
- * Hook to observe an element and add 'visible' class when it enters viewport
- * @returns RefObject that should be attached to elements that should be observed
+ * Hook to observe a given element directly and add 'visible' class when it enters viewport
+ * Usage: useObserveElement(divRef);
  */
-export function useReveal<T extends HTMLElement = HTMLElement>() {
-    const ref = useRef<T>(null);
-
+export function useObserveElement<T extends HTMLElement = HTMLElement>(element: T | null) {
     useEffect(() => {
-        const element = ref.current;
         if (!element) return;
 
         const observer = new IntersectionObserver(
@@ -23,7 +20,5 @@ export function useReveal<T extends HTMLElement = HTMLElement>() {
 
         observer.observe(element);
         return () => observer.disconnect();
-    }, []);
-
-    return ref;
+    }, [element]);
 }

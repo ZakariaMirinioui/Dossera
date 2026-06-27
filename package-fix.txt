@@ -1,0 +1,3 @@
+This file creates a simple test to see if TypeScript will compile correctly.
+
+Let's check what files were created and their content.

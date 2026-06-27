@@ -10,6 +10,18 @@
         "dossera_how": "How It Works",
         "dossera_book": "Book a Call",
         "back_portfolio": "← Back to Portfolio",
-        "toggle_theme": "Toggle theme"
+        "toggle_theme": "Toggle theme",
+        "open_menu": "Open menu",
+        "close_menu": "Close menu"
+    },
+    "footer": {
+        "tagline": "Sovereign document intelligence for judicial institutions",
+        "column_email": "Email",
+        "column_phone": "Phone",
+        "column_linkedin": "LinkedIn",
+        "column_github": "GitHub",
+        "dossera_credit": "DOSSERA — Built in Khouribga. Proven in courts.",
+        "copyright": "© 2024 DOSSERA. All rights reserved.",
+        "location_line": "Khouribga, Morocco · Serving Morocco & Italy"
     }
 }

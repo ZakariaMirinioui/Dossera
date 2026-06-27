@@ -1,161 +1,233 @@
-# DOSSERA - Sovereign Document Intelligence Platform
+# DOSSERA Website
 
-Deploy sovereign document intelligence inside your institution.
+DOSSERA - Sovereign Document Intelligence Platform
 
-**No cloud. No compromise. No data leaving your walls.**
+## Overview
 
----
+This is a professional landing page for DOSSERA, an enterprise-grade document intelligence platform designed for judicial institutions. Built with React, TypeScript, and Vite, this site showcases DOSSERA's capabilities for on-premise document processing, Arabic/French semantic search, and compliance-native operations.
 
-## 🚀 Quick Start
+## Key Features
 
-### Development
+- **Archive-Styled Design**: Professional atmosphere with groove backgrounds and accent lines
+- **Fully Responsive**: Optimized for desktop, tablet, and mobile devices
+- **Multi-Language**: English and French support (Arabic coming in v1.1)
+- **Smooth Animations**: Magnetic hover effects, cursor glow, and scroll reveals
+- **Enterprise-Grade Performance**: Code splitting, lazy loading, optimized assets
+- **Form Integration**: Built-in Formspree contact form for discovery calls
 
-```bash
-npm install
-npm run dev
-# Opens http://localhost:3000
-```
+## Technology Stack
 
-### Build
+- **Frontend**: React 18, TypeScript, Vite 5
+- **Styling**: Tailwind CSS, custom design system
+- **Animation**: Framer Motion
+- **Routing**: React Router Dom
+- **Internationalization**: react-i18next
+- **Icons**: Lucide-react
 
-```bash
-npm run build
-npm run preview
-```
-
-### Deploy to Vercel
-
-```bash
-# Push to GitHub, then:
-vercel
-# Or use Vercel dashboard to auto-deploy from Git
-```
-
----
-
-## 📋 Environment Variables
-
-Create `.env.local` in project root:
-
-```bash
-# Formspree contact form
-VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/mwpejbne
-
-# Linking back to portfolio
-VITE_PORTFOLIO_URL=https://zakaria-mirinioui-portfolio.surge.sh
-
-# Your domain
-VITE_SITE_URL=https://dossera.vercel.app
-```
-
-**Never commit `.env.local`** — it's in `.gitignore`
-
----
-
-## 📁 Project Structure
+## Project Architecture
 
 ```
 src/
-├── pages/
-│  ├── Home/
-│  │  ├── DosseraPage.tsx      # Main landing page
-│  │  └── DosseraBookingForm.tsx # Discovery call form
-│  └── NotFound.tsx
-├── layouts/
-│  └── Website/
-│     ├── Header/index.tsx     # Navigation & theme toggle
-│     ├── Footer/index.tsx     # Footer with links
-│     └── index.tsx            # Layout wrapper
 ├── components/
-│  ├── LanguageSwitcher/       # EN/FR toggle
-│  └── NProgressSuspense/      # Page load indicator
-├── hooks/                     # useTheme, useMagneticHover, etc.
-├── i18n/                      # Translations (EN/FR)
-├── routes/                    # Route configuration
-├── App.tsx
-├── main.tsx
-├── index.css                  # Global styles + DOSSERA-specific
-└── vite-env.d.ts
+│   ├── ui/                    # Primitive components
+│   ├── layout/               # Layout components
+│   ├── dossera/              # DOSSERA-specific components
+│   │   ├── Hero/
+│   │   ├── PainPoints/
+│   │   ├── Services/
+│   │   ├── HowItWorks/
+│   │   ├── Sovereign/
+│   │   ├── Proof/
+│   │   ├── Serve/
+│   │   ├── Booking/
+│   │   └── ArchiveBackground/
+│   └── common/               # Shared utilities
+├── hooks/                    # Custom hooks
+├── lib/                      # Utilities
+├── styles/                   # Global styles
+└── pages/                   # Page components
 ```
 
----
+## Development
 
-## 🌐 Languages Supported
+### Prerequisites
+- Node.js 18+
+- npm/yarn
 
-- 🇬🇧 English
-- 🇫🇷 French
-- Browser language auto-detection
-- Manual toggle in header
+### Installation
+```bash
+npm install
+```
 
----
+### Development Server
+```bash
+npm run dev
+```
 
-## 🎨 Design Features
+### Build for Production
+```bash
+npm run build
+```
 
-- **Dark-first** with light mode toggle
-- **Responsive** mobile/tablet/desktop  
-- **Accessibility** WCAG 2.1 compliant
-- **Performance** optimized images, code splitting
-- **SEO** structured data, meta tags
+### Type Checking
+```bash
+npm run check
+```
 
----
+### Linting
+```bash
+npm run lint
+```
 
-## 📞 Contact Form
+## Features Showcase
 
-- Powered by **Formspree**
-- Fields: Institution, Role, Email, Phone, Message
-- Auto-replies enabled
-- Webhook support (optional)
+### Hero Section
+- Full-screen hero with scroll-reactive background atmosphere
+- Animated text reveals on scroll
+- Primary/secondary CTAs for booking calls
 
----
+### Pain Points Section
+- Archive card grid with magnetic hover effects
+- Before/after comparison highlighting DOSSERA's benefits
+- Coded in TypeScript with proper typing
 
-## 🔗 Cross-Linking
+### Services Section
+- Asymmetric grid layout
+- Animated border traces on hover
+- Service icons with descriptions
 
-**From DOSSERA:**
-- "← Back to Portfolio" link in header
-- "Back to Portfolio" link in footer
+### How It Works
+- Timeline component with desktop/mobile support
+- Step-by-step process visualization
 
-**From Portfolio:**
-- "Book a Call" external link to DOSSERA
-- All internal `/dossera` routes redirect to external Vercel URL
+### Sovereign Section
+- Split comparison panel
+- Archive-like presentation with left accent border
 
----
+### Proof Section
+- Metric cards with values and contexts
+- Glassmorphic styling
 
-## 🛠️ Tech Stack
+### Who We Serve
+- Market cards for Morocco and Italy
+- Client list with accent dots
 
-- **Framework**: React 18 + TypeScript
-- **Build**: Vite 5
-- **Styling**: Tailwind CSS + Custom CSS
-- **Routing**: React Router 6
-- **i18n**: i18next + React-i18next
-- **Forms**: Formspree
-- **Animations**: Framer Motion
-- **Deploy**: Vercel
+### Booking Section
+- Premium form with material-inspired design
+- Real-time validation states
+- Formspree integration for discovery calls
 
----
+## Design System
 
-##⚠️ Important Notes
+### Colors
+- **Primary Red**: #e63946 (DOSSERA brand color)
+- **Dark Theme**: #0a0a0a, #111111, #1a1a1a
+- **Light Theme**: #f7f5f2, #efece8, #e5e1dc
+- **Gold**: #c9a84c (for emphasis)
 
-1. **Secrets**: All sensitive values in `.env.local` (not versioned)
-2. **Forms**:  Formspree endpoint must match form ID in config
-3. **Styling**: All CSS is merged into `src/index.css`
-4. **Hooks**: Reusable animation & interaction utilities
-5. **Production**: minified, optimized build
+### Typography
+- **Display**: Syne (for headings)
+- **Body**: Inter (for readability)
+- **Mono**: JetBrains Mono (for technical content)
 
----
+### Components
+- **Glass Cards**: Frosted glass effect with border
+- **Magnetic Cards**: Cards that follow cursor on hover
+- **Reveal Elements**: Blur-in materialize animations
+- **Cursor Glow**: Red radial gradient spotlight
 
-## 📚 Documentation
+## Performance Optimizations
 
-- [SETUP.md](./SETUP.md) — Initial project setup
-- [DOSSERA_DEPLOYMENT.md](./DOSSERA_DEPLOYMENT.md) — Deployment guide
+- **Code Splitting**: Lazy load components
+- **Bundle Analysis**: ManualChunks for vendor libraries
+- **Image Optimization**: WebP/AVIF formats
+- **Tree Shaking**: Remove unused code
+- **Preload Critical Resources**: Essential fonts and CSS
 
----
+## Accessibility
 
-## 📞 Support
+- **WCAG 2.1 AA Compliant**
+- **Semantic HTML5**
+- **ARIA Labels**
+- **Keyboard Navigation**
+- **Screen Reader Support**
+- **Reduced Motion Support**
+- **High Contrast Mode**
 
-**Questions?** Contact: zakmirinioui@gmail.com
+## Internationalization
 
-**Portfolio**: https://zakaria-mirinioui-portfolio.surge.sh
+### Supported Languages
+- **English**: en (default)
+- **French**: fr
+- **Arabic**: ar (planned for v1.1)
 
----
+### Translation Management
+- i18next with react-i18next integration
+- JSON translation files
+- Language switching via LanguageSwitcher component
 
-**Built by Zakaria Mirinioui** — Khouribga, Morocco
+## Deployment
+
+### Local Development
+```bash
+npm run dev
+```
+
+### Production Build
+```bash
+npm run build
+```
+
+### Preview
+```bash
+npm run preview
+```
+
+### Environment Variables
+Copy `.env.example` to `.env.local` and configure:
+
+```env
+VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/mwpejbne
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_MEASUREMENT_ID=
+VITE_SITE_URL=https://dossera.vercel.app
+VITE_PORTFOLIO_URL=https://zakaria-mirinioui-portfolio.surge.sh
+```
+
+## Future Enhancements
+
+### Version 1.1
+- Arabic language support with RTL layout
+- Advanced Service Worker for offline capabilities
+- Enhanced analytics integration
+- Performance monitoring
+
+### Version 2.0
+- Portfolio integration
+- Admin dashboard
+- Advanced search features
+- Mobile app
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Follow existing code style
+4. Add tests for new functionality
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgments
+
+- Built with care and attention to detail
+- Inspired by enterprise web design patterns
+- Optimized for performance and accessibility
+- Designed to showcase DOSSERA's capabilities effectively
