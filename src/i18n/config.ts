@@ -1,30 +1,47 @@
-import i18n from 'i18next';
+﻿import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en/translation.json';
 import fr from './locales/fr/translation.json';
+import ar from './locales/ar/translation.json';
 import dosseraLandingEn from './copy/dosseraLanding.en';
 import dosseraLandingFr from './copy/dosseraLanding.fr';
+import dosseraLandingAr from './copy/dosseraLanding.ar';
 
 const resources = {
     en: { translation: { ...en, dosseraLanding: dosseraLandingEn } },
     fr: { translation: { ...fr, dosseraLanding: dosseraLandingFr } },
+    ar: { translation: { ...ar, dosseraLanding: dosseraLandingAr } },
 };
 
-// Get browser language or fallback to English
+const SUPPORTED_LANGS = ['en', 'fr', 'ar'];
+
 const getBrowserLanguage = () => {
     const browserLang = navigator.language.split('-')[0];
-    return ['en', 'fr'].includes(browserLang) ? browserLang : 'en';
+    return SUPPORTED_LANGS.includes(browserLang) ? browserLang : 'en';
 };
+
+const setDocumentDirection = (lng: string) => {
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lng;
+};
+
+const detectedLang = localStorage.getItem('language') || getBrowserLanguage();
+setDocumentDirection(detectedLang);
 
 i18n
     .use(initReactI18next)
     .init({
         resources,
-        lng: localStorage.getItem('language') || getBrowserLanguage(),
+        lng: detectedLang,
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false,
         },
     });
+
+i18n.on('languageChanged', (lng) => {
+    setDocumentDirection(lng);
+    localStorage.setItem('language', lng);
+});
 
 export default i18n;

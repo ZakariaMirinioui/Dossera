@@ -2,6 +2,11 @@
 
 This document provides a technical overview of the Judicial Archive Management System (JAMS). JAMS is an enterprise-grade document ingestion, processing, and retrieval platform built specifically for judicial institutions. It solves the problem of digitizing, indexing, and securely searching massive volumes of physical and digital legal records. The system provides a unified interface for archivists and legal personnel to manage Arabic documents, ensuring strict access control and real-time operational visibility.
 
+
+# What's JAMS ?
+
+JAMS is a professional archival and document management system designed for judicial institutions. It provides secure document storage, OCR text extraction, and vector-based semantic search to efficiently manage and retrieve legal records.
+
 ## Architecture
 
 The system implements a decoupled client-server architecture utilizing a modern, high-performance tech stack:

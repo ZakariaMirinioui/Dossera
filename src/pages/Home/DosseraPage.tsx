@@ -1,29 +1,10 @@
-import React, { useRef } from "react";
+﻿import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Shield, Search, ScrollText, BarChart3, FileText, Clock } from "lucide-react";
 import DosseraBookingForm from "./DosseraBookingForm";
 import { useReveal } from "../../hooks/useReveal";
-import { useMagneticHover } from "../../hooks/useMagneticHover";
 import { useCursorGlow } from "../../hooks/useCursorGlow";
-
-function MagneticDosseraCard({
-	strength,
-	className,
-	style,
-	children,
-}: {
-	strength: number;
-	className: string;
-	style?: React.CSSProperties;
-	children: React.ReactNode;
-}) {
-	const ref = useMagneticHover<HTMLDivElement>(strength);
-	return (
-		<div ref={ref} className={`glass-card glass-card--magnetic ${className}`.trim()} style={style}>
-			{children}
-		</div>
-	);
-}
+import WebsiteHeader from "../../layouts/Website/Header";
 
 const painKeys = [
 	["card1_title", "card1_after"],
@@ -31,12 +12,9 @@ const painKeys = [
 	["card3_title", "card3_after"],
 ] as const;
 
-const stepKeys = [
-	["step1_title", "step1_desc"],
-	["step2_title", "step2_desc"],
-	["step3_title", "step3_desc"],
-	["step4_title", "step4_desc"],
-] as const;
+const CAPABILITY_ICONS = [Shield, Search, ScrollText, BarChart3, FileText, Clock] as const;
+
+type CapabilityItem = { title: string; desc: string };
 
 type ProofMetric = { before: string; after: string; label: string; context: string };
 type Market = { name: string; subtitle: string; note: string; clients: string[] };
@@ -44,12 +22,12 @@ type Market = { name: string; subtitle: string; note: string; clients: string[] 
 const DosseraPage: React.FC = () => {
 	const { t } = useTranslation();
 	const proofMetrics = t("dosseraLanding.results.metrics", { returnObjects: true }) as ProofMetric[];
+	const howItems = t("dosseraLanding.how.items", { returnObjects: true }) as CapabilityItem[];
 	const marketMa = t("dosseraLanding.serve.morocco", { returnObjects: true }) as Market;
 	const marketIt = t("dosseraLanding.serve.italy", { returnObjects: true }) as Market;
 	const painRef = useReveal<HTMLDivElement>();
 	const svcRef = useReveal<HTMLDivElement>();
-	const howDeskRef = useReveal<HTMLDivElement>();
-	const howMobRef = useReveal<HTMLDivElement>();
+	const howRef = useReveal<HTMLDivElement>();
 	const sovereignRef = useReveal<HTMLElement>();
 	const resultsRef = useReveal<HTMLElement>();
 	const serveRef = useReveal<HTMLElement>();
@@ -62,6 +40,7 @@ const DosseraPage: React.FC = () => {
 
 	return (
 		<div className="dossera-page pb-8">
+			<WebsiteHeader />
 			<section ref={heroGlowRef} className="dossera-hero cursor-glow-section">
 				<p className="dossera-hero-eyebrow">{t("dosseraLanding.hero.eyebrow")}</p>
 				<h1 className="dossera-hero-headline">
@@ -91,15 +70,14 @@ const DosseraPage: React.FC = () => {
 						{t("dosseraLanding.pain.title")}
 					</h2>
 					{painKeys.map(([before, after], i) => (
-						<MagneticDosseraCard
+						<div
 							key={before}
-							strength={0.15}
-							className="dossera-svc-card min-h-[140px]"
+							className="glass-card dossera-svc-card min-h-[140px]"
 							style={{ "--i": i + 1 } as React.CSSProperties}
 						>
 							<p className="dossera-body text-[length:var(--text-sm)] mb-3">{t(`dosseraLanding.pain.${before}`)}</p>
 							<p className="dossera-body text-[length:var(--text-base)] font-medium text-[var(--accent-red)]">{t(`dosseraLanding.pain.${after}`)}</p>
-						</MagneticDosseraCard>
+						</div>
 					))}
 				</div>
 			</section>
@@ -112,9 +90,8 @@ const DosseraPage: React.FC = () => {
 						</h2>
 
 						<div className="dossera-services-asymmetric services-grid">
-							<MagneticDosseraCard
-								strength={0.08}
-								className="dossera-svc-card service-card services-featured relative overflow-hidden"
+							<div
+								className="glass-card dossera-svc-card service-card services-featured relative overflow-hidden"
 								style={{ "--i": 1 } as React.CSSProperties}
 							>
 								<div className="flex gap-4">
@@ -130,44 +107,43 @@ const DosseraPage: React.FC = () => {
 										</p>
 									</div>
 								</div>
-							</MagneticDosseraCard>
+							</div>
 
-							<MagneticDosseraCard strength={0.15} className="dossera-svc-card service-card services-card services-s3" style={{ "--i": 2 } as React.CSSProperties}>
+							<div className="glass-card dossera-svc-card service-card services-card services-s3" style={{ "--i": 2 } as React.CSSProperties}>
 								<span className="dossera-svc-num dossera-mono">03</span>
 								<h3 className="dossera-card-heading pr-10">{t("dosseraLanding.services.s3_title")}</h3>
 								<p className="dossera-body text-[length:var(--text-sm)] mt-2">{t("dosseraLanding.services.s3_desc")}</p>
-							</MagneticDosseraCard>
+							</div>
 
-							<MagneticDosseraCard strength={0.15} className="dossera-svc-card service-card services-card services-s2" style={{ "--i": 3 } as React.CSSProperties}>
+							<div className="glass-card dossera-svc-card service-card services-card services-s2" style={{ "--i": 3 } as React.CSSProperties}>
 								<span className="dossera-svc-num dossera-mono">02</span>
 								<h3 className="dossera-card-heading pr-10">{t("dosseraLanding.services.s2_title")}</h3>
 								<p className="dossera-body text-[length:var(--text-sm)] mt-2 leading-relaxed">{t("dosseraLanding.services.s2_desc")}</p>
 								<p className="dossera-body text-[length:var(--text-sm)] text-[var(--text-muted)] mt-6 leading-relaxed">
 									{t("dosseraLanding.services.s2_desc_extra")}
 								</p>
-							</MagneticDosseraCard>
+							</div>
 
-							<MagneticDosseraCard strength={0.15} className="dossera-svc-card service-card services-card services-s4" style={{ "--i": 4 } as React.CSSProperties}>
+							<div className="glass-card dossera-svc-card service-card services-card services-s4" style={{ "--i": 4 } as React.CSSProperties}>
 								<span className="dossera-svc-num dossera-mono">04</span>
 								<h3 className="dossera-card-heading pr-10">{t("dosseraLanding.services.s4_title")}</h3>
 								<p className="dossera-body text-[length:var(--text-sm)] mt-2">{t("dosseraLanding.services.s4_desc")}</p>
-							</MagneticDosseraCard>
+							</div>
 
-							<MagneticDosseraCard
-								strength={0.15}
-								className="dossera-svc-card service-card services-card services-s5 services-tall"
+							<div
+								className="glass-card dossera-svc-card service-card services-card services-s5 services-tall"
 								style={{ "--i": 5 } as React.CSSProperties}
 							>
 								<span className="dossera-svc-num dossera-mono">05</span>
 								<h3 className="dossera-card-heading pr-10">{t("dosseraLanding.services.s5_title")}</h3>
 								<p className="dossera-body text-[length:var(--text-sm)] mt-2">{t("dosseraLanding.services.s5_desc")}</p>
-							</MagneticDosseraCard>
+							</div>
 
-							<MagneticDosseraCard strength={0.15} className="dossera-svc-card service-card services-card services-s6" style={{ "--i": 6 } as React.CSSProperties}>
+							<div className="glass-card dossera-svc-card service-card services-card services-s6" style={{ "--i": 6 } as React.CSSProperties}>
 								<span className="dossera-svc-num dossera-mono">06</span>
 								<h3 className="dossera-card-heading pr-10">{t("dosseraLanding.services.s6_title")}</h3>
 								<p className="dossera-body text-[length:var(--text-sm)] mt-2">{t("dosseraLanding.services.s6_desc")}</p>
-							</MagneticDosseraCard>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -176,29 +152,19 @@ const DosseraPage: React.FC = () => {
 			<section id="dossera-how" className="dossera-section scroll-mt-[5.5rem] max-w-6xl mx-auto px-4 sm:px-6">
 				<h2 className="dossera-section-title text-center mb-16">{t("dosseraLanding.how.title")}</h2>
 
-				<div className="hidden md:block relative pt-2 pb-10">
-					<div className="absolute top-[48px] left-[10%] right-[10%] h-0 border-t border-dashed border-[rgba(230,57,70,0.45)] z-0" aria-hidden />
-					<div ref={howDeskRef} className="reveal-group-stagger-15 reveal-group grid grid-cols-4 gap-4 relative z-[1]">
-						{stepKeys.map(([title, desc], i) => (
-							<div key={title} className="text-center px-2" style={{ "--i": i } as React.CSSProperties}>
-								<div className="flex justify-center mb-6">
-									<div className="step-circle">{String(i + 1).padStart(2, "0")}</div>
+				<div ref={howRef} className="reveal-group-stagger-15 reveal-group grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+					{Array.isArray(howItems) && howItems.map((item, i) => {
+						const Icon = CAPABILITY_ICONS[i] || Shield;
+						return (
+							<div key={item.title} className="capability-card glass-card" style={{ "--i": i } as React.CSSProperties}>
+								<div className="capability-icon-wrap">
+									<Icon size={22} className="capability-icon" />
 								</div>
-								<h3 className="dossera-card-heading mb-2">{t(`dosseraLanding.how.${title}`)}</h3>
-								<p className="dossera-body text-[length:var(--text-sm)] leading-relaxed">{t(`dosseraLanding.how.${desc}`)}</p>
+								<h3 className="dossera-card-heading mb-2">{item.title}</h3>
+								<p className="dossera-body text-[length:var(--text-sm)] leading-relaxed">{item.desc}</p>
 							</div>
-						))}
-					</div>
-				</div>
-
-				<div ref={howMobRef} className="reveal-group md:hidden pl-3 border-l border-dashed border-[rgba(230,57,70,0.45)] space-y-10">
-					{stepKeys.map(([title, desc], i) => (
-						<div key={title} className="relative pl-6" style={{ "--i": i } as React.CSSProperties}>
-							<div className="absolute -left-[31px] top-0 step-circle w-10 h-10 text-[10px]">{String(i + 1).padStart(2, "0")}</div>
-							<h3 className="dossera-card-heading mb-2">{t(`dosseraLanding.how.${title}`)}</h3>
-							<p className="dossera-body text-[length:var(--text-sm)]">{t(`dosseraLanding.how.${desc}`)}</p>
-						</div>
-					))}
+						);
+					})}
 				</div>
 			</section>
 
@@ -243,8 +209,8 @@ const DosseraPage: React.FC = () => {
 					<h2 className="dossera-section-title text-left mb-2">{t("dosseraLanding.results.title")}</h2>
 					<div className="mt-10">
 						{Array.isArray(proofMetrics) &&
-							proofMetrics.map((m, i) => (
-								<div key={`${m.label}-${i}`} className="proof-panel glass-card">
+							proofMetrics.map((m) => (
+								<div key={`${m.label}-${m.after}`} className="proof-panel glass-card">
 									<div className="proof-panel-copy min-w-0">
 										<p className="proof-before">{m.before}</p>
 										<p className="proof-after">{m.after}</p>
@@ -307,9 +273,6 @@ const DosseraPage: React.FC = () => {
 						zakmirinioui@gmail.com
 					</a>
 				</p>
-				<Link to="/" className="dossera-mono inline-block mt-4 text-[var(--accent-red)] font-medium hover:underline text-xs">
-					{t("dosseraLanding.footer.back")}
-				</Link>
 			</footer>
 		</div>
 	);

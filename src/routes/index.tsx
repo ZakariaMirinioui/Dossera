@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NProgressSuspense from '@components/NProgressSuspense';
-import DosseraPage from '@pages/Home/DosseraPage';
+import DosseraImageMatchPage from '@pages/Home/DosseraImageMatchPage';
 import NotFound from '@pages/NotFound';
 
 export default function BaseRoutes() {
@@ -9,7 +9,7 @@ export default function BaseRoutes() {
         <BrowserRouter>
             <Suspense fallback={<NProgressSuspense />}>
                 <Routes>
-                    <Route path="/" element={<DosseraPage />} />
+                    <Route path="/" element={<DosseraImageMatchPage />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>

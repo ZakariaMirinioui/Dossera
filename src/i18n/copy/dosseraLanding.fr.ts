@@ -39,15 +39,33 @@ export default {
         s6_desc: "Rapports pour le Ministère de la Justice à partir des données en direct.",
     },
     how: {
-        title: "Comment ça marche",
-        step1_title: "Appel découverte",
-        step1_desc: "Nous cartographions votre bureau, vos volumes et votre flux exact.",
-        step2_title: "Démo en direct",
-        step2_desc: "Pas de diaporama — le système sur vos types de documents.",
-        step3_title: "Pilote 30 jours",
-        step3_desc: "Déployé sur votre matériel, utilisé au quotidien.",
-        step4_title: "Déploiement complet",
-        step4_desc: "Mise en production, migration prioritaire et formation des équipes.",
+        title: "La Plateforme",
+        items: [
+            {
+                title: "Sur site s\u00e9curis\u00e9",
+                desc: "Z\u00e9ro d\u00e9pendance au cloud. DOSSERA fonctionne exclusivement sur le mat\u00e9riel de votre institution. Aucune sortie de donn\u00e9es, aucun acc\u00e8s tiers, aucun risque de p\u00e9rim\u00e8tre.",
+            },
+            {
+                title: "Recherche arabe d'abord",
+                desc: "Recherche s\u00e9mantique de documents con\u00e7ue pour la terminologie juridique arabe et fran\u00e7aise. Le conseiller trouve l'acte en secondes, pas dans les dossiers.",
+            },
+            {
+                title: "Piste d'audit probatoire",
+                desc: "Chaque lecture, \u00e9criture et exportation de document g\u00e9n\u00e8re un journal cryptographique. Responsabilit\u00e9 totale pour les flux judiciaires et notariaux.",
+            },
+            {
+                title: "Reporting conformit\u00e9 en direct",
+                desc: "Rapports statistiques pour le Minist\u00e8re de la Justice g\u00e9n\u00e9r\u00e9s automatiquement \u00e0 partir des donn\u00e9es d'archive en direct. Toujours pr\u00eats pour l'audit.",
+            },
+            {
+                title: "Mod\u00e8les juridiques localis\u00e9s",
+                desc: "Mod\u00e8les de g\u00e9n\u00e9ration de documents construits pour le droit marocain et italien. Les biblioth\u00e8ques restent align\u00e9es sur les r\u00e8gles institutionnelles.",
+            },
+            {
+                title: "Support prioritaire",
+                desc: "SLA de r\u00e9ponse sous 24 heures. Canal d\u00e9di\u00e9 pour le d\u00e9ploiement, la formation et les mises \u00e0 jour de conformit\u00e9.",
+            },
+        ],
     },
     sovereign: {
         label: "La différence",
@@ -131,13 +149,11 @@ export default {
         line1: "DOSSERA — Construit à Khouribga. Éprouvé dans les tribunaux.",
         line2: "Une entreprise fondée et construite par Zakaria Mirinioui",
         contact: "Contact",
-        back: "Retour au portfolio",
     },
     nav: {
         dossera_solve: "Le Problème",
         dossera_services: "Nos Services",
         dossera_how: "Comment Ça Marche",
         dossera_book: "Réserver",
-        back_portfolio: "← Retour au Portfolio",
     },
 } as const;

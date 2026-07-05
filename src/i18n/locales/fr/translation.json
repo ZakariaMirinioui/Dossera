@@ -1,27 +1,29 @@
 {
     "common": {
         "language": "Langue",
-        "contact": "Contact"
+        "contact": "Contact",
+        "language_en": "Anglais",
+        "language_fr": "Français",
+        "language_ar": "Arabe"
     },
     "nav": {
         "home": "Accueil",
-        "dossera_solve": "Le Problème",
+        "dossera_solve": "Le Probleme",
         "dossera_services": "Nos Services",
-        "dossera_how": "Comment Ça Marche",
-        "dossera_book": "Réserver",
-        "back_portfolio": "← Retour au Portfolio",
-        "toggle_theme": "Basculer le thème",
+        "dossera_how": "La Plateforme",
+        "dossera_book": "Reserver",
+        "toggle_theme": "Basculer le theme",
         "open_menu": "Ouvrir le menu",
         "close_menu": "Fermer le menu"
     },
     "footer": {
         "tagline": "Intelligence documentaire souveraine pour les institutions judiciaires",
         "column_email": "E-mail",
-        "column_phone": "Téléphone",
+        "column_phone": "Telephone",
         "column_linkedin": "LinkedIn",
         "column_github": "GitHub",
-        "dossera_credit": "DOSSERA — Construit à Khouribga. Éprouvé dans les tribunaux.",
-        "copyright": "© 2024 DOSSERA. Tous droits réservés.",
-        "location_line": "Khouribga, Maroc · Service Maroc & Italie"
+        "dossera_credit": "DOSSERA - Construit a Khouribga. Eprouve dans les tribunaux.",
+        "copyright": "(c) 2024 DOSSERA. Tous droits reserves.",
+        "location_line": "Khouribga, Maroc . Service Maroc & Italie"
     }
 }

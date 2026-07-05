@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -9,6 +9,7 @@
 	--font-display: "Syne", sans-serif;
 	--font-body: "Inter", system-ui, sans-serif;
 	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+	--font-arabic: "Cairo", sans-serif;
 
 	--text-xs: 0.75rem;
 	--text-sm: 0.875rem;
@@ -431,53 +432,7 @@ body {
 	font-family: var(--font-mono);
 }
 
-/* Portfolio hero — lighter MLflow-style atmosphere */
-.portfolio-hero-wrap {
-	position: relative;
-	overflow: hidden;
-	/* Breathing room below fixed navbar (main already offsets by --navbar-height) */
-	padding-top: 24px;
-}
-
-@media (min-width: 640px) {
-	.portfolio-hero-wrap {
-		padding-top: 32px;
-	}
-}
-
-.portfolio-hero-wrap::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	pointer-events: none;
-	z-index: 0;
-	opacity: 0.3;
-	background-image: repeating-linear-gradient(to right,
-			rgba(0, 0, 0, 0.02),
-			rgba(0, 0, 0, 0.08) 1px,
-			transparent 1px,
-			transparent 28px),
-		radial-gradient(ellipse 50% 45% at 95% 8%, rgba(230, 57, 70, 0.14) 0%, transparent 65%);
-	-webkit-mask-image: linear-gradient(to bottom, black 25%, transparent 92%);
-	mask-image: linear-gradient(to bottom, black 25%, transparent 92%);
-}
-
-[data-theme="light"] .portfolio-hero-wrap::before {
-	opacity: 0.45;
-	background-image: repeating-linear-gradient(to right,
-			rgba(0, 0, 0, 0.02),
-			rgba(0, 0, 0, 0.06) 1px,
-			transparent 1px,
-			transparent 28px),
-		radial-gradient(ellipse 45% 40% at 92% 5%, rgba(230, 57, 70, 0.1) 0%, transparent 60%);
-}
-
-.portfolio-hero-wrap>* {
-	position: relative;
-	z-index: 1;
-}
-
-/* DOSSERA hero — transparent; stripes + blooms come from .dossera-page::before (fixed) */
+/* DOSSERA hero/* DOSSERA hero — transparent; stripes + blooms come from .dossera-page::before (fixed) */
 .dossera-hero {
 	min-height: 95vh;
 	display: flex;
@@ -740,11 +695,48 @@ body {
 	-webkit-text-fill-color: transparent;
 }
 
-.interactive-glow:hover {
-	box-shadow: 0 0 20px #e6394625;
+
+
+/* Capability grid cards */
+.capability-card.glass-card {
+	padding: 1.75rem 1.5rem;
+	position: relative;
+	overflow: hidden;
 }
 
-/* Glassmorphism card system — portfolio + DOSSERA */
+.capability-card.glass-card::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(to right, var(--accent-red), transparent 60%);
+	pointer-events: none;
+}
+
+.capability-icon-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 10px;
+	background: rgba(230, 57, 70, 0.08);
+	border: 1px solid rgba(230, 57, 70, 0.15);
+	margin-bottom: 1rem;
+	flex-shrink: 0;
+}
+
+.capability-icon {
+	color: var(--accent-red);
+}
+
+[dir="rtl"] .capability-card.glass-card::before {
+	background: linear-gradient(to left, var(--accent-red), transparent 60%);
+}
+
+/* Card system */
 .glass-card {
 	background: rgba(255, 255, 255, 0.04);
 	border: 1px solid rgba(255, 255, 255, 0.08);
@@ -878,9 +870,7 @@ body {
 	}
 }
 
-.nav-link-active {
-	color: var(--text-primary);
-}
+
 
 .nav-underline {
 	position: relative;
@@ -913,21 +903,7 @@ body {
 	line-height: 1;
 }
 
-/* DOSSERA nav — transparent until scroll */
-header.dossera-nav {
-	background: transparent !important;
-	border-color: transparent !important;
-	backdrop-filter: none !important;
-	-webkit-backdrop-filter: none !important;
-	transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
-}
 
-header.dossera-nav.scrolled {
-	background: rgba(10, 10, 10, 0.85) !important;
-	border-color: var(--border) !important;
-	backdrop-filter: blur(16px) saturate(180%) !important;
-	-webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-}
 
 /* Timeline */
 .dossera-timeline-line {
@@ -1420,4 +1396,63 @@ header.dossera-nav.scrolled {
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
+}
+/* RTL overrides — Arabic support */
+[dir="rtl"] .dossera-svc-num {
+    right: auto;
+    left: 1rem;
+}
+
+[dir="rtl"] .dossera-card-heading {
+    padding-right: 0;
+    padding-left: 2.5rem;
+}
+
+[dir="rtl"] .dossera-services-asymmetric .services-featured .dossera-card-heading {
+    padding-right: 0;
+    padding-left: 3rem;
+}
+
+[dir="rtl"] .reveal-group > h2,
+[dir="rtl"] .dossera-section-title {
+    text-align: right;
+}
+
+[dir="rtl"] .market-client-list li::before {
+    margin-right: 0;
+    margin-left: 0.75rem;
+}
+
+[dir="rtl"] .form-premium .form-field label {
+    left: auto;
+    right: 0;
+}
+
+[dir="rtl"] .nav-underline::after {
+    transform-origin: right;
+}
+
+[dir="rtl"] .proof-panel {
+    direction: rtl;
+}
+
+[dir="rtl"] .dossera-hero-headline {
+    text-align: center;
+}
+
+[dir="rtl"] .dossera-hero-ctas {
+    direction: rtl;
+}
+
+[dir="rtl"] .dossera-page .dossera-hero-description {
+    text-align: center;
+}
+
+[dir="rtl"] .step-circle {
+    font-family: "Cairo", var(--font-mono);
+}
+/* Arabic font family */
+[lang="ar"] {
+    --dossera-font-display: "Cairo", "DM Serif Display", Georgia, serif;
+    --dossera-font-body: "Cairo", "DM Sans", system-ui, sans-serif;
 }

@@ -1,0 +1,29 @@
+﻿{
+    "common": {
+        "language": "اللغة",
+        "contact": "اتصل بنا",
+        "language_en": "الإنجليزية",
+        "language_fr": "الفرنسية",
+        "language_ar": "العربية"
+    },
+    "nav": {
+        "home": "الرئيسية",
+        "dossera_solve": "المشكلة",
+        "dossera_services": "خدماتنا",
+        "dossera_how": "المنصة",
+        "dossera_book": "احجز مكالمة",
+        "toggle_theme": "تبديل السمة",
+        "open_menu": "فتح القائمة",
+        "close_menu": "إغلاق القائمة"
+    },
+    "footer": {
+        "tagline": "ذكاء وثائقي سيادي للمؤسسات القضائية",
+        "column_email": "البريد الإلكتروني",
+        "column_phone": "الهاتف",
+        "column_linkedin": "لينكد إن",
+        "column_github": "جيت هاب",
+        "dossera_credit": "دوسيرا — بُنيت في خريبكة. أثبتت جدارتها في المحاكم.",
+        "copyright": "© 2024 دوسيرا. جميع الحقوق محفوظة.",
+        "location_line": "خريبكة، المغرب · نخدم المغرب وإيطاليا"
+    }
+}

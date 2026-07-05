@@ -1,4 +1,4 @@
-export default {
+﻿export default {
     hero: {
         eyebrow: "Active judicial deployments · Morocco 2026",
         headline_line1: "Archive less.",
@@ -39,15 +39,33 @@ export default {
         s6_desc: "Ministry of Justice reports produced from live data.",
     },
     how: {
-        title: "How it works",
-        step1_title: "Discovery call",
-        step1_desc: "We map your office, volume, and exact workflow.",
-        step2_title: "Live demo",
-        step2_desc: "Not a slideshow — the system on your document types.",
-        step3_title: "30-day pilot",
-        step3_desc: "Deployed on your hardware, used in daily operations.",
-        step4_title: "Full deployment",
-        step4_desc: "Production rollout, priority migration, and team training.",
+        title: "The Platform",
+        items: [
+            {
+                title: "Secure On-Premise",
+                desc: "Zero cloud dependency. DOSSERA runs entirely on your institution's hardware. No data egress, no third-party access, no perimeter risk.",
+            },
+            {
+                title: "Arabic-First Search",
+                desc: "Semantic document retrieval built for Arabic and French legal terminology. Counsel finds the right instrument in seconds \u2014 not folders.",
+            },
+            {
+                title: "Forensic Audit Trail",
+                desc: "Every document read, write, and export generates a cryptographic log. Full accountability for judicial and notarial workflows.",
+            },
+            {
+                title: "Live Compliance Reporting",
+                desc: "Ministry of Justice statistical reports generated automatically from live archive data. Always audit-ready.",
+            },
+            {
+                title: "Localized Legal Templates",
+                desc: "Document generation templates built for Moroccan and Italian law. Libraries stay aligned with institutional rules.",
+            },
+            {
+                title: "Priority Support",
+                desc: "24-hour response SLA. Dedicated channel for deployment, training, and compliance updates.",
+            },
+        ],
     },
     sovereign: {
         label: "The difference",
@@ -130,13 +148,11 @@ export default {
         line1: "DOSSERA — Built in Khouribga. Proven in courts.",
         line2: "A company founded and built by Zakaria Mirinioui",
         contact: "Contact",
-        back: "Back to portfolio",
     },
     nav: {
         dossera_solve: "The Problem",
         dossera_services: "Our Services",
         dossera_how: "How It Works",
         dossera_book: "Book a Call",
-        back_portfolio: "← Back to Portfolio",
     },
 } as const;
