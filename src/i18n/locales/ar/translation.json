@@ -2,8 +2,7 @@
     "common": {
         "language": "اللغة",
         "contact": "اتصل بنا",
-        "language_en": "الإنجليزية",
-        "language_fr": "الفرنسية",
+        "language_en": "English",
         "language_ar": "العربية"
     },
     "nav": {
@@ -11,8 +10,8 @@
         "dossera_solve": "المشكلة",
         "dossera_services": "خدماتنا",
         "dossera_how": "المنصة",
+        "dossera_architecture": "الهندسة",
         "dossera_book": "احجز مكالمة",
-        "toggle_theme": "تبديل السمة",
         "open_menu": "فتح القائمة",
         "close_menu": "إغلاق القائمة"
     },
@@ -23,7 +22,7 @@
         "column_linkedin": "لينكد إن",
         "column_github": "جيت هاب",
         "dossera_credit": "دوسيرا — بُنيت في خريبكة. أثبتت جدارتها في المحاكم.",
-        "copyright": "© 2024 دوسيرا. جميع الحقوق محفوظة.",
+        "copyright": "دوسيرا. جميع الحقوق محفوظة.",
         "location_line": "خريبكة، المغرب · نخدم المغرب وإيطاليا"
     }
 }

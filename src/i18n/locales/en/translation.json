@@ -3,7 +3,6 @@
         "language": "Language",
         "contact": "Contact",
         "language_en": "English",
-        "language_fr": "Français",
         "language_ar": "العربية"
     },
     "nav": {
@@ -11,8 +10,8 @@
         "dossera_solve": "The Problem",
         "dossera_services": "Our Services",
         "dossera_how": "The Platform",
+        "dossera_architecture": "Architecture",
         "dossera_book": "Book a Call",
-        "toggle_theme": "Toggle theme",
         "open_menu": "Open menu",
         "close_menu": "Close menu"
     },
@@ -22,8 +21,8 @@
         "column_phone": "Phone",
         "column_linkedin": "LinkedIn",
         "column_github": "GitHub",
-        "dossera_credit": "DOSSERA - Built in Khouribga. Proven in courts.",
-        "copyright": "(c) 2024 DOSSERA. All rights reserved.",
-        "location_line": "Khouribga, Morocco . Serving Morocco & Italy"
+        "dossera_credit": "DOSSERA — Built in Khouribga. Proven in courts.",
+        "copyright": "DOSSERA. All rights reserved.",
+        "location_line": "Khouribga, Morocco · Serving Morocco & Italy"
     }
 }

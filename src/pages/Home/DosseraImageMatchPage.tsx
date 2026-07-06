@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, Search, Globe, Server, Lock, Fingerprint, Activity, FileText } from 'lucide-react';
 import WebsiteHeader from '../../layouts/Website/Header';
 

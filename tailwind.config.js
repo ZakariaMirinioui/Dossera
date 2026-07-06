@@ -5,15 +5,16 @@ export default {
 		extend: {
 			colors: {
 				primary: {
-					DEFAULT: "#e63946",
-					light: "#ff4d5d",
-					dark: "#c42f3a",
+					DEFAULT: "#a0894b",
+					light: "#b89e5c",
+					dark: "#8a7540",
 				},
 			},
 			fontFamily: {
-				sans: ["Inter", "system-ui", "sans-serif"],
-				display: ["Syne", "sans-serif"],
+				sans: ["DM Sans", "system-ui", "sans-serif"],
+				display: ["DM Serif Display", "Georgia", "serif"],
 				mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+				arabic: ["Cairo", "sans-serif"],
 			},
 		},
 	},

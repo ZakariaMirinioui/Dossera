@@ -47,7 +47,7 @@ export default function DosseraBookingForm() {
     }
 
     return (
-        <form className="form-premium mx-auto w-full max-w-[560px]" action={FORMSPREE_ENDPOINT} method="POST" onSubmit={handleSubmit}>
+        <form className="mx-auto w-full max-w-[560px]" action={FORMSPREE_ENDPOINT} method="POST" onSubmit={handleSubmit}>
             <input type="hidden" name="_subject" value="DOSSERA Discovery Call Request" />
             <input type="hidden" name="source" value="dossera" />
 
@@ -119,7 +119,7 @@ export default function DosseraBookingForm() {
                 <label htmlFor="dossera-message">{t("dosseraLanding.book.fields.message")}</label>
             </div>
 
-            <button type="submit" className="form-premium-submit mt-2 w-full" disabled={status === "sending"}>
+            <button type="submit" className="form-submit mt-2" disabled={status === "sending"}>
                 <span>{status === "sending" ? t("dosseraLanding.book.sending") : t("dosseraLanding.book.submit")}</span>
                 <span className="arrow" aria-hidden>
                     →
@@ -127,10 +127,10 @@ export default function DosseraBookingForm() {
             </button>
 
             {status === "success" && (
-                <p className="dossera-body mt-4 text-center text-sm text-[var(--text-secondary)]">{t("dosseraLanding.book.form_success")}</p>
+                <p className="body-text mt-4 text-center text-sm text-[var(--text-secondary)]">{t("dosseraLanding.book.form_success")}</p>
             )}
             {status === "error" && (
-                <p className="dossera-body mt-4 text-center text-sm text-[var(--accent-red)]">{t("dosseraLanding.book.form_error")}</p>
+                <p className="body-text mt-4 text-center text-sm text-[var(--accent)]">{t("dosseraLanding.book.form_error")}</p>
             )}
         </form>
     );

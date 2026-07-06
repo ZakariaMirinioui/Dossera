@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../../../hooks/useTheme";
 import { useActiveSection } from "../../../hooks/useActiveSection";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
+import logo from "/dossera-logo.png";
 
 const DOSSERA_SECTIONS = [
 	{ id: "dossera-solve", key: "nav.dossera_solve" },
 	{ id: "dossera-services", key: "nav.dossera_services" },
+	{ id: "dossera-architecture", key: "nav.dossera_architecture" },
 	{ id: "dossera-how", key: "nav.dossera_how" },
 	{ id: "dossera-book", key: "nav.dossera_book" },
 ] as const;
 
 const WebsiteHeader: React.FC = () => {
-	const { toggleTheme, isDark } = useTheme();
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const location = useLocation();
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [dosseraScrolled, setDosseraScrolled] = useState(false);
@@ -45,12 +45,14 @@ const WebsiteHeader: React.FC = () => {
 	const navLinkClass = (sectionId: string) => {
 		const isActive = activeSection === sectionId;
 		return [
-			"text-sm font-medium transition-colors font-body",
+			"text-sm font-medium transition-colors",
 			isActive
-				? "text-[var(--accent-red)]"
-				: "text-[#a0a0a0] hover:text-[var(--text-primary)]",
+				? "text-[var(--accent)]"
+				: "text-[var(--text-secondary)] hover:text-[var(--text-primary)]",
 		].join(" ");
 	};
+
+	const isRtl = i18n.language === "ar";
 
 	return (
 		<>
@@ -58,18 +60,23 @@ const WebsiteHeader: React.FC = () => {
 				className={[
 					"fixed top-0 left-0 right-0 z-[999] transition-[background,border-color] duration-300",
 					dosseraScrolled
-						? "bg-[#0a0a0a] border-b border-[#222]"
-						: "bg-[#0a0a0a] border-b border-transparent",
+						? "bg-[var(--bg-primary)] border-b border-[var(--border)]"
+						: "bg-[var(--bg-primary)] border-b border-transparent",
 				].join(" ")}
 			>
 				<div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[4.25rem] flex items-center justify-between gap-4">
 					<Link
 						to="/"
 						onClick={handleLogoClick}
-						className="text-xl font-bold tracking-tight text-[var(--accent-red)] shrink-0 cursor-pointer select-none inline-block"
-						aria-label={t("nav.home")}
+						className="shrink-0 cursor-pointer select-none inline-block leading-none"
+						aria-label="DOSSERA"
 					>
-						DOSSERA
+						<img
+							src={logo}
+							alt="DOSSERA"
+							className="h-8 md:h-9 w-auto"
+							style={{ objectFit: "contain" }}
+						/>
 					</Link>
 
 					<nav className="hidden lg:flex items-center justify-center flex-1 gap-8">
@@ -80,7 +87,7 @@ const WebsiteHeader: React.FC = () => {
 									<a
 										key={id}
 										href={"#" + id}
-										className="px-5 py-2.5 rounded bg-[var(--accent-red)] text-white text-sm font-semibold hover:bg-[#ff4d5d] transition-colors shrink-0"
+										className="px-5 py-2.5 rounded bg-[var(--accent)] text-[#0c0a09] text-sm font-semibold hover:bg-[var(--accent-hover)] transition-colors shrink-0"
 									>
 										{t(key)}
 									</a>
@@ -96,16 +103,6 @@ const WebsiteHeader: React.FC = () => {
 
 					<div className="flex items-center gap-3">
 						<LanguageSwitcher />
-
-						<button
-							type="button"
-							aria-pressed={isDark}
-							aria-label={t("nav.toggle_theme")}
-							onClick={toggleTheme}
-							className="p-2 rounded text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
-						>
-							{isDark ? <Moon size={18} /> : <Sun size={18} />}
-						</button>
 
 						<button
 							type="button"
@@ -135,7 +132,7 @@ const WebsiteHeader: React.FC = () => {
 							onClick={() => setMobileOpen(false)}
 						/>
 						<motion.aside
-							className="absolute top-0 right-0 h-full w-[min(100%,20rem)] bg-[#111] pt-20 px-6 pb-8 flex flex-col gap-1"
+							className={`absolute top-0 ${isRtl ? "left-0" : "right-0"} h-full w-[min(100%,20rem)] bg-[var(--bg-secondary)] pt-20 px-6 pb-8 flex flex-col gap-1`}
 							initial={{ x: "100%" }}
 							animate={{ x: 0 }}
 							exit={{ x: "100%" }}
@@ -150,7 +147,7 @@ const WebsiteHeader: React.FC = () => {
 										<a
 											key={id}
 											href={"#" + id}
-											className="mt-3 py-3 text-center rounded bg-[var(--accent-red)] text-white font-semibold text-sm"
+											className="mt-3 py-3 text-center rounded bg-[var(--accent)] text-[#0c0a09] font-semibold text-sm"
 											onClick={() => setMobileOpen(false)}
 										>
 											{t(key)}
@@ -161,7 +158,7 @@ const WebsiteHeader: React.FC = () => {
 									<a
 										key={id}
 										href={"#" + id}
-										className="py-3 text-[var(--text-primary)] border-b border-[#222] font-medium"
+										className="py-3 text-[var(--text-primary)] border-b border-[var(--border)] font-medium"
 										onClick={() => setMobileOpen(false)}
 									>
 										{t(key)}
