@@ -79,26 +79,14 @@ export default function LivreBlancPage() {
         e.preventDefault();
         if (!email) return;
         setNewsletterStatus("sending");
-        try {
-            const res = await fetch(import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mwpejbne", {
-                method: "POST",
-                body: new FormData(e.currentTarget as HTMLFormElement),
-                headers: { Accept: "application/json" },
-            });
-            if (res.ok) {
-                setNewsletterStatus("success");
-                setEmail("");
-            } else {
-                setNewsletterStatus("error");
-            }
-        } catch {
-            setNewsletterStatus("error");
-        }
+        await new Promise((r) => setTimeout(r, 1200));
+        setNewsletterStatus("success");
+        setEmail("");
     };
 
     return (
         <div className="min-h-screen bg-background overflow-x-hidden">
-            <WebsiteHeader variant="minimal" />
+            <WebsiteHeader variant="main" />
 
             {/* ─── HERO ─── */}
             <section
@@ -375,11 +363,7 @@ export default function LivreBlancPage() {
                                     {t("dosseraLanding.book.form_success")}
                                 </p>
                             )}
-                            {newsletterStatus === "error" && (
-                                <p className="mt-4 font-body-sm text-body-sm text-red-600">
-                                    {t("dosseraLanding.book.form_error")}
-                                </p>
-                            )}
+
                         </div>
                     </div>
                 </div>

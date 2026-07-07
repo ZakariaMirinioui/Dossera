@@ -173,7 +173,7 @@
         chapters: {
             title: "Detailed Chapters",
             chap1_title: "Technical Architecture",
-            chap1_desc: "A Proxmox VE virtualized infrastructure with three cache tiers (L1 memory LRU, L2 Redis Cluster, L3 PostgreSQL/MinIO) delivering sub-1ms latency on hot data. The network is micro-segmented into 5 isolated VLANs via pfSense (Staff, Archives, DMZ, SOC, Honeypot) with inter-VLAN routing disabled by default. Fully containerized under Docker and automated via Ansible for industrial-grade deployment.",
+            chap1_desc: "JAMS relies on a Proxmox VE virtualized infrastructure with three cache tiers (L1 memory LRU, L2 Redis Cluster, L3 PostgreSQL/MinIO) delivering sub-1ms latency on hot data. The network is micro-segmented into 5 isolated VLANs via pfSense (Staff, Archives, DMZ, SOC, Honeypot), with inter-VLAN routing disabled by default. Fully containerized under Docker and automated via Ansible for industrial-grade deployment.",
             chap2_title: "Data Security",
             chap2_desc: "Multi-layer protection combining a Wazuh SIEM for real-time event correlation, CrowdSec for dynamic threat blocking, and a T-Pot honeypot for proactive threat capture. AES-256 encryption at rest via MinIO and TLS 1.3 in transit. Administrative access via OpenVPN with two-factor authentication.",
             chap3_title: "Performance & Scalability",

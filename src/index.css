@@ -38,7 +38,24 @@
 
 @layer components {
     .hero-gradient {
-        background: linear-gradient(135deg, #022C22 0%, #064E3B 100%);
+        background: linear-gradient(
+            165deg,
+            #011A15 0%,
+            #022C22 20%,
+            #043A2D 40%,
+            #064E3B 60%,
+            #065F46 80%,
+            #047A55 100%
+        );
+        position: relative;
+    }
+
+    .hero-gradient::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(100% 100% at 30% 0%, rgba(255,255,255,0.03) 0%, transparent 60%);
+        pointer-events: none;
     }
 
     .solid-panel {

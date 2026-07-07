@@ -13,8 +13,6 @@ export default function DosseraBookingForm() {
     const [requestType, setRequestType] = useState("");
     const [message, setMessage] = useState("");
 
-    const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mwpejbne";
-
     const institutionTypes = [
         "institution_type_tpi",
         "institution_type_cour",
@@ -33,42 +31,23 @@ export default function DosseraBookingForm() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setStatus("sending");
+
+        await new Promise((r) => setTimeout(r, 1200));
+        setStatus("success");
         const form = e.currentTarget;
-        const formData = new FormData(form);
-
-        try {
-            const response = await fetch(FORMSPREE_ENDPOINT, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    Accept: "application/json",
-                },
-            });
-
-            if (response.ok) {
-                setStatus("success");
-                form.reset();
-                setInstitution("");
-                setInstitutionType("");
-                setCity("");
-                setRole("");
-                setEmail("");
-                setPhone("");
-                setRequestType("");
-                setMessage("");
-            } else {
-                const data = await response.json().catch(() => ({}));
-                console.error("Formspree error:", data);
-                setStatus("error");
-            }
-        } catch (err) {
-            console.error("Submission error:", err);
-            setStatus("error");
-        }
+        form.reset();
+        setInstitution("");
+        setInstitutionType("");
+        setCity("");
+        setRole("");
+        setEmail("");
+        setPhone("");
+        setRequestType("");
+        setMessage("");
     }
 
     return (
-        <form className="mx-auto w-full max-w-[560px]" action={FORMSPREE_ENDPOINT} method="POST" onSubmit={handleSubmit}>
+        <form className="mx-auto w-full max-w-[560px]" onSubmit={handleSubmit}>
             <input type="hidden" name="_subject" value="DOSSERA JAMS Contact Request" />
             <input type="hidden" name="source" value="dossera-jams" />
 
@@ -196,9 +175,6 @@ export default function DosseraBookingForm() {
 
             {status === "success" && (
                 <p className="mt-4 text-center font-body-sm text-body-sm text-secondary">{t("dosseraLanding.book.form_success")}</p>
-            )}
-            {status === "error" && (
-                <p className="mt-4 text-center font-body-sm text-body-sm text-error">{t("dosseraLanding.book.form_error")}</p>
             )}
         </form>
     );

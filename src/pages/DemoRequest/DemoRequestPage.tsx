@@ -5,6 +5,9 @@ import { Shield, Activity, Gauge, CheckCircle } from "lucide-react";
 import WebsiteHeader from "../../layouts/Website/Header";
 import WebsiteFooter from "../../layouts/Website/Footer";
 
+const springConfig = { type: "spring" as const, stiffness: 100, damping: 18, mass: 0.9 };
+const springBounce = { type: "spring" as const, stiffness: 200, damping: 10, mass: 0.8 };
+
 export default function DemoRequestPage() {
     const { t } = useTranslation();
     const reduceMotion = useReducedMotion();
@@ -21,7 +24,6 @@ export default function DemoRequestPage() {
         setStatus("sending");
         const form = e.currentTarget;
 
-        // Mock success — no real SMTP needed for demo
         await new Promise((r) => setTimeout(r, 1200));
         setStatus("success");
         form.reset();
@@ -34,9 +36,8 @@ export default function DemoRequestPage() {
 
     return (
         <div className="min-h-screen bg-background overflow-x-hidden relative">
-            {/* ─── BACKGROUND TECH-GRID ─── */}
             <div
-                className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+                className="fixed inset-0 pointer-events-none z-0 opacity-[0.015]"
                 style={{
                     backgroundImage:
                         "radial-gradient(rgba(6,78,59,0.8) 1px, transparent 1px)",
@@ -48,31 +49,49 @@ export default function DemoRequestPage() {
 
             <WebsiteHeader variant="main" />
 
-            {/* ─── MAIN CONTENT ─── */}
             <section className="relative z-10 py-16 lg:py-24 px-4 sm:px-6 lg:px-container-margin">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-                    {/* ─── LEFT: BRANDING ─── */}
                     <motion.div
-                        initial={reduceMotion ? undefined : { opacity: 0, y: 24 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                        initial={reduceMotion ? undefined : { opacity: 0, y: 40, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={reduceMotion ? undefined : springConfig}
                     >
-                        <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200/50 px-4 py-1.5 rounded-full mb-6">
+                        <motion.div
+                            initial={reduceMotion ? undefined : { opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={reduceMotion ? undefined : { delay: 0.1, ...springConfig }}
+                            className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200/50 px-4 py-1.5 rounded-full mb-6"
+                        >
                             <span className="w-2 h-2 rounded-full bg-emerald-500" />
                             <span className="font-label-md text-label-md text-emerald-800 uppercase tracking-widest">
                                 {t("dosseraLanding.demo.main.badge")}
                             </span>
-                        </div>
+                        </motion.div>
 
-                        <h1 className="font-headline-xl text-headline-xl lg:text-[52px] leading-tight text-emerald-900 mb-4">
+                        <motion.h1
+                            initial={reduceMotion ? undefined : { opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={reduceMotion ? undefined : { delay: 0.15, ...springConfig }}
+                            className="font-headline-xl text-headline-xl lg:text-[52px] leading-tight text-emerald-900 mb-4"
+                        >
                             {t("dosseraLanding.demo.main.title")}
-                        </h1>
+                        </motion.h1>
 
-                        <p className="font-body-lg text-body-lg text-gray-500 mb-10 max-w-lg leading-relaxed">
+                        <motion.p
+                            initial={reduceMotion ? undefined : { opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={reduceMotion ? undefined : { delay: 0.2, ...springConfig }}
+                            className="font-body-lg text-body-lg text-gray-500 mb-10 max-w-lg leading-relaxed"
+                        >
                             {t("dosseraLanding.demo.main.description")}
-                        </p>
+                        </motion.p>
 
-                        <div className="relative hidden lg:block">
+                        <motion.div
+                            initial={reduceMotion ? undefined : { opacity: 0, y: 30, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={reduceMotion ? undefined : { delay: 0.3, ...springConfig }}
+                            className="relative hidden lg:block"
+                        >
                             <div className="relative w-full max-w-md aspect-[4/3] rounded-[2rem] p-[2px] bg-gradient-to-br from-emerald-200 via-white to-emerald-100">
                                 <div className="relative w-full h-full rounded-[calc(2rem-2px)] bg-white p-8 flex flex-col items-center justify-center overflow-hidden">
                                     <img
@@ -85,30 +104,39 @@ export default function DemoRequestPage() {
                                             { label: "AES-256", icon: Shield },
                                             { label: "99.9%", icon: Activity },
                                             { label: "< 100ms", icon: Gauge },
-                                        ].map(({ label, icon: Icon }) => (
-                                            <div
+                                        ].map(({ label, icon: Icon }, idx) => (
+                                            <motion.div
                                                 key={label}
-                                                className="flex flex-col items-center gap-2 p-4 rounded-xl bg-gray-50 border border-gray-100"
+                                                initial={reduceMotion ? undefined : { opacity: 0, y: 16 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={reduceMotion ? undefined : { delay: 0.4 + idx * 0.1, ...springConfig }}
+                                                whileHover={reduceMotion ? undefined : { y: -4, scale: 1.05, transition: { type: "spring", stiffness: 300, damping: 12 } }}
+                                                className="flex flex-col items-center gap-2 p-4 rounded-xl bg-gray-50 border border-gray-100 cursor-default"
                                             >
                                                 <Icon size={20} className="text-emerald-700" />
                                                 <span className="font-label-md text-label-md text-emerald-900 font-semibold">
                                                     {label}
                                                 </span>
-                                            </div>
+                                            </motion.div>
                                         ))}
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
 
-                    {/* ─── RIGHT: FORM ─── */}
                     <motion.div
-                        initial={reduceMotion ? undefined : { opacity: 0, y: 24 }}
+                        initial={reduceMotion ? undefined : { opacity: 0, y: 60 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                        transition={reduceMotion ? undefined : { delay: 0.2, ...springConfig }}
                     >
-                        <div className="p-[2px] rounded-[2rem] bg-gradient-to-br from-emerald-200 via-white to-emerald-100">
+                        <motion.div
+                            initial={reduceMotion ? undefined : { opacity: 0, scale: 0.92 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={reduceMotion ? undefined : { delay: 0.3, type: "spring", stiffness: 80, damping: 16 }}
+                            whileHover={reduceMotion ? undefined : { scale: 1.005 }}
+                            className="p-[2px] rounded-[2rem] bg-gradient-to-br from-emerald-200 via-white to-emerald-100"
+                        >
                             <div className="relative rounded-[calc(2rem-2px)] bg-white/95 backdrop-blur-xl p-8 lg:p-10">
                                 <h2 className="font-headline-md text-headline-md text-emerald-900 mb-3">
                                     {t("dosseraLanding.demo.main.title")}
@@ -119,16 +147,22 @@ export default function DemoRequestPage() {
 
                                 {status === "success" ? (
                                     <motion.div
-                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        initial={{ opacity: 0, scale: 0.8 }}
                                         animate={{ opacity: 1, scale: 1 }}
+                                        transition={reduceMotion ? undefined : springBounce}
                                         className="flex flex-col items-center justify-center py-12 text-center"
                                     >
-                                        <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={reduceMotion ? undefined : { type: "spring", stiffness: 250, damping: 8, delay: 0.1 }}
+                                            className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4"
+                                        >
                                             <CheckCircle
                                                 size={32}
                                                 className="text-emerald-700"
                                             />
-                                        </div>
+                                        </motion.div>
                                         <p className="font-body-lg text-body-lg text-emerald-900 font-semibold mb-2">
                                             {t("dosseraLanding.demo.form.success")}
                                         </p>
@@ -241,67 +275,29 @@ export default function DemoRequestPage() {
                                             </label>
                                         </div>
 
-                                        <button
-                                            type="submit"
-                                            className="form-submit mt-2"
-                                            disabled={status === "sending"}
+                                        <motion.div
+                                            whileHover={reduceMotion ? undefined : { scale: 1.015 }}
+                                            whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                                         >
-                                            <span>
-                                                {status === "sending"
-                                                    ? t("dosseraLanding.demo.form.sending")
-                                                    : t("dosseraLanding.demo.form.submit")}
-                                            </span>
-                                            <span className="arrow" aria-hidden>
-                                                →
-                                            </span>
-                                        </button>
-
-                                        {status === "error" && (
-                                            <p className="mt-4 text-center font-body-sm text-body-sm text-red-600">
-                                                {t("dosseraLanding.book.form_error")}
-                                            </p>
-                                        )}
+                                            <button
+                                                type="submit"
+                                                className="form-submit mt-2"
+                                                disabled={status === "sending"}
+                                            >
+                                                <span>
+                                                    {status === "sending"
+                                                        ? t("dosseraLanding.demo.form.sending")
+                                                        : t("dosseraLanding.demo.form.submit")}
+                                                </span>
+                                                <span className="arrow" aria-hidden>
+                                                    →
+                                                </span>
+                                            </button>
+                                        </motion.div>
                                     </form>
                                 )}
                             </div>
-                        </div>
-
-                        {/* ─── TECH SPECS ─── */}
-                        <div className="mt-8 grid grid-cols-3 gap-3">
-                            {[
-                                {
-                                    icon: Shield,
-                                    label: t("dosseraLanding.demo.tech.encryption_label"),
-                                    desc: t("dosseraLanding.demo.tech.encryption_desc"),
-                                },
-                                {
-                                    icon: Activity,
-                                    label: t("dosseraLanding.demo.tech.availability_label"),
-                                    desc: t("dosseraLanding.demo.tech.availability_desc"),
-                                },
-                                {
-                                    icon: Gauge,
-                                    label: t("dosseraLanding.demo.tech.access_label"),
-                                    desc: t("dosseraLanding.demo.tech.access_desc"),
-                                },
-                            ].map(({ icon: Icon, label, desc }) => (
-                                <div
-                                    key={label}
-                                    className="p-4 rounded-xl bg-white/70 backdrop-blur-sm border border-gray-100 text-center"
-                                >
-                                    <Icon
-                                        size={18}
-                                        className="mx-auto mb-2 text-emerald-700"
-                                    />
-                                    <div className="font-label-md text-label-md text-emerald-900 font-semibold">
-                                        {label}
-                                    </div>
-                                    <div className="font-body-sm text-body-sm text-gray-400 mt-0.5">
-                                        {desc}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        </motion.div>
                     </motion.div>
                 </div>
             </section>
