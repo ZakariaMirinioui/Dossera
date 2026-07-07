@@ -1,9 +1,5 @@
 import { useEffect, useRef } from "react";
 
-/**
- * Hook to observe an element and add 'visible' class when it enters viewport
- * @returns RefObject that should be attached to elements that should be observed
- */
 export function useReveal<T extends HTMLElement = HTMLElement>() {
     const ref = useRef<T>(null);
 
@@ -18,7 +14,7 @@ export function useReveal<T extends HTMLElement = HTMLElement>() {
                     observer.unobserve(entry.target);
                 }
             },
-            { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+            { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
         );
 
         observer.observe(element);

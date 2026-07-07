@@ -1,0 +1,29 @@
+{
+    "common": {
+        "language": "Langue",
+        "contact": "Contact",
+        "language_en": "English",
+        "language_fr": "Français",
+        "language_ar": "العربية"
+    },
+    "nav": {
+        "home": "Accueil",
+        "dossera_solve": "La Solution",
+        "dossera_services": "Services",
+        "dossera_how": "Plateforme",
+        "dossera_architecture": "Architecture",
+        "dossera_book": "Rendez-vous",
+        "open_menu": "Ouvrir le menu",
+        "close_menu": "Fermer le menu"
+    },
+    "footer": {
+        "tagline": "Système JAMS — Infrastructure souveraine de gestion d'archives judiciaires haute performance.",
+        "column_email": "Email",
+        "column_phone": "Téléphone",
+        "column_linkedin": "LinkedIn",
+        "column_github": "GitHub",
+        "dossera_credit": "DOSSERA — Construit à Khouribga. Prouvé dans les tribunaux.",
+        "copyright": "DOSSERA. Tous droits réservés.",
+        "location_line": "Khouribga, Maroc · Au service du Maroc et de l'Italie"
+    }
+}

@@ -3,20 +3,21 @@
         "language": "اللغة",
         "contact": "اتصل بنا",
         "language_en": "English",
+        "language_fr": "Français",
         "language_ar": "العربية"
     },
     "nav": {
         "home": "الرئيسية",
-        "dossera_solve": "المشكلة",
-        "dossera_services": "خدماتنا",
+        "dossera_solve": "الحل",
+        "dossera_services": "الخدمات",
         "dossera_how": "المنصة",
         "dossera_architecture": "الهندسة",
-        "dossera_book": "احجز مكالمة",
+        "dossera_book": "احجز موعداً",
         "open_menu": "فتح القائمة",
         "close_menu": "إغلاق القائمة"
     },
     "footer": {
-        "tagline": "ذكاء وثائقي سيادي للمؤسسات القضائية",
+        "tagline": "نظام JAMS — بنية تحتية سيادية عالية الأداء لإدارة الأرشيف القضائي.",
         "column_email": "البريد الإلكتروني",
         "column_phone": "الهاتف",
         "column_linkedin": "لينكد إن",

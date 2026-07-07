@@ -3,20 +3,21 @@
         "language": "Language",
         "contact": "Contact",
         "language_en": "English",
+        "language_fr": "Français",
         "language_ar": "العربية"
     },
     "nav": {
         "home": "Home",
-        "dossera_solve": "The Problem",
-        "dossera_services": "Our Services",
-        "dossera_how": "The Platform",
+        "dossera_solve": "The Solution",
+        "dossera_services": "Services",
+        "dossera_how": "Platform",
         "dossera_architecture": "Architecture",
         "dossera_book": "Book a Call",
         "open_menu": "Open menu",
         "close_menu": "Close menu"
     },
     "footer": {
-        "tagline": "Sovereign document intelligence for judicial institutions",
+        "tagline": "JAMS System — Sovereign high-performance judicial archive management infrastructure.",
         "column_email": "Email",
         "column_phone": "Phone",
         "column_linkedin": "LinkedIn",

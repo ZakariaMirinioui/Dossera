@@ -1,811 +1,339 @@
 ﻿import { useTranslation } from "react-i18next";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Tilt from "react-parallax-tilt";
-import {
-	Shield, Search, ScrollText, FileText,
-	ArrowRight, Server, Database, Zap, Layers, GitBranch, Upload, Clock, AlertTriangle, FileWarning,
-	Building2, Scale, Landmark, ShieldCheck, ChevronDown
-} from "lucide-react";
-import DosseraBookingForm from "./DosseraBookingForm";
 import { useReveal } from "../../hooks/useReveal";
 import WebsiteHeader from "../../layouts/Website/Header";
 import WebsiteFooter from "../../layouts/Website/Footer";
-import AuroraHero from "../../components/AuroraHero/AuroraHero";
-import ArchitecturePipeline from "../../components/Dossera3D/ArchitecturePipeline";
-import PhysicalArchive from "../../components/Dossera3D/PhysicalArchive";
-import TelemetryPanel from "../../components/Dossera3D/TelemetryPanel";
+import DosseraBookingForm from "./DosseraBookingForm";
 
-const CAPABILITY_ICONS = [Search, GitBranch, Shield, Layers, FileText, ScrollText] as const;
-const STAT_ICONS = [Clock, AlertTriangle, FileWarning] as const;
+const TTL_ROWS = [
+    { prefix: "row1_prefix", l1: "row1_l1", l2: "row1_l2", priority: "row1_priority", badge: "row1_badge" },
+    { prefix: "row2_prefix", l1: "row2_l1", l2: "row2_l2", priority: "row2_priority", badge: "row2_badge" },
+    { prefix: "row3_prefix", l1: "row3_l1", l2: "row3_l2", priority: "row3_priority", badge: "row3_badge" },
+] as const;
 
-type MetricItem = { label: string; value: string; desc: string };
-type RoadmapItem = { phase: string; title: string; desc: string };
-type PainItem = { before: string; after: string };
-type PainStat = { value: string; label: string; desc: string };
-type ComplianceItem = { name: string; status: string; desc: string };
-type FaqItem = { q: string; a: string };
+const ARCH_TIERS = [
+    { key: "l1", icon: "memory" },
+    { key: "l2", icon: "database" },
+    { key: "l3", icon: "storage" },
+] as const;
 
 const DosseraPage: React.FC = () => {
-	const { t } = useTranslation();
-	const metrics = t("dosseraLanding.proof.metrics", { returnObjects: true }) as MetricItem[];
-	const capItems = t("dosseraLanding.capabilities.items", { returnObjects: true }) as { title: string; desc: string }[];
-	const painItems = t("dosseraLanding.pain.items", { returnObjects: true }) as PainItem[];
-	const complianceItems = t("dosseraLanding.compliance.items", { returnObjects: true }) as ComplianceItem[];
-	const faqItems = t("dosseraLanding.faq.items", { returnObjects: true }) as FaqItem[];
-	const painStats = t("dosseraLanding.pain.stats", { returnObjects: true }) as PainStat[];
-	const { scrollY } = useScroll();
-	const heroY = useTransform(scrollY, [0, 800], [0, 120]);
+    const { t } = useTranslation();
 
-	const roadmapItems = [
-		t("dosseraLanding.roadmap.now", { returnObjects: true }) as RoadmapItem,
-		t("dosseraLanding.roadmap.next", { returnObjects: true }) as RoadmapItem,
-		t("dosseraLanding.roadmap.later", { returnObjects: true }) as RoadmapItem,
-	];
+    const heroReveal = useReveal<HTMLElement>();
+    const archReveal = useReveal<HTMLElement>();
+    const specsReveal = useReveal<HTMLElement>();
+    const securityReveal = useReveal<HTMLElement>();
+    const ctaReveal = useReveal<HTMLElement>();
+    const bookReveal = useReveal<HTMLElement>();
 
-	const capRef = useReveal<HTMLDivElement>();
-	const archRef = useReveal<HTMLDivElement>();
-	const sovereignRef = useReveal<HTMLElement>();
-	const proofRef = useReveal<HTMLElement>();
-	const roadmapRef = useReveal<HTMLDivElement>();
+    return (
+        <div className="min-h-screen bg-background">
+            <WebsiteHeader />
 
-	return (
-		<div className="dossera-page">
-			<WebsiteHeader />
+            {/* ─── HERO ─── */}
+            <section
+                ref={heroReveal}
+                id="hero"
+                className="hero-gradient pt-48 pb-24 px-4 sm:px-6 lg:px-container-margin text-white relative overflow-hidden fade-in-up visible"
+            >
+                <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-gutter items-center">
+                    <div>
+                        <div className="inline-block bg-secondary-container/10 text-secondary-container px-4 py-1 rounded text-label-md font-label-md mb-6 uppercase tracking-widest border border-secondary-container/20">
+                            {t("dosseraLanding.hero.eyebrow")}
+                        </div>
 
-			{/* ─── HERO ─── */}
-			<section className="relative min-h-[100vh] flex flex-col justify-center items-center text-center px-4 pt-32 pb-24 max-w-4xl mx-auto overflow-hidden">
-				<AuroraHero />
-				<div
-					className="absolute inset-0 z-[1]"
-					style={{
-						background: "linear-gradient(180deg, rgba(12,10,9,0.55) 0%, rgba(12,10,9,0.35) 50%, rgba(12,10,9,0.75) 100%)",
-						pointerEvents: "none",
-					}}
-				/>
-				<motion.div className="relative z-[2] flex flex-col items-center" style={{ y: heroY }}>
-					<motion.p
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-						className="font-mono text-[0.6rem] tracking-[0.18em] uppercase text-[var(--accent)] mb-6"
-					>
-						{t("dosseraLanding.hero.eyebrow")}
-					</motion.p>
+                        <h1 className="font-headline-xl text-headline-xl lg:text-[56px] leading-tight mb-6 text-white">
+                            {t("dosseraLanding.hero.headline")}
+                        </h1>
 
-					<motion.h1
-						initial={{ opacity: 0, y: 30 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-						className="font-display italic text-[clamp(2.5rem,7vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.02em] text-[var(--text-primary)] max-w-3xl mx-auto mb-4"
-						style={{ textShadow: "0 2px 30px rgba(0,0,0,0.6)" }}
-					>
-						{t("dosseraLanding.hero.headline_line1")}
-						<br />
-						{t("dosseraLanding.hero.headline_line2")}
-					</motion.h1>
+                        <p className="font-body-lg text-body-lg text-emerald-50/80 mb-10 max-w-xl">
+                            {t("dosseraLanding.hero.subtitle")}
+                        </p>
 
-					<motion.p
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-						className="font-display text-[clamp(1.2rem,2.5vw,1.75rem)] font-normal text-[var(--accent)] mt-2 mb-8"
-					>
-						{t("dosseraLanding.hero.continuation")}
-					</motion.p>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <a
+                                href="#contact"
+                                className="bg-secondary-container text-primary px-8 py-4 rounded font-bold hover:bg-white transition-all btn-breathe inline-block text-center"
+                            >
+                                {t("dosseraLanding.hero.cta_primary")}
+                            </a>
+                            <button className="border border-white/30 text-white px-8 py-4 rounded font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                                <span className="material-symbols-outlined">menu_book</span>
+                                {t("dosseraLanding.hero.cta_secondary")}
+                            </button>
+                        </div>
+                    </div>
 
-					<motion.p
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.45 }}
-						className="text-[var(--text-secondary)] max-w-xl mx-auto mb-12 text-base leading-relaxed whitespace-pre-line"
-					>
-						{t("dosseraLanding.hero.description")}
-					</motion.p>
+                    <div className="hidden lg:flex justify-center">
+                        <div className="relative w-full max-w-md aspect-square bg-white/5 border border-white/20 flex flex-col items-center justify-center p-12 rounded-lg backdrop-blur-sm">
+                            <img
+                                src="/dossera-logo.png"
+                                alt="DOSSERA"
+                                className="w-48 h-48 mb-8 brightness-0 invert opacity-80"
+                            />
+                            <div className="text-center">
+                                <div className="font-headline-md text-headline-md font-bold mb-4">
+                                    {t("dosseraLanding.hero.jams_version")}
+                                </div>
+                                <div className="flex items-center justify-center gap-2 mb-4 bg-emerald-500/20 py-2 px-4 rounded-full border border-emerald-500/30 w-fit mx-auto">
+                                    <span className="material-symbols-outlined text-secondary text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                        check_circle
+                                    </span>
+                                    <span className="text-label-md font-label-md text-white uppercase tracking-wider">
+                                        {t("dosseraLanding.hero.badge_status")}
+                                    </span>
+                                </div>
+                                <p className="text-emerald-50/80 font-body-sm text-body-sm leading-relaxed">
+                                    {t("dosseraLanding.hero.badge_desc")}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
-						className="flex flex-col sm:flex-row gap-4 justify-center"
-					>
-						<a href="#dossera-book" className="cta-primary">
-							{t("dosseraLanding.hero.cta_primary")}
-							<ArrowRight size={16} />
-						</a>
-						<a href="#dossera-architecture" className="cta-secondary">
-							{t("dosseraLanding.hero.cta_secondary")}
-						</a>
-					</motion.div>
-				</motion.div>
-			</section>
+            {/* ─── ARCHITECTURE 3-TIER CACHE ─── */}
+            <section
+                ref={archReveal}
+                id="architecture"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-16 text-center max-w-3xl mx-auto">
+                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                            {t("dosseraLanding.architecture.title")}
+                        </h2>
+                        <p className="font-body-md text-body-md text-on-surface-variant">
+                            {t("dosseraLanding.architecture.subtitle")}
+                        </p>
+                    </div>
 
-			{/* ─── PAIN POINTS ─── */}
-			<section id="dossera-solve" className="dossera-section scroll-mt-[5.5rem] relative overflow-hidden">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-						className="mb-14"
-					>
-						<p className="section-label">{t("dosseraLanding.pain.title")}</p>
-						<h2 className="section-title max-w-3xl mb-3">{t("dosseraLanding.pain.title")}</h2>
-						<p className="section-sub text-base">{t("dosseraLanding.pain.subtitle")}</p>
-					</motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+                        {ARCH_TIERS.map(({ key, icon }) => (
+                            <div key={key} className="solid-panel p-8 rounded flex flex-col items-center text-center arch-card">
+                                <div className="w-16 h-16 rounded bg-secondary-container flex items-center justify-center mb-6 border border-outline-variant">
+                                    <span className="material-symbols-outlined text-primary text-3xl">{icon}</span>
+                                </div>
+                                <h3 className="font-headline-md text-headline-md mb-2 text-primary">
+                                    {t(`dosseraLanding.architecture.${key}_title`)}
+                                </h3>
+                                <div className="font-label-md text-label-md text-secondary font-bold mb-4 uppercase">
+                                    {t(`dosseraLanding.architecture.${key}_label`)}
+                                </div>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                    {t(`dosseraLanding.architecture.${key}_desc`)}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
-					{/* Cost stats */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-						className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14"
-					>
-						{painStats.map((stat, i) => {
-							const StatIcon = STAT_ICONS[i] || Clock;
-							return (
-								<Tilt
-									key={stat.label}
-									tiltMaxAngleX={4}
-									tiltMaxAngleY={4}
-									scale={1.02}
-									glareEnable
-									glareMaxOpacity={0.08}
-									glareColor="#a0894b"
-									style={{ transformStyle: "preserve-3d" }}
-								>
-									<div
-										className="card flex items-start gap-4"
-										style={{ transform: "translateZ(20px)" }}
-									>
-										<div className="w-12 h-12 rounded-full bg-[var(--accent-dim)] flex items-center justify-center shrink-0">
-											<StatIcon size={20} className="text-[var(--accent)]" />
-										</div>
-										<div>
-											<p className="font-display text-[clamp(1.8rem,3vw,2.5rem)] text-[var(--accent)] leading-none mb-1">
-												{stat.value}
-											</p>
-											<p className="font-medium text-xs uppercase tracking-wider text-[var(--text-muted)] mb-1">{stat.label}</p>
-											<p className="text-xs text-[var(--text-secondary)] leading-relaxed">{stat.desc}</p>
-										</div>
-									</div>
-								</Tilt>
-							);
-						})}
-					</motion.div>
+            {/* ─── TECH SPECS TTL TABLE ─── */}
+            <section
+                ref={specsReveal}
+                id="specs"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-surface-container-low fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row gap-gutter">
+                        <div className="md:w-1/3">
+                            <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                                {t("dosseraLanding.techSpecs.title")}
+                            </h2>
+                            <p className="font-body-md text-body-md text-on-surface-variant mb-6">
+                                {t("dosseraLanding.techSpecs.subtitle")}
+                            </p>
+                            <div className="p-6 bg-primary text-secondary-container rounded">
+                                <div className="font-headline-md text-headline-md mb-2">99.9%</div>
+                                <div className="font-body-sm text-body-sm opacity-80">
+                                    {t("dosseraLanding.techSpecs.cache_hit")}
+                                </div>
+                            </div>
+                        </div>
 
-					{/* Pain cards grid */}
-					<motion.div
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-60px" }}
-						variants={{
-							hidden: {},
-							visible: { transition: { staggerChildren: 0.08 } },
-						}}
-						className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-					>
-						{painItems.map((item) => (
-							<motion.div
-								key={item.before}
-								variants={{
-									hidden: { opacity: 0, y: 24 },
-									visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-								}}
-							>
-								<Tilt
-									tiltMaxAngleX={6}
-									tiltMaxAngleY={6}
-									scale={1.03}
-									glareEnable
-									glareMaxOpacity={0.1}
-									glareColor="#a0894b"
-									style={{ transformStyle: "preserve-3d", height: "100%" }}
-								>
-									<div
-										className="card card-accent flex flex-col h-full"
-										style={{ transform: "translateZ(24px)" }}
-									>
-										<p className="text-xs font-medium text-[var(--text-muted)] mb-1.5 tracking-wider uppercase">
-											<span aria-hidden className="mr-1">✕</span>
-											{t("dosseraLanding.nav.before")}
-										</p>
-										<p className="body-text text-sm mb-4 leading-relaxed">
-											{item.before}
-										</p>
-										<div className="w-8 h-px bg-[var(--accent)] mb-4" />
-										<p className="text-xs font-medium text-[var(--accent)] mb-1 tracking-wider uppercase">
-											<span aria-hidden className="mr-1">→</span>
-											{t("dosseraLanding.nav.after")}
-										</p>
-										<p className="text-sm font-medium text-[var(--text-primary)] leading-relaxed">
-											{item.after}
-										</p>
-									</div>
-								</Tilt>
-							</motion.div>
-						))}
-					</motion.div>
-				</div>
-			</section>
+                        <div className="md:w-2/3 bg-white rounded border border-outline-variant overflow-hidden">
+                            <table className="w-full text-left border-collapse">
+                                <thead className="bg-primary text-secondary-container">
+                                    <tr>
+                                        <th className="p-4 font-label-md text-label-md uppercase tracking-wider">
+                                            {t("dosseraLanding.techSpecs.table_prefix")}
+                                        </th>
+                                        <th className="p-4 font-label-md text-label-md uppercase tracking-wider">
+                                            {t("dosseraLanding.techSpecs.table_l1")}
+                                        </th>
+                                        <th className="p-4 font-label-md text-label-md uppercase tracking-wider">
+                                            {t("dosseraLanding.techSpecs.table_l2")}
+                                        </th>
+                                        <th className="p-4 font-label-md text-label-md uppercase tracking-wider">
+                                            {t("dosseraLanding.techSpecs.table_priority")}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {TTL_ROWS.map((row) => (
+                                        <tr key={row.prefix} className="border-b border-outline-variant hover:bg-secondary-container transition-colors">
+                                            <td className="p-4 font-body-md text-body-md font-bold text-primary">
+                                                {t(`dosseraLanding.techSpecs.${row.prefix}`)}
+                                            </td>
+                                            <td className="p-4 font-body-sm text-body-sm">
+                                                {t(`dosseraLanding.techSpecs.${row.l1}`)}
+                                            </td>
+                                            <td className="p-4 font-body-sm text-body-sm">
+                                                {t(`dosseraLanding.techSpecs.${row.l2}`)}
+                                            </td>
+                                            <td className="p-4">
+                                                <span className={`inline-block px-2 py-1 rounded text-[10px] font-bold uppercase ${t(`dosseraLanding.techSpecs.${row.badge}`)}`}>
+                                                    {t(`dosseraLanding.techSpecs.${row.priority}`)}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-			{/* ─── REAL ARCHITECTURE ─── */}
-			<section id="dossera-architecture" className="dossera-section dossera-section--alt scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						ref={archRef}
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-					>
-						<p className="section-label">{t("dosseraLanding.architecture.title")}</p>
-						<h2 className="section-title mb-3">{t("dosseraLanding.architecture.title")}</h2>
-						<p className="section-sub mb-10">{t("dosseraLanding.architecture.subtitle")}</p>
-					</motion.div>
+            {/* ─── SECURITY & RESILIENCE ─── */}
+            <section
+                ref={securityReveal}
+                id="securite"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div className="order-2 lg:order-1">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-8 solid-panel rounded hover:border-secondary transition-colors">
+                                <span className="material-symbols-outlined text-4xl text-primary mb-4">security</span>
+                                <h4 className="font-headline-md text-headline-md mb-2 text-primary">
+                                    {t("dosseraLanding.security.minio_title")}
+                                </h4>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                    {t("dosseraLanding.security.minio_desc")}
+                                </p>
+                            </div>
+                            <div className="p-8 solid-panel rounded hover:border-secondary transition-colors">
+                                <span className="material-symbols-outlined text-4xl text-primary mb-4">settings_backup_restore</span>
+                                <h4 className="font-headline-md text-headline-md mb-2 text-primary">
+                                    {t("dosseraLanding.security.postgres_title")}
+                                </h4>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                    {t("dosseraLanding.security.postgres_desc")}
+                                </p>
+                            </div>
+                            <div className="col-span-2 p-8 bg-primary text-secondary-container rounded flex items-center justify-between">
+                                <div>
+                                    <h4 className="font-headline-md text-headline-md mb-1 text-white">
+                                        {t("dosseraLanding.security.circuit_title")}
+                                    </h4>
+                                    <p className="font-body-sm text-body-sm text-emerald-100/70">
+                                        {t("dosseraLanding.security.circuit_desc")}
+                                    </p>
+                                </div>
+                                <span className="material-symbols-outlined text-5xl text-emerald-500/20">emergency_home</span>
+                            </div>
+                        </div>
+                    </div>
 
-					{/* 3D Pipeline Visualization */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-						className="mb-12"
-					>
-						<ArchitecturePipeline />
-					</motion.div>
+                    <div className="order-1 lg:order-2">
+                        <h2 className="font-headline-lg text-headline-lg mb-6 text-primary">
+                            {t("dosseraLanding.security.title")}
+                        </h2>
+                        <div className="space-y-6">
+                            <div className="flex gap-4">
+                                <div className="mt-1 w-6 h-6 rounded bg-secondary flex-shrink-0 flex items-center justify-center">
+                                    <span className="material-symbols-outlined text-[14px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                        done
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold font-body-md text-body-md text-primary">
+                                        {t("dosseraLanding.security.feature1_title")}
+                                    </h5>
+                                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                        {t("dosseraLanding.security.feature1_desc")}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="mt-1 w-6 h-6 rounded bg-secondary flex-shrink-0 flex items-center justify-center">
+                                    <span className="material-symbols-outlined text-[14px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                        done
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold font-body-md text-body-md text-primary">
+                                        {t("dosseraLanding.security.feature2_title")}
+                                    </h5>
+                                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                        {t("dosseraLanding.security.feature2_desc")}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-					<div className="grid lg:grid-cols-2 gap-8 mb-12">
-						{/* Ingestion & Retrieval */}
-						<motion.div
-							initial={{ opacity: 0, x: -20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true, margin: "-60px" }}
-							transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-						>
-							<h3 className="card-title flex items-center gap-2 mb-4">
-								<Server size={18} className="text-[var(--accent)]" />
-								{t("dosseraLanding.architecture.ingestion_title")}
-							</h3>
-							<p className="body-text text-sm mb-5">{t("dosseraLanding.architecture.ingestion_desc")}</p>
+            {/* ─── FINAL CTA ─── */}
+            <section
+                ref={ctaReveal}
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin fade-in-up"
+            >
+                <div className="max-w-5xl mx-auto solid-panel p-12 rounded text-center border-t-4 border-t-primary bg-secondary-container/30">
+                    <h2 className="font-headline-lg text-headline-lg mb-6 text-primary">
+                        {t("dosseraLanding.cta.title")}
+                    </h2>
+                    <p className="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto">
+                        {t("dosseraLanding.cta.subtitle")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <a
+                            href="#contact"
+                            className="bg-primary text-secondary-container px-10 py-5 rounded font-bold text-lg btn-breathe inline-block hover:bg-primary-container transition-colors"
+                        >
+                            {t("dosseraLanding.cta.primary")}
+                        </a>
+                        <a
+                            href="mailto:contact@dossera.gov.ma"
+                            className="border border-primary text-primary px-10 py-5 rounded font-bold text-lg hover:bg-white transition-all inline-block"
+                        >
+                            {t("dosseraLanding.cta.secondary")}
+                        </a>
+                    </div>
+                </div>
+            </section>
 
-							<motion.div
-								className="arch-flow"
-								initial="hidden"
-								whileInView="visible"
-								viewport={{ once: true }}
-								variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-							>
-								<motion.div
-									variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-									whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-									className="arch-step"
-								>
-									<div className="arch-step-icon"><Upload className="w-4 h-4" /></div>
-									<div>
-										<p className="arch-label">Bulk Upload</p>
-										<p className="arch-desc">Documents enter via unified pipeline</p>
-									</div>
-								</motion.div>
-								<motion.div
-									variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-									whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-									className="arch-step"
-								>
-									<div className="arch-step-icon"><FileText className="w-4 h-4" /></div>
-									<div>
-										<p className="arch-label">OCR Processing</p>
-										<p className="arch-desc">Tesseract.js via BullMQ workers</p>
-									</div>
-								</motion.div>
-								<div className="arch-branch">
-									<motion.div
-										variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-										whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-										className="arch-step"
-									>
-										<div className="arch-step-icon"><Zap className="w-4 h-4" /></div>
-										<div>
-											<p className="arch-label">{t("dosseraLanding.architecture.semantic_title")}</p>
-											<p className="arch-desc">{t("dosseraLanding.architecture.semantic_desc")}</p>
-										</div>
-									</motion.div>
-									<motion.div
-										variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-										whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-										className="arch-step"
-									>
-										<div className="arch-step-icon"><Search className="w-4 h-4" /></div>
-										<div>
-											<p className="arch-label">{t("dosseraLanding.architecture.keyword_title")}</p>
-											<p className="arch-desc">{t("dosseraLanding.architecture.keyword_desc")}</p>
-										</div>
-									</motion.div>
-								</div>
-							</motion.div>
+            {/* ─── BOOKING / CONTACT ─── */}
+            <section
+                ref={bookReveal}
+                id="contact"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up scroll-mt-24"
+            >
+                <div className="max-w-6xl mx-auto text-center">
+                    <h2 className="font-headline-lg text-headline-lg text-primary mb-4">
+                        {t("dosseraLanding.book.title")}
+                    </h2>
+                    <p className="font-body-md text-body-md text-on-surface-variant max-w-xl mx-auto mb-4">
+                        {t("dosseraLanding.book.sub")}
+                    </p>
+                    <p className="font-body-sm text-body-sm text-on-surface-variant/70 max-w-3xl mx-auto mb-10 leading-relaxed">
+                        {t("dosseraLanding.book.trust_row")}
+                    </p>
+                    <div className="max-w-[560px] mx-auto">
+                        <DosseraBookingForm />
+                    </div>
+                </div>
+            </section>
 
-							<motion.div
-								initial={{ opacity: 0, y: 12 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true, margin: "-60px" }}
-								transition={{ duration: 0.5, delay: 0.3 }}
-								className="mt-6 card"
-							>
-								<div className="flex items-start gap-3">
-									<Layers size={18} className="text-[var(--accent)] mt-0.5 shrink-0" />
-									<div>
-										<p className="arch-label mb-1">{t("dosseraLanding.architecture.physical_title")}</p>
-										<p className="arch-desc">{t("dosseraLanding.architecture.physical_desc")}</p>
-									</div>
-								</div>
-							</motion.div>
-						</motion.div>
+            {/* ─── FOOTER ─── */}
+            <WebsiteFooter />
 
-						{/* Resilience & Caching */}
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true, margin: "-60px" }}
-							transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-						>
-							<h3 className="card-title flex items-center gap-2 mb-4">
-								<Shield size={18} className="text-[var(--accent)]" />
-								{t("dosseraLanding.architecture.resilience_title")}
-							</h3>
-							<p className="body-text text-sm mb-5">{t("dosseraLanding.architecture.resilience_desc")}</p>
-
-							<motion.div
-								className="arch-flow mb-6"
-								initial="hidden"
-								whileInView="visible"
-								viewport={{ once: true }}
-								variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-							>
-								<motion.div
-									variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-									whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-									className="arch-step"
-								>
-									<div className="arch-step-icon"><Database className="w-4 h-4" /></div>
-									<div>
-										<p className="arch-label">L1: In-Memory LRU</p>
-										<p className="arch-desc">5000 entries, stale-while-revalidate</p>
-									</div>
-								</motion.div>
-								<motion.div
-									variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-									whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-									className="arch-step"
-								>
-									<div className="arch-step-icon"><Database className="w-4 h-4" /></div>
-									<div>
-										<p className="arch-label">L2: Redis Cluster</p>
-										<p className="arch-desc">Dedicated cache connection</p>
-									</div>
-								</motion.div>
-								<motion.div
-									variants={{ hidden: { opacity: 0, x: -12 }, visible: { opacity: 1, x: 0 } }}
-									whileHover={{ scale: 1.02, x: 4, transition: { duration: 0.2 } }}
-									className="arch-step"
-								>
-									<div className="arch-step-icon"><Database className="w-4 h-4" /></div>
-									<div>
-										<p className="arch-label">L3: Database</p>
-										<p className="arch-desc">PostgreSQL, Meilisearch, MinIO</p>
-									</div>
-								</motion.div>
-							</motion.div>
-
-							<motion.div
-								initial={{ opacity: 0, y: 12 }}
-								whileInView={{ opacity: 1, y: 0 }}
-								viewport={{ once: true, margin: "-60px" }}
-								transition={{ duration: 0.5, delay: 0.35 }}
-								className="card"
-							>
-								<div className="flex items-start gap-3">
-									<GitBranch size={18} className="text-[var(--accent)] mt-0.5 shrink-0" />
-									<div>
-										<p className="arch-label mb-1">{t("dosseraLanding.architecture.circuit_title")}</p>
-										<p className="arch-desc">{t("dosseraLanding.architecture.circuit_desc")}</p>
-									</div>
-								</div>
-							</motion.div>
-						</motion.div>
-					</div>
-
-					{/* Physical Archive 3D Visualization */}
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-						className="mb-12"
-					>
-						<h3 className="card-title flex items-center gap-2 mb-4">
-							<Layers size={18} className="text-[var(--accent)]" />
-							{t("dosseraLanding.architecture.physical_title")}
-						</h3>
-						<PhysicalArchive />
-					</motion.div>
-
-					{/* Telemetry */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-						className="max-w-md"
-					>
-						<TelemetryPanel />
-					</motion.div>
-				</div>
-			</section>
-
-			{/* ─── CORE CAPABILITIES ─── */}
-			<section id="dossera-how" className="dossera-section scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<div ref={capRef} className="reveal">
-						<p className="section-label">{t("dosseraLanding.capabilities.title")}</p>
-						<h2 className="section-title mb-10">{t("dosseraLanding.capabilities.title")}</h2>
-					</div>
-
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-						{capItems.map((item, i) => {
-							const Icon = CAPABILITY_ICONS[i] || Shield;
-							const isFeatured = i === 3;
-							return (
-								<div
-									key={item.title}
-									className={`card ${isFeatured ? "md:col-span-2 lg:col-span-1" : ""} ${isFeatured ? "border-[var(--accent-dim)]" : ""}`}
-									style={{ "--i": i } as React.CSSProperties}
-								>
-									<div className="flex items-center gap-3 mb-3">
-										<div className="w-9 h-9 flex items-center justify-center bg-[var(--accent-dim)] rounded-lg">
-											<Icon size={18} className="text-[var(--accent)]" />
-										</div>
-										<h3 className="card-title mb-0">{item.title}</h3>
-									</div>
-									<p className="body-text text-sm leading-relaxed">{item.desc}</p>
-								</div>
-							);
-						})}
-					</div>
-				</div>
-			</section>
-
-			{/* ─── WHY SOVEREIGN ─── */}
-			<section
-				id="dossera-why"
-				ref={sovereignRef}
-				className="dossera-section dossera-section--alt reveal scroll-mt-[5.5rem]"
-			>
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<p className="section-label text-center">{t("dosseraLanding.sovereign.label")}</p>
-					<h2 className="section-title text-center mb-12">{t("dosseraLanding.sovereign.title")}</h2>
-
-					<div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-0 md:gap-0 border border-[var(--border)] rounded-xl overflow-hidden">
-						<div className="p-8 md:p-10 bg-[var(--bg-secondary)] border-b md:border-b-0 md:border-r border-[var(--border)]">
-							<p className="font-mono text-[10px] uppercase tracking-widest text-[var(--text-muted)] mb-8">
-								{t("dosseraLanding.sovereign.panel_others")}
-							</p>
-							{(["others_1", "others_2", "others_3"] as const).map((k) => (
-								<p
-									key={k}
-									className="body-text text-base leading-snug border-b border-[var(--border)] pb-5 mb-5 last:border-0 last:pb-0 last:mb-0"
-								>
-									{t(`dosseraLanding.sovereign.${k}`)}
-								</p>
-							))}
-						</div>
-						<div className="p-8 md:p-10 bg-[var(--bg-tertiary)]">
-							<p className="font-mono text-[10px] uppercase tracking-widest text-[var(--accent)] mb-8">
-								{t("dosseraLanding.sovereign.panel_us")}
-							</p>
-							<ul className="check-list">
-								{(["us_1", "us_2", "us_3"] as const).map((k) => (
-									<li key={k} className="text-base text-[var(--text-primary)]">
-										{t(`dosseraLanding.sovereign.${k}`)}
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			{/* ─── ENGINEERING PROOF ─── */}
-			<section ref={proofRef} className="dossera-section reveal scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<p className="section-label">{t("dosseraLanding.proof.title")}</p>
-					<h2 className="section-title mb-3">{t("dosseraLanding.proof.title")}</h2>
-					<p className="section-sub mb-12">{t("dosseraLanding.proof.subtitle")}</p>
-
-					<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-						{metrics.map((m) => (
-							<div key={m.label} className="card text-center">
-								<p className="font-display text-[clamp(2rem,4vw,3rem)] text-[var(--accent)] leading-none mb-2">
-									{m.value}
-								</p>
-								<p className="font-medium text-sm text-[var(--text-primary)] mb-2">{m.label}</p>
-								<p className="text-xs text-[var(--text-muted)] leading-relaxed">{m.desc}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
-
-			{/* ─── SERVICES ─── */}
-			<section id="dossera-services" className="dossera-section dossera-section--alt reveal scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<p className="section-label">{t("dosseraLanding.services.title")}</p>
-					<h2 className="section-title mb-3">{t("dosseraLanding.services.title")}</h2>
-					<p className="section-sub mb-10">{t("dosseraLanding.services.subtitle")}</p>
-
-					<div className="grid md:grid-cols-3 gap-4">
-						{(["s1", "s2", "s3"] as const).map((s) => (
-							<div key={s} className="card">
-								<h3 className="card-title mb-2">{t(`dosseraLanding.services.${s}_title`)}</h3>
-								<p className="body-text text-sm leading-relaxed">{t(`dosseraLanding.services.${s}_desc`)}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
-
-			{/* ─── USE CASES ─── */}
-			<section id="dossera-use-cases" className="dossera-section scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-					>
-						<p className="section-label">{t("dosseraLanding.useCases.title")}</p>
-						<h2 className="section-title mb-3">{t("dosseraLanding.useCases.title")}</h2>
-						<p className="section-sub mb-10">{t("dosseraLanding.useCases.subtitle")}</p>
-					</motion.div>
-
-					<motion.div
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-60px" }}
-						variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
-						className="grid md:grid-cols-3 gap-5"
-					>
-						{(["small", "large", "ministry"] as const).map((type) => {
-							const icons = { small: Building2, large: Scale, ministry: Landmark };
-							const Icon = icons[type];
-							return (
-								<motion.div
-									key={type}
-									variants={{
-										hidden: { opacity: 0, y: 24 },
-										visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-									}}
-								>
-									<Tilt
-										tiltMaxAngleX={5}
-										tiltMaxAngleY={5}
-										scale={1.02}
-										glareEnable
-										glareMaxOpacity={0.08}
-										glareColor="#a0894b"
-										style={{ transformStyle: "preserve-3d", height: "100%" }}
-									>
-										<div
-											className="card h-full flex flex-col"
-											style={{ transform: "translateZ(20px)", borderTop: "2px solid var(--accent)" }}
-										>
-											<div className="w-11 h-11 rounded-lg bg-[var(--accent-dim)] flex items-center justify-center mb-4">
-												<Icon size={22} className="text-[var(--accent)]" />
-											</div>
-											<h3 className="card-title mb-1">{t(`dosseraLanding.useCases.${type}_title`)}</h3>
-											<p className="font-mono text-[10px] uppercase tracking-wider text-[var(--accent)] mb-3">
-												{t(`dosseraLanding.useCases.${type}_sub`)}
-											</p>
-											<p className="body-text text-sm leading-relaxed flex-1">
-												{t(`dosseraLanding.useCases.${type}_desc`)}
-											</p>
-										</div>
-									</Tilt>
-								</motion.div>
-							);
-						})}
-					</motion.div>
-				</div>
-			</section>
-
-			{/* ─── COMPLIANCE ─── */}
-			<section className="dossera-section dossera-section--alt scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-					>
-						<p className="section-label">{t("dosseraLanding.compliance.title")}</p>
-						<h2 className="section-title mb-3">{t("dosseraLanding.compliance.title")}</h2>
-						<p className="section-sub mb-10">{t("dosseraLanding.compliance.subtitle")}</p>
-					</motion.div>
-
-					<motion.div
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-60px" }}
-						variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
-						className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto"
-					>
-						{complianceItems.map((item) => {
-							const statusColor =
-								item.status === "Compliant" || item.status === "متوافق"
-									? "text-green-500 border-green-500/30"
-									: item.status === "In Progress" || item.status === "قيد التطوير"
-										? "text-[var(--accent)] border-[var(--accent-dim)]"
-										: "text-[var(--text-muted)] border-[var(--border)]";
-							return (
-								<motion.div
-									key={item.name}
-									variants={{
-										hidden: { opacity: 0, scale: 0.95 },
-										visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-									}}
-								>
-									<div className="card flex items-start gap-4">
-										<div className="w-10 h-10 rounded-full bg-[var(--accent-dim)] flex items-center justify-center shrink-0">
-											<ShieldCheck size={18} className="text-[var(--accent)]" />
-										</div>
-										<div className="min-w-0">
-											<div className="flex items-center gap-3 mb-1 flex-wrap">
-												<h3 className="text-sm font-semibold text-[var(--text-primary)]">{item.name}</h3>
-												<span className={`text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full border ${statusColor}`}>
-													{item.status}
-												</span>
-											</div>
-											<p className="text-xs text-[var(--text-secondary)] leading-relaxed">{item.desc}</p>
-										</div>
-									</div>
-								</motion.div>
-							);
-						})}
-					</motion.div>
-				</div>
-			</section>
-
-			{/* ─── TECH SPECS ─── */}
-			<section className="dossera-section scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-					>
-						<p className="section-label">{t("dosseraLanding.techSpecs.title")}</p>
-						<h2 className="section-title mb-3">{t("dosseraLanding.techSpecs.title")}</h2>
-						<p className="section-sub mb-10">{t("dosseraLanding.techSpecs.subtitle")}</p>
-					</motion.div>
-
-					<motion.div
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-60px" }}
-						variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
-						className="max-w-3xl mx-auto space-y-2"
-					>
-						{(["hardware", "software", "network", "security", "backup"] as const).map((key) => (
-							<motion.details
-								key={key}
-								variants={{
-									hidden: { opacity: 0, y: 12 },
-									visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-								}}
-								className="group"
-							>
-								<summary className="card cursor-pointer list-none flex items-center justify-between gap-4 py-3 px-5 hover:bg-[var(--bg-tertiary)]">
-									<span className="text-sm font-medium text-[var(--text-primary)]">
-										{t(`dosseraLanding.techSpecs.${key}`)}
-									</span>
-									<ChevronDown size={14} className="text-[var(--text-muted)] shrink-0 transition-transform duration-300 group-open:rotate-180" />
-								</summary>
-								<div className="px-5 pb-4 pt-3 text-sm text-[var(--text-secondary)] leading-relaxed border-t border-[var(--border)] bg-[var(--bg-secondary)] rounded-b-xl">
-									{t(`dosseraLanding.techSpecs.${key}_desc`)}
-								</div>
-							</motion.details>
-						))}
-					</motion.div>
-				</div>
-			</section>
-
-			{/* ─── FAQ ─── */}
-			<section className="dossera-section dossera-section--alt scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<motion.div
-						initial={{ opacity: 0, y: 30 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, margin: "-60px" }}
-						transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-					>
-						<p className="section-label">{t("dosseraLanding.faq.title")}</p>
-						<h2 className="section-title mb-3">{t("dosseraLanding.faq.title")}</h2>
-						<p className="section-sub mb-10">{t("dosseraLanding.faq.subtitle")}</p>
-					</motion.div>
-
-					<motion.div
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, margin: "-60px" }}
-						variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
-						className="max-w-3xl mx-auto space-y-2"
-					>
-						{faqItems.map((item) => (
-							<motion.details
-								key={item.q}
-								variants={{
-									hidden: { opacity: 0, y: 12 },
-									visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
-								}}
-								className="group"
-							>
-								<summary className="card card-accent cursor-pointer list-none flex items-center justify-between gap-4 py-3.5 px-5">
-									<span className="text-sm font-medium text-[var(--text-primary)] pr-4">{item.q}</span>
-									<ChevronDown size={14} className="text-[var(--accent)] shrink-0 transition-transform duration-300 group-open:rotate-180" />
-								</summary>
-								<div className="px-5 pb-4 pt-3 text-sm text-[var(--text-secondary)] leading-relaxed border-l-2 border-[var(--accent-dim)] bg-[var(--bg-secondary)] rounded-b-xl">
-									{item.a}
-								</div>
-							</motion.details>
-						))}
-					</motion.div>
-				</div>
-			</section>
-
-			{/* ─── ROADMAP ─── */}
-			<section ref={roadmapRef} className="dossera-section reveal scroll-mt-[5.5rem]">
-				<div className="max-w-6xl mx-auto px-4 sm:px-6">
-					<p className="section-label">{t("dosseraLanding.roadmap.title")}</p>
-					<h2 className="section-title mb-3">{t("dosseraLanding.roadmap.title")}</h2>
-					<p className="section-sub mb-10">{t("dosseraLanding.roadmap.subtitle")}</p>
-
-					<div className="roadmap-strip">
-						{roadmapItems.map((item, i) => (
-							<div key={item.phase} className="roadmap-item">
-								<p className={`roadmap-phase ${i === 0 ? "roadmap-phase--next" : ""}`}>
-									{item.phase}
-								</p>
-								<h3 className="roadmap-title">{item.title}</h3>
-								<p className="roadmap-desc">{item.desc}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
-
-			{/* ─── BOOKING ─── */}
-			<section
-				id="dossera-book"
-				className="dossera-section dossera-section--alt scroll-mt-[5.5rem]"
-			>
-				<div className="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-					<div className="accent-divider mx-auto mb-8" />
-					<h2 className="section-title max-w-3xl mx-auto mb-4">{t("dosseraLanding.book.title")}</h2>
-					<p className="body-text max-w-xl mx-auto mb-6">{t("dosseraLanding.book.sub")}</p>
-					<p className="font-mono text-xs text-[var(--text-muted)] max-w-3xl mx-auto mb-10 leading-relaxed">
-						{t("dosseraLanding.book.trust_row")}
-					</p>
-					<div className="max-w-[560px] mx-auto">
-						<DosseraBookingForm />
-					</div>
-				</div>
-			</section>
-
-			{/* ─── FOOTER ─── */}
-			<WebsiteFooter />
-		</div>
-	);
+            {/* IntersectionObserver for fade-in-up animations */}
+        </div>
+    );
 };
 
 export default DosseraPage;

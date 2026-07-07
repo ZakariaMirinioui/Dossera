@@ -4,16 +4,18 @@ import { useNavigate } from "react-router-dom";
 const NotFound: React.FC = () => {
     const navigate = useNavigate();
     return (
-        <div className="min-h-[90vh] px-3 flex flex-col gap-5 items-center justify-center dossera-page">
-            <h1 className="dossera-section-title">404 — Not Found</h1>
-            <p className="text-sm mt-7 mb-3 font-semibold text-center dossera-body">
-                The page you're visiting is not available.
+        <div className="min-h-screen flex flex-col gap-6 items-center justify-center bg-background px-4">
+            <h1 className="font-headline-xl text-headline-xl text-primary text-center">
+                404 — Page non trouvée
+            </h1>
+            <p className="font-body-md text-body-md text-on-surface-variant text-center max-w-md">
+                La page que vous recherchez n'est pas disponible ou a été déplacée.
             </p>
             <button
-                className="transition-colors duration-300 text-base bg-[var(--accent-red)] hover:bg-[var(--accent-hover)] text-white py-3 px-5 rounded-full font-extrabold tracking-widest uppercase"
-                onClick={() => navigate(-1)}
+                className="bg-primary text-secondary-container px-8 py-3.5 rounded font-label-md text-label-md hover:bg-primary-container transition-colors mt-4"
+                onClick={() => navigate("/")}
             >
-                Go back
+                Retour à l'accueil
             </button>
         </div>
     );

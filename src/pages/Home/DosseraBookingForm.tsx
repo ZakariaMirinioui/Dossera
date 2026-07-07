@@ -5,12 +5,30 @@ export default function DosseraBookingForm() {
     const { t } = useTranslation();
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
     const [institution, setInstitution] = useState("");
+    const [institutionType, setInstitutionType] = useState("");
+    const [city, setCity] = useState("");
     const [role, setRole] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
+    const [requestType, setRequestType] = useState("");
     const [message, setMessage] = useState("");
 
     const FORMSPREE_ENDPOINT = import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mwpejbne";
+
+    const institutionTypes = [
+        "institution_type_tpi",
+        "institution_type_cour",
+        "institution_type_avocat",
+        "institution_type_notaire",
+        "institution_type_autre",
+    ];
+
+    const requestTypes = [
+        "request_type_demo",
+        "request_type_audit",
+        "request_type_info",
+        "request_type_autre",
+    ];
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -31,9 +49,12 @@ export default function DosseraBookingForm() {
                 setStatus("success");
                 form.reset();
                 setInstitution("");
+                setInstitutionType("");
+                setCity("");
                 setRole("");
                 setEmail("");
                 setPhone("");
+                setRequestType("");
                 setMessage("");
             } else {
                 const data = await response.json().catch(() => ({}));
@@ -48,8 +69,8 @@ export default function DosseraBookingForm() {
 
     return (
         <form className="mx-auto w-full max-w-[560px]" action={FORMSPREE_ENDPOINT} method="POST" onSubmit={handleSubmit}>
-            <input type="hidden" name="_subject" value="DOSSERA Discovery Call Request" />
-            <input type="hidden" name="source" value="dossera" />
+            <input type="hidden" name="_subject" value="DOSSERA JAMS Contact Request" />
+            <input type="hidden" name="source" value="dossera-jams" />
 
             <div className={`form-field ${institution ? "field-filled" : ""}`}>
                 <input
@@ -63,6 +84,38 @@ export default function DosseraBookingForm() {
                     required
                 />
                 <label htmlFor="dossera-institution">{t("dosseraLanding.book.fields.institution")}</label>
+            </div>
+
+            <div className={`form-field ${institutionType ? "field-filled" : ""}`}>
+                <select
+                    id="dossera-institution-type"
+                    name="institution_type"
+                    value={institutionType}
+                    onChange={(e) => setInstitutionType(e.target.value)}
+                    required
+                >
+                    <option value="" disabled />
+                    {institutionTypes.map((type) => (
+                        <option key={type} value={t(`dosseraLanding.book.fields.${type}`)}>
+                            {t(`dosseraLanding.book.fields.${type}`)}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor="dossera-institution-type">{t("dosseraLanding.book.fields.institution_type")}</label>
+            </div>
+
+            <div className={`form-field ${city ? "field-filled" : ""}`}>
+                <input
+                    id="dossera-city"
+                    name="city"
+                    type="text"
+                    autoComplete="address-level2"
+                    placeholder=" "
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    required
+                />
+                <label htmlFor="dossera-city">{t("dosseraLanding.book.fields.city")}</label>
             </div>
 
             <div className={`form-field ${role ? "field-filled" : ""}`}>
@@ -106,6 +159,24 @@ export default function DosseraBookingForm() {
                 <label htmlFor="dossera-phone">{t("dosseraLanding.book.fields.phone")}</label>
             </div>
 
+            <div className={`form-field ${requestType ? "field-filled" : ""}`}>
+                <select
+                    id="dossera-request-type"
+                    name="request_type"
+                    value={requestType}
+                    onChange={(e) => setRequestType(e.target.value)}
+                    required
+                >
+                    <option value="" disabled />
+                    {requestTypes.map((type) => (
+                        <option key={type} value={t(`dosseraLanding.book.fields.${type}`)}>
+                            {t(`dosseraLanding.book.fields.${type}`)}
+                        </option>
+                    ))}
+                </select>
+                <label htmlFor="dossera-request-type">{t("dosseraLanding.book.fields.request_type")}</label>
+            </div>
+
             <div className={`form-field ${message ? "field-filled" : ""}`}>
                 <textarea
                     id="dossera-message"
@@ -114,23 +185,20 @@ export default function DosseraBookingForm() {
                     placeholder=" "
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    required
                 />
                 <label htmlFor="dossera-message">{t("dosseraLanding.book.fields.message")}</label>
             </div>
 
             <button type="submit" className="form-submit mt-2" disabled={status === "sending"}>
                 <span>{status === "sending" ? t("dosseraLanding.book.sending") : t("dosseraLanding.book.submit")}</span>
-                <span className="arrow" aria-hidden>
-                    →
-                </span>
+                <span className="arrow" aria-hidden>→</span>
             </button>
 
             {status === "success" && (
-                <p className="body-text mt-4 text-center text-sm text-[var(--text-secondary)]">{t("dosseraLanding.book.form_success")}</p>
+                <p className="mt-4 text-center font-body-sm text-body-sm text-secondary">{t("dosseraLanding.book.form_success")}</p>
             )}
             {status === "error" && (
-                <p className="body-text mt-4 text-center text-sm text-[var(--accent)]">{t("dosseraLanding.book.form_error")}</p>
+                <p className="mt-4 text-center font-body-sm text-body-sm text-error">{t("dosseraLanding.book.form_error")}</p>
             )}
         </form>
     );

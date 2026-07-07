@@ -1,20 +1,23 @@
 ﻿import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en/translation.json';
+import fr from './locales/fr/translation.json';
 import ar from './locales/ar/translation.json';
 import dosseraLandingEn from './copy/dosseraLanding.en';
+import dosseraLandingFr from './copy/dosseraLanding.fr';
 import dosseraLandingAr from './copy/dosseraLanding.ar';
 
 const resources = {
     en: { translation: { ...en, dosseraLanding: dosseraLandingEn } },
+    fr: { translation: { ...fr, dosseraLanding: dosseraLandingFr } },
     ar: { translation: { ...ar, dosseraLanding: dosseraLandingAr } },
 };
 
-const SUPPORTED_LANGS = ['en', 'ar'];
+const SUPPORTED_LANGS = ['fr', 'en', 'ar'];
 
 const getBrowserLanguage = () => {
     const browserLang = navigator.language.split('-')[0];
-    return SUPPORTED_LANGS.includes(browserLang) ? browserLang : 'en';
+    return SUPPORTED_LANGS.includes(browserLang) ? browserLang : 'fr';
 };
 
 const setDocumentDirection = (lng: string) => {
@@ -30,7 +33,7 @@ i18n
     .init({
         resources,
         lng: detectedLang,
-        fallbackLng: 'en',
+        fallbackLng: 'fr',
         interpolation: {
             escapeValue: false,
         },
