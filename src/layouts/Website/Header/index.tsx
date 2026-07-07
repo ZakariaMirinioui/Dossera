@@ -67,20 +67,23 @@ const WebsiteHeader: React.FC<Props> = ({ variant = "main" }) => {
                         <img
                             src="/dossera-logo.png"
                             alt="DOSSERA"
-                            className="h-14 w-auto object-contain"
+                            className="h-36 w-auto object-contain"
                         />
                     </Link>
 
                     <nav className="hidden md:flex items-center justify-center flex-1 gap-8">
-                        {navLinks.map(({ id, key, href }) => (
-                            <Link
-                                key={id}
-                                to={href || "#"}
-                                className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
-                            >
-                                {t(key)}
-                            </Link>
-                        ))}
+                        {navLinks.map(({ id, key, href }) => {
+                            const isActive = location.pathname === (href?.split("#")[0] || "/");
+                            return (
+                                <Link
+                                    key={id}
+                                    to={href || "#"}
+                                    className={`font-body-md text-body-md transition-colors nav-link-underline ${isActive ? "text-primary font-semibold nav-link-active" : "text-on-surface-variant hover:text-primary"}`}
+                                >
+                                    {t(key)}
+                                </Link>
+                            );
+                        })}
                     </nav>
 
                     <div className="flex items-center gap-3 shrink-0">

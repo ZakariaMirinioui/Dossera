@@ -247,7 +247,7 @@ export default {
         liens_utiles: "Liens Utiles",
         portail_justice: "Portail Justice Maroc",
         sgg: "SGG",
-        confidentialite: "Confidentialité",
+        confidentialite: "Politique de Confidentialité",
         support: "Support",
         email: "zakmirinioui@gmail.com",
         phone: "+212 688413049",

@@ -12,12 +12,6 @@ const TTL_ROWS = [
     { prefix: "row3_prefix", l1: "row3_l1", l2: "row3_l2", priority: "row3_priority", badge: "row3_badge" },
 ] as const;
 
-const ARCH_TIERS = [
-    { key: "l1", icon: "memory" },
-    { key: "l2", icon: "database" },
-    { key: "l3", icon: "storage" },
-] as const;
-
 const SERVICES = [
     { svcKey: "svc1", iconKey: "svc1_icon", titleKey: "svc1_title", descKey: "svc1_desc" },
     { svcKey: "svc2", iconKey: "svc2_icon", titleKey: "svc2_title", descKey: "svc2_desc" },
@@ -50,11 +44,10 @@ const DosseraPage: React.FC = () => {
 
     const heroReveal = useReveal<HTMLElement>();
     const painsReveal = useReveal<HTMLElement>();
-    const archReveal = useReveal<HTMLElement>();
+    const howReveal = useReveal<HTMLElement>();
     const specsReveal = useReveal<HTMLElement>();
     const servicesReveal = useReveal<HTMLElement>();
     const securityReveal = useReveal<HTMLElement>();
-    const howReveal = useReveal<HTMLElement>();
     const faqReveal = useReveal<HTMLElement>();
     const ctaReveal = useReveal<HTMLElement>();
     const bookReveal = useReveal<HTMLElement>();
@@ -166,52 +159,39 @@ const DosseraPage: React.FC = () => {
                 </div>
             </section>
 
-            {/* ─── ARCHITECTURE 3-TIER CACHE ─── */}
+            {/* ─── HOW IT WORKS ─── */}
             <section
-                ref={archReveal}
-                id="architecture"
+                ref={howReveal}
+                id="comment-ca-marche"
                 className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up"
             >
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-16 text-center max-w-3xl mx-auto">
                         <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
-                            {t("dosseraLanding.architecture.title")}
+                            {t("dosseraLanding.howItWorks.title")}
                         </h2>
                         <p className="font-body-md text-body-md text-on-surface-variant">
-                            {t("dosseraLanding.architecture.subtitle")}
+                            {t("dosseraLanding.howItWorks.subtitle")}
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-                        {ARCH_TIERS.map(({ key, icon }) => (
-                            <div key={key} className="solid-panel p-8 rounded flex flex-col items-center text-center arch-card">
-                                <div className="w-16 h-16 rounded bg-secondary-container flex items-center justify-center mb-6 border border-outline-variant">
-                                    <span className="material-symbols-outlined text-primary text-3xl">{icon}</span>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                        {(["step1", "step2", "step3"] as const).map((step, idx) => (
+                            <div key={step} className="relative flex flex-col items-center text-center">
+                                <div className="w-16 h-16 rounded-full bg-primary text-secondary-container flex items-center justify-center text-headline-md font-bold mb-6 relative z-10">
+                                    {idx + 1}
                                 </div>
-                                <h3 className="font-headline-md text-headline-md mb-2 text-primary">
-                                    {t(`dosseraLanding.architecture.${key}_title`)}
+                                {idx < 2 && (
+                                    <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-primary/20" />
+                                )}
+                                <h3 className="font-headline-md text-headline-md mb-3 text-primary">
+                                    {t(`dosseraLanding.howItWorks.${step}_title`)}
                                 </h3>
-                                <div className="font-label-md text-label-md text-secondary font-bold mb-4 uppercase">
-                                    {t(`dosseraLanding.architecture.${key}_label`)}
-                                </div>
-                                <p className="font-body-sm text-body-sm text-on-surface-variant">
-                                    {t(`dosseraLanding.architecture.${key}_desc`)}
+                                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
+                                    {t(`dosseraLanding.howItWorks.${step}_desc`)}
                                 </p>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="mt-16 bg-surface-container-low border border-outline-variant rounded-xl p-8 text-center">
-                        <div className="flex items-center justify-center gap-4 mb-4">
-                            <span className="material-symbols-outlined text-primary text-3xl">location_on</span>
-                            <span className="text-xs text-on-surface-variant uppercase tracking-widest">{t("dosseraLanding.architecture.deploy.badge")}</span>
-                        </div>
-                        <p className="font-body-md text-body-md text-primary font-bold">
-                            {t("dosseraLanding.architecture.deploy.text")}
-                        </p>
-                        <p className="font-body-sm text-body-sm text-on-surface-variant mt-2">
-                            {t("dosseraLanding.architecture.deploy.subtitle")}
-                        </p>
                     </div>
                 </div>
             </section>
@@ -316,19 +296,6 @@ const DosseraPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
-
-                    <div className="mt-12 text-center">
-                        <p className="font-body-sm text-body-sm text-on-surface-variant mb-4">
-                            {t("dosseraLanding.services.ecosystem.title")}
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-3">
-                            {["Proxmox VE", "pfSense", "Docker", "Redis", "PostgreSQL", "MinIO", "Wazuh SIEM", "CrowdSec", "T-Pot", "Ansible", "Meilisearch", "Grafana"].map((tech) => (
-                                <span key={tech} className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary-container text-primary text-[11px] font-bold uppercase tracking-wider border border-outline-variant">
-                                    {tech}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
                 </div>
             </section>
 
@@ -424,43 +391,6 @@ const DosseraPage: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ─── HOW IT WORKS ─── */}
-            <section
-                ref={howReveal}
-                id="comment-ca-marche"
-                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-surface-container-low fade-in-up"
-            >
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-16 text-center max-w-3xl mx-auto">
-                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
-                            {t("dosseraLanding.howItWorks.title")}
-                        </h2>
-                        <p className="font-body-md text-body-md text-on-surface-variant">
-                            {t("dosseraLanding.howItWorks.subtitle")}
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-                        {(["step1", "step2", "step3"] as const).map((step, idx) => (
-                            <div key={step} className="relative flex flex-col items-center text-center">
-                                <div className="w-16 h-16 rounded-full bg-primary text-secondary-container flex items-center justify-center text-headline-md font-bold mb-6 relative z-10">
-                                    {idx + 1}
-                                </div>
-                                {idx < 2 && (
-                                    <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-primary/20" />
-                                )}
-                                <h3 className="font-headline-md text-headline-md mb-3 text-primary">
-                                    {t(`dosseraLanding.howItWorks.${step}_title`)}
-                                </h3>
-                                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
-                                    {t(`dosseraLanding.howItWorks.${step}_desc`)}
-                                </p>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </section>

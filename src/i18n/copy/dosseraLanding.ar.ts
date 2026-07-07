@@ -247,7 +247,7 @@ export default {
         liens_utiles: "روابط مفيدة",
         portail_justice: "بوابة العدل المغربية",
         sgg: "SGG",
-        confidentialite: "الخصوصية",
+        confidentialite: "سياسة الخصوصية",
         support: "الدعم",
         email: "zakmirinioui@gmail.com",
         phone: "+212 688413049",

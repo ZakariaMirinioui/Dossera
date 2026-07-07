@@ -74,6 +74,10 @@
         width: 100%;
     }
 
+    .nav-link-underline.nav-link-active::after {
+        width: 100%;
+    }
+
     .arch-card {
         transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
             border-color 0.4s ease,

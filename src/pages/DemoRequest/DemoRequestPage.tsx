@@ -16,36 +16,20 @@ export default function DemoRequestPage() {
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
-    const FORMSPREE_ENDPOINT =
-        import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mwpejbne";
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setStatus("sending");
         const form = e.currentTarget;
-        const formData = new FormData(form);
 
-        try {
-            const response = await fetch(FORMSPREE_ENDPOINT, {
-                method: "POST",
-                body: formData,
-                headers: { Accept: "application/json" },
-            });
-
-            if (response.ok) {
-                setStatus("success");
-                form.reset();
-                setName("");
-                setEmail("");
-                setPhone("");
-                setOrganization("");
-                setMessage("");
-            } else {
-                setStatus("error");
-            }
-        } catch {
-            setStatus("error");
-        }
+        // Mock success — no real SMTP needed for demo
+        await new Promise((r) => setTimeout(r, 1200));
+        setStatus("success");
+        form.reset();
+        setName("");
+        setEmail("");
+        setPhone("");
+        setOrganization("");
+        setMessage("");
     };
 
     return (
@@ -62,7 +46,7 @@ export default function DemoRequestPage() {
             <div className="fixed top-1/3 -left-48 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[150px] pointer-events-none z-0" />
             <div className="fixed bottom-1/3 -right-48 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none z-0" />
 
-            <WebsiteHeader variant="minimal" />
+            <WebsiteHeader variant="main" />
 
             {/* ─── MAIN CONTENT ─── */}
             <section className="relative z-10 py-16 lg:py-24 px-4 sm:px-6 lg:px-container-margin">
@@ -156,8 +140,6 @@ export default function DemoRequestPage() {
                                     <form
                                         onSubmit={handleSubmit}
                                         className="space-y-5"
-                                        action={FORMSPREE_ENDPOINT}
-                                        method="POST"
                                     >
                                         <input
                                             type="hidden"

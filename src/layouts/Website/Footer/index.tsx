@@ -13,7 +13,7 @@ const WebsiteFooter: React.FC = () => {
                     <img
                         src="/dossera-logo.png"
                         alt="DOSSERA Logo Footer"
-                        className="h-20 w-auto mb-6 brightness-0 invert"
+                        className="h-24 w-auto mb-6 brightness-0 invert"
                     />
                     <p className="font-body-sm text-body-sm text-emerald-50/60">
                         {t("dosseraLanding.footer.tagline")}
@@ -76,13 +76,17 @@ const WebsiteFooter: React.FC = () => {
                         {t("dosseraLanding.footer.support")}
                     </h6>
                     <ul className="space-y-4">
-                        <li className="flex items-center gap-2 text-emerald-100/70">
+                        <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
                             <span className="material-symbols-outlined text-sm">mail</span>
-                            <span className="font-body-sm text-body-sm">{t("dosseraLanding.footer.email")}</span>
+                            <a href="mailto:zakmirinioui@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
+                                {t("dosseraLanding.footer.email")}
+                            </a>
                         </li>
-                        <li className="flex items-center gap-2 text-emerald-100/70">
+                        <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
                             <span className="material-symbols-outlined text-sm">phone</span>
-                            <span className="font-body-sm text-body-sm">{t("dosseraLanding.footer.phone")}</span>
+                            <a href="tel:+212688413049" className="font-body-sm text-body-sm hover:text-white transition-colors">
+                                {t("dosseraLanding.footer.phone")}
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -91,6 +95,12 @@ const WebsiteFooter: React.FC = () => {
             <div className="mt-16 pt-8 border-t border-white/5 px-4 sm:px-6 lg:px-container-margin max-w-7xl mx-auto">
                 <p className="font-body-sm text-body-sm text-center text-emerald-50/40">
                     &copy; {year} {t("dosseraLanding.footer.copyright")}
+                </p>
+                <p className="font-body-sm text-body-sm text-center text-emerald-50/30 mt-2">
+                    Développé par{" "}
+                    <a href="mailto:zakmirinioui@gmail.com" className="hover:text-white transition-colors">Zakaria Mirirnioui</a>
+                    {" · "}Sécurité par{" "}
+                    <a href="mailto:farid.reguig@example.com" className="hover:text-white transition-colors">Farid Reguig</a> (Wazuh)
                 </p>
             </div>
         </footer>

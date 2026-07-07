@@ -247,7 +247,7 @@
         liens_utiles: "Useful Links",
         portail_justice: "Morocco Justice Portal",
         sgg: "SGG",
-        confidentialite: "Privacy",
+        confidentialite: "Privacy Policy",
         support: "Support",
         email: "zakmirinioui@gmail.com",
         phone: "+212 688413049",

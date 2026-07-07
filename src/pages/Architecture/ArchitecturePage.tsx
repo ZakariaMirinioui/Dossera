@@ -105,7 +105,7 @@ export default function ArchitecturePage() {
                         </div>
                     </div>
                     <div className="bg-primary text-secondary-container p-10 rounded-2xl">
-                        <div className="font-headline-md text-headline-md mb-6 text-white">Stack Conteneurisée</div>
+                        <div className="font-headline-md text-headline-md mb-6 text-white">Stack Dockerisée</div>
                         <div className="space-y-4">
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-emerald-300">docker</span>
