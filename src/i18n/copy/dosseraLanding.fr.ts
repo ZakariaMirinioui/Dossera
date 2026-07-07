@@ -173,7 +173,7 @@ export default {
         chapters: {
             title: "Chapitres Détaillés",
             chap1_title: "Architecture Technique",
-            chap1_desc: "JAMS repose sur une infrastructure virtualisée Proxmox VE avec trois niveaux de cache (L1 mémoire LRU, L2 Redis Cluster, L3 PostgreSQL/MinIO) offrant une latence inférieure à 1ms sur les données chaudes. Le réseau est micro-segmenté en 5 VLANs étanches via pfSense (Staff, Archives, DMZ, SOC, Honeypot), avec routage inter-VLAN désactivé par défaut. L'ensemble est conteneurisé sous Docker et automatisé via Ansible pour un déploiement industrialisé.",
+            chap1_desc: "JAMS repose sur une infrastructure virtualisée Proxmox VE avec un cache multi-niveaux optimisé : L1 en mémoire vive (LRU-Cache, latence < 1ms), L2 distribué via Redis Cluster pour la cohérence entre nœuds, et L3 persistant avec PostgreSQL (métadonnées), MinIO (stockage objet chiffré AES-256) et Meilisearch (full-text instantané). Le réseau est micro-segmenté en 5 VLANs étanches via pfSense (Staff, Archives, DMZ, SOC, Honeypot) avec routage inter-VLAN désactivé par défaut. L'ensemble est conteneurisé sous Docker Compose et automatisé via Ansible pour un déploiement industrialisé et reproductible.",
             chap2_title: "Sécurité des Données",
             chap2_desc: "Protection multicouche combinant un SIEM Wazuh pour la corrélation d'événements en temps réel, CrowdSec pour le blocage dynamique des comportements suspects, et un honeypot T-Pot pour la capture proactive des menaces. Chiffrement AES-256 au repos via MinIO et TLS 1.3 en transit. Accès administrateur via VPN OpenVPN avec double authentification.",
             chap3_title: "Performance & Scalabilité",
@@ -324,6 +324,7 @@ export default {
         deployment_cour_desc: "Déploiement complet incluant la virtualisation Proxmox, la segmentation pfSense en 5 VLANs, la stack SOC (Wazuh, CrowdSec, T-Pot) et la formation des équipes. Validation des tests d'intrusion et de performance.",
         deployment_tpi_title: "TPI de Khouribga",
         deployment_tpi_desc: "Première instance de production avec dizaines d'utilisateurs actifs. Archivage, recherche et consultation quotidiens. Retour d'expérience validant la robustesse et l'ergonomie du système.",
+        deployment_tpi_status: "Production Active — Dizaines d'Utilisateurs",
         cta_title: "Prêt à Moderniser Vos Archives ?",
         cta_demo: "Demander une Démonstration",
         cta_contact: "Contacter un Expert",

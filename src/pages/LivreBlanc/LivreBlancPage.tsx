@@ -188,9 +188,8 @@ export default function LivreBlancPage() {
                                         {/* Paper 1 — top cover */}
                                         <div className="relative w-full h-full rounded-2xl bg-white shadow-2xl shadow-black/15 overflow-hidden flex flex-col p-7">
                                             <div className="flex items-start justify-between mb-auto">
-                                                <div className="w-14 h-14 rounded-xl flex items-center justify-center gap-0.5 shadow-lg">
+                                                <div className="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg">
                                                     <span className="material-symbols-outlined text-emerald-800 text-2xl">gavel</span>
-                                                    <span className="material-symbols-outlined text-emerald-800 text-2xl">balance</span>
                                                 </div>
                                                 <span className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">{t("dosseraLanding.whitepaper.cover.edition")}</span>
                                             </div>

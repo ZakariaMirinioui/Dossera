@@ -173,7 +173,7 @@
         chapters: {
             title: "Detailed Chapters",
             chap1_title: "Technical Architecture",
-            chap1_desc: "JAMS relies on a Proxmox VE virtualized infrastructure with three cache tiers (L1 memory LRU, L2 Redis Cluster, L3 PostgreSQL/MinIO) delivering sub-1ms latency on hot data. The network is micro-segmented into 5 isolated VLANs via pfSense (Staff, Archives, DMZ, SOC, Honeypot), with inter-VLAN routing disabled by default. Fully containerized under Docker and automated via Ansible for industrial-grade deployment.",
+            chap1_desc: "JAMS relies on a Proxmox VE virtualized infrastructure with a multi-tier cache: L1 in-memory LRU cache (sub-1ms latency), L2 distributed via Redis Cluster for cross-node consistency, and L3 persistent with PostgreSQL (relational metadata), MinIO (AES-256 encrypted object storage), and Meilisearch (instant full-text search). The network is micro-segmented into 5 isolated VLANs via pfSense (Staff, Archives, DMZ, SOC, Honeypot) with inter-VLAN routing disabled by default. Fully containerized under Docker Compose and automated via Ansible for industrial-grade reproducible deployment.",
             chap2_title: "Data Security",
             chap2_desc: "Multi-layer protection combining a Wazuh SIEM for real-time event correlation, CrowdSec for dynamic threat blocking, and a T-Pot honeypot for proactive threat capture. AES-256 encryption at rest via MinIO and TLS 1.3 in transit. Administrative access via OpenVPN with two-factor authentication.",
             chap3_title: "Performance & Scalability",
@@ -324,6 +324,7 @@
         deployment_cour_desc: "Full deployment including Proxmox virtualization, pfSense 5-VLAN segmentation, SOC stack (Wazuh, CrowdSec, T-Pot), and team training. Intrusion and performance testing validated.",
         deployment_tpi_title: "Court of First Instance of Khouribga",
         deployment_tpi_desc: "First production instance with dozens of active users. Daily archiving, search, and consultation. Real-world feedback validating system robustness and usability.",
+        deployment_tpi_status: "Active Production — Dozens of Users",
         cta_title: "Ready to Modernize Your Archives?",
         cta_demo: "Request a Demo",
         cta_contact: "Contact an Expert",

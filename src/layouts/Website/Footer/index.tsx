@@ -79,7 +79,13 @@ const WebsiteFooter: React.FC = () => {
                         <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
                             <span className="material-symbols-outlined text-sm">mail</span>
                             <a href="mailto:zakmirinioui@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
-                                {t("dosseraLanding.footer.email")}
+                                zakmirinioui@gmail.com
+                            </a>
+                        </li>
+                        <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
+                            <span className="material-symbols-outlined text-sm">mail</span>
+                            <a href="mailto:faridreguig@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
+                                faridreguig@gmail.com
                             </a>
                         </li>
                         <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">

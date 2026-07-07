@@ -43,6 +43,10 @@ const WebsiteHeader: React.FC<Props> = ({ variant = "main" }) => {
     }, [location.pathname, location.hash]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+    useEffect(() => {
         const handler = () => setScrolled(window.scrollY > 20);
         handler();
         window.addEventListener("scroll", handler, { passive: true });

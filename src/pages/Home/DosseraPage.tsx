@@ -53,7 +53,7 @@ const DosseraPage: React.FC = () => {
     const bookReveal = useReveal<HTMLElement>();
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-white">
             <WebsiteHeader />
 
             {/* ─── HERO ─── */}
