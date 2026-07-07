@@ -11,19 +11,32 @@ interface NavLink {
     href?: string;
 }
 
-const NAV_LINKS: NavLink[] = [
-    { id: "architecture", key: "dosseraLanding.nav.architecture" },
-    { id: "specs", key: "dosseraLanding.nav.specifications" },
-    { id: "securite", key: "dosseraLanding.nav.securite" },
+const MAIN_NAV: NavLink[] = [
+    { id: "solutions", key: "dosseraLanding.nav.solutions", href: "/solutions" },
+    { id: "architecture", key: "dosseraLanding.nav.architecture", href: "/architecture" },
+    { id: "specs", key: "dosseraLanding.nav.specifications", href: "/specifications" },
+    { id: "securite", key: "dosseraLanding.nav.securite", href: "/securite" },
     { id: "livre-blanc", key: "dosseraLanding.nav.livre_blanc", href: "/livre-blanc" },
-    { id: "contact", key: "dosseraLanding.nav.contact" },
+    { id: "contact", key: "dosseraLanding.nav.contact", href: "/#contact" },
 ];
 
-const WebsiteHeader: React.FC = () => {
+const MINIMAL_NAV: NavLink[] = [
+    { id: "solutions", key: "dosseraLanding.nav.solutions", href: "/solutions" },
+    { id: "architecture", key: "dosseraLanding.nav.architecture", href: "/architecture" },
+    { id: "securite", key: "dosseraLanding.nav.securite", href: "/securite" },
+    { id: "livre-blanc", key: "dosseraLanding.nav.livre_blanc", href: "/livre-blanc" },
+];
+
+interface Props {
+    variant?: "main" | "minimal";
+}
+
+const WebsiteHeader: React.FC<Props> = ({ variant = "main" }) => {
     const { t, i18n } = useTranslation();
     const location = useLocation();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const navLinks = variant === "main" ? MAIN_NAV : MINIMAL_NAV;
 
     useEffect(() => {
         setMobileOpen(false);
@@ -39,13 +52,6 @@ const WebsiteHeader: React.FC = () => {
     const { scrollYProgress } = useScroll();
     const progressScaleX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-    const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-        e.preventDefault();
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-        setMobileOpen(false);
-    };
-
     return (
         <>
             <header
@@ -56,16 +62,8 @@ const WebsiteHeader: React.FC = () => {
                         : "bg-white/80 backdrop-blur-sm border-b border-transparent",
                 ].join(" ")}
             >
-                <div className="flex justify-between items-center px-4 sm:px-6 lg:px-container-margin h-20 max-w-7xl mx-auto">
-                    <Link
-                        to="/"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                        }}
-                        className="shrink-0"
-                        aria-label="DOSSERA"
-                    >
+                <div className="flex items-center px-4 sm:px-6 lg:px-container-margin h-20 max-w-7xl mx-auto">
+                    <Link to="/" className="shrink-0 mr-auto" aria-label="DOSSERA">
                         <img
                             src="/dossera-logo.png"
                             alt="DOSSERA"
@@ -73,38 +71,19 @@ const WebsiteHeader: React.FC = () => {
                         />
                     </Link>
 
-                    <nav className="hidden md:flex items-center gap-8">
-                        {NAV_LINKS.map(({ id, key, href }) =>
-                            href ? (
-                                <Link
-                                    key={id}
-                                    to={href}
-                                    className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
-                                >
-                                    {t(key)}
-                                </Link>
-                            ) : (
-                                <a
-                                    key={id}
-                                    href={"#" + id}
-                                    onClick={(e) => scrollToSection(e, id)}
-                                    className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
-                                >
-                                    {t(key)}
-                                </a>
-                            ),
-                        )}
-                        <a
-                            href="https://jams.dossera.app"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-primary text-secondary-container px-6 py-2.5 rounded font-label-md text-label-md btn-breathe inline-block hover:bg-primary-container transition-colors"
-                        >
-                            {t("dosseraLanding.nav.acces_jams")}
-                        </a>
+                    <nav className="hidden md:flex items-center justify-center flex-1 gap-8">
+                        {navLinks.map(({ id, key, href }) => (
+                            <Link
+                                key={id}
+                                to={href || "#"}
+                                className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
+                            >
+                                {t(key)}
+                            </Link>
+                        ))}
                     </nav>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 shrink-0">
                         <LanguageSwitcher />
 
                         <button
@@ -150,36 +129,16 @@ const WebsiteHeader: React.FC = () => {
                                 <LanguageSwitcher />
                             </div>
 
-                            {NAV_LINKS.map(({ id, key, href }) =>
-                                href ? (
-                                    <Link
-                                        key={id}
-                                        to={href}
-                                        onClick={() => setMobileOpen(false)}
-                                        className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
-                                    >
-                                        {t(key)}
-                                    </Link>
-                                ) : (
-                                    <a
-                                        key={id}
-                                        href={"#" + id}
-                                        onClick={(e) => scrollToSection(e, id)}
-                                        className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
-                                    >
-                                        {t(key)}
-                                    </a>
-                                ),
-                            )}
-
-                            <a
-                                href="https://jams.dossera.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-6 py-3.5 text-center rounded bg-primary text-secondary-container font-label-md text-label-md hover:bg-primary-container transition-colors"
-                            >
-                                {t("dosseraLanding.nav.acces_jams")}
-                            </a>
+                            {navLinks.map(({ id, key, href }) => (
+                                <Link
+                                    key={id}
+                                    to={href || "#"}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
+                                >
+                                    {t(key)}
+                                </Link>
+                            ))}
                         </motion.aside>
                     </motion.div>
                 )}

@@ -1,25 +1,11 @@
-import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Menu, X, ChevronRight, Mail, Download, BookOpen } from "lucide-react";
+import { ChevronRight, Mail, Download, BookOpen } from "lucide-react";
+import WebsiteHeader from "../../layouts/Website/Header";
 import WebsiteFooter from "../../layouts/Website/Footer";
-import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useReveal } from "../../hooks/useReveal";
-
-interface NavLink {
-    id: string;
-    href: string;
-    key: string;
-    active?: boolean;
-}
-
-const NAV_LINKS: NavLink[] = [
-    { id: "solutions", href: "/#solutions", key: "dosseraLanding.whitepaper.header.solutions" },
-    { id: "archives", href: "/#architecture", key: "dosseraLanding.whitepaper.header.archives" },
-    { id: "securite", href: "/#securite", key: "dosseraLanding.whitepaper.header.securite" },
-    { id: "livre-blanc", href: "/livre-blanc", key: "dosseraLanding.whitepaper.header.livre_blanc", active: true },
-];
 
 const CHAPTERS = [
     {
@@ -36,7 +22,7 @@ const CHAPTERS = [
     },
     {
         key: "chap3",
-        icon: "zap",
+        icon: "speed",
         color: "from-amber-500 to-orange-700",
         featured: false,
     },
@@ -58,11 +44,8 @@ const staggerItem = {
 };
 
 export default function LivreBlancPage() {
-    const { t, i18n } = useTranslation();
-    const location = useLocation();
+    const { t } = useTranslation();
     const reduceMotion = useReducedMotion();
-    const [scrolled, setScrolled] = useState(false);
-    const [mobileOpen, setMobileOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [newsletterStatus, setNewsletterStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
@@ -79,17 +62,6 @@ export default function LivreBlancPage() {
     const rotateY = useTransform(springX, [-0.5, 0.5], [-6, 6]);
     const glowX = useTransform(springX, [-0.5, 0.5], ["-20%", "120%"]);
     const glowY = useTransform(springY, [-0.5, 0.5], ["-20%", "120%"]);
-
-    useEffect(() => {
-        setMobileOpen(false);
-    }, [location.pathname]);
-
-    useEffect(() => {
-        const handler = () => setScrolled(window.scrollY > 20);
-        handler();
-        window.addEventListener("scroll", handler, { passive: true });
-        return () => window.removeEventListener("scroll", handler);
-    }, []);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (reduceMotion) return;
@@ -126,111 +98,7 @@ export default function LivreBlancPage() {
 
     return (
         <div className="min-h-screen bg-background overflow-x-hidden">
-            {/* ─── HEADER ─── */}
-            <header
-                className={[
-                    "fixed top-0 w-full z-50 transition-all duration-500",
-                    scrolled
-                        ? "bg-white/90 backdrop-blur-xl border-b border-gray-200/50 shadow-sm"
-                        : "bg-white/70 backdrop-blur-md border-b border-transparent",
-                ].join(" ")}
-            >
-                <div className="flex justify-between items-center px-4 sm:px-6 lg:px-container-margin h-20 max-w-7xl mx-auto">
-                    <Link to="/" className="shrink-0" aria-label="DOSSERA">
-                        <img src="/dossera-logo.png" alt="DOSSERA" className="h-14 w-auto object-contain" />
-                    </Link>
-
-                    <nav className="hidden md:flex items-center gap-8">
-                        {NAV_LINKS.map(({ id, href, key, active }) => (
-                            <Link
-                                key={id}
-                                to={href}
-                                className={[
-                                    "font-body-md text-body-md transition-colors relative py-1",
-                                    active
-                                        ? "text-emerald-900 font-semibold after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2.5px] after:bg-emerald-700 after:rounded-full"
-                                        : "text-gray-500 hover:text-emerald-700 nav-link-underline",
-                                ].join(" ")}
-                            >
-                                {t(key)}
-                            </Link>
-                        ))}
-                        <a
-                            href="https://jams.dossera.app"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-emerald-800 text-white px-6 py-2.5 rounded-full font-label-md text-label-md hover:bg-emerald-700 transition-all active:scale-[0.97] inline-block"
-                        >
-                            {t("dosseraLanding.nav.acces_jams")}
-                        </a>
-                    </nav>
-
-                    <div className="flex items-center gap-3">
-                        <LanguageSwitcher />
-                        <button
-                            type="button"
-                            className="md:hidden p-2 rounded text-gray-500 hover:text-emerald-700 transition-colors"
-                            aria-label={t("dosseraLanding.nav.open_menu")}
-                            aria-expanded={mobileOpen}
-                            onClick={() => setMobileOpen((o) => !o)}
-                        >
-                            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-                        </button>
-                    </div>
-                </div>
-            </header>
-
-            <AnimatePresence>
-                {mobileOpen && (
-                    <motion.div
-                        className="fixed inset-0 z-[998] md:hidden"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    >
-                        <button
-                            type="button"
-                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-                            aria-label="Close"
-                            onClick={() => setMobileOpen(false)}
-                        />
-                        <motion.aside
-                            className={`absolute top-0 ${i18n.language === "ar" ? "left-0" : "right-0"} h-full w-[min(100%,20rem)] bg-white/95 backdrop-blur-xl shadow-2xl pt-24 px-6 pb-8 flex flex-col gap-1`}
-                            initial={{ x: "100%" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{ type: "tween", duration: 0.28 }}
-                        >
-                            <div className="mb-4">
-                                <LanguageSwitcher />
-                            </div>
-                            {NAV_LINKS.map(({ id, href, key, active }) => (
-                                <Link
-                                    key={id}
-                                    to={href}
-                                    onClick={() => setMobileOpen(false)}
-                                    className={[
-                                        "py-3 border-b border-gray-100 font-body-md text-body-md transition-colors",
-                                        active
-                                            ? "text-emerald-900 font-semibold"
-                                            : "text-gray-500 hover:text-emerald-700",
-                                    ].join(" ")}
-                                >
-                                    {t(key)}
-                                </Link>
-                            ))}
-                            <a
-                                href="https://jams.dossera.app"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mt-6 py-3.5 text-center rounded-full bg-emerald-800 text-white font-label-md text-label-md hover:bg-emerald-700 transition-colors"
-                            >
-                                {t("dosseraLanding.nav.acces_jams")}
-                            </a>
-                        </motion.aside>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            <WebsiteHeader variant="minimal" />
 
             {/* ─── HERO ─── */}
             <section
@@ -280,13 +148,13 @@ export default function LivreBlancPage() {
                                     Coming Soon
                                 </span>
                             </button>
-                            <a
-                                href="#solutions"
+                            <Link
+                                to="/solutions"
                                 className="border border-white/25 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-white/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
                             >
                                 <BookOpen size={18} />
                                 {t("dosseraLanding.whitepaper.hero.read_online")}
-                            </a>
+                            </Link>
                         </div>
                     </motion.div>
 
@@ -318,11 +186,36 @@ export default function LivreBlancPage() {
                                         className="absolute inset-0 w-32 h-32 rounded-full bg-white/10 blur-[60px] pointer-events-none"
                                         style={{ left: glowX, top: glowY }}
                                     />
-                                    <img
-                                        src="/whitepaper-mockup.svg"
-                                        alt="Livre Blanc JAMS"
-                                        className="w-full h-full object-contain p-6"
-                                    />
+
+                                    {/* PAPER PILE */}
+                                    <div className="relative w-[85%] h-[85%] perspective-1000">
+                                        {/* Paper 5 — bottom */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-200/60 to-emerald-300/40 rotate-[5deg] translate-x-3 translate-y-1 shadow-lg shadow-black/10" />
+                                        {/* Paper 4 */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-100/80 to-emerald-200/60 rotate-[3deg] -translate-x-2 translate-y-2 shadow-lg shadow-black/10" />
+                                        {/* Paper 3 */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/90 to-emerald-50/80 rotate-[-2deg] translate-x-1 -translate-y-1 shadow-lg shadow-black/10" />
+                                        {/* Paper 2 */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white to-emerald-50 rotate-[-4deg] translate-x-2 translate-y-1 shadow-xl shadow-black/10" />
+                                        {/* Paper 1 — top cover */}
+                                        <div className="relative w-full h-full rounded-2xl bg-white shadow-2xl shadow-black/15 overflow-hidden flex flex-col p-7">
+                                            <div className="flex items-start justify-between mb-auto">
+                                                <div className="w-14 h-14 rounded-xl bg-emerald-800 flex items-center justify-center shadow-lg">
+                                                    <span className="text-white font-bold text-xl">J</span>
+                                                </div>
+                                                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">{t("dosseraLanding.whitepaper.cover.edition")}</span>
+                                            </div>
+                                            <div className="space-y-3">
+                                                <div className="w-10 h-[3px] bg-emerald-800 rounded-full" />
+                                                <h3 className="font-bold text-emerald-900 text-xl leading-tight">{t("dosseraLanding.whitepaper.cover.book_title")}</h3>
+                                                <p className="text-gray-500 text-xs leading-relaxed">{t("dosseraLanding.whitepaper.cover.book_subtitle")}</p>
+                                            </div>
+                                            <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+                                                <span className="text-[8px] text-gray-400 uppercase tracking-[0.2em]">{t("dosseraLanding.whitepaper.cover.brand")}</span>
+                                                <span className="material-symbols-outlined text-emerald-800 text-lg">menu_book</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </motion.div>
                         </div>
@@ -449,7 +342,7 @@ export default function LivreBlancPage() {
                                 {t("dosseraLanding.whitepaper.newsletter.title")}
                             </h2>
                             <p className="font-body-md text-body-md text-gray-500 mb-8 max-w-md mx-auto">
-                                Recevez les dernières actualités et mises à jour techniques de JAMS.
+                                {t("dosseraLanding.whitepaper.newsletter.desc")}
                             </p>
                             <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                                 <input

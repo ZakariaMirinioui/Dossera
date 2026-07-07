@@ -1,5 +1,5 @@
-﻿import { useState } from "react";
-import { Link } from "react-router-dom";
+﻿import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useReveal } from "../../hooks/useReveal";
 import WebsiteHeader from "../../layouts/Website/Header";
@@ -37,7 +37,16 @@ const FAQ_KEYS = [
 
 const DosseraPage: React.FC = () => {
     const { t } = useTranslation();
+    const location = useLocation();
     const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (location.hash) {
+            const id = location.hash.replace("#", "");
+            const el = document.getElementById(id);
+            if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 150);
+        }
+    }, [location.hash]);
 
     const heroReveal = useReveal<HTMLElement>();
     const painsReveal = useReveal<HTMLElement>();
@@ -136,10 +145,12 @@ const DosseraPage: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {(["pain1", "pain2", "pain3", "pain4"] as const).map((p) => (
+                        {(["pain1", "pain2", "pain3", "pain4"] as const).map((p, i) => (
                             <div key={p} className="solid-panel p-8 rounded flex gap-5 items-start">
                                 <div className="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0 mt-1">
-                                    <span className="material-symbols-outlined text-error text-2xl">warning</span>
+                                    <span className="material-symbols-outlined text-error text-2xl">
+                                        {["description", "search_off", "gpp_bad", "payments"][i]}
+                                    </span>
                                 </div>
                                 <div>
                                     <h3 className="font-headline-md text-headline-md mb-2 text-primary">
@@ -188,6 +199,19 @@ const DosseraPage: React.FC = () => {
                                 </p>
                             </div>
                         ))}
+                    </div>
+
+                    <div className="mt-16 bg-surface-container-low border border-outline-variant rounded-xl p-8 text-center">
+                        <div className="flex items-center justify-center gap-4 mb-4">
+                            <span className="material-symbols-outlined text-primary text-3xl">location_on</span>
+                            <span className="text-xs text-on-surface-variant uppercase tracking-widest">{t("dosseraLanding.architecture.deploy.badge")}</span>
+                        </div>
+                        <p className="font-body-md text-body-md text-primary font-bold">
+                            {t("dosseraLanding.architecture.deploy.text")}
+                        </p>
+                        <p className="font-body-sm text-body-sm text-on-surface-variant mt-2">
+                            {t("dosseraLanding.architecture.deploy.subtitle")}
+                        </p>
                     </div>
                 </div>
             </section>
@@ -292,6 +316,19 @@ const DosseraPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <p className="font-body-sm text-body-sm text-on-surface-variant mb-4">
+                            {t("dosseraLanding.services.ecosystem.title")}
+                        </p>
+                        <div className="flex flex-wrap justify-center gap-3">
+                            {["Proxmox VE", "pfSense", "Docker", "Redis", "PostgreSQL", "MinIO", "Wazuh SIEM", "CrowdSec", "T-Pot", "Ansible", "Meilisearch", "Grafana"].map((tech) => (
+                                <span key={tech} className="inline-flex items-center px-3 py-1.5 rounded-full bg-secondary-container text-primary text-[11px] font-bold uppercase tracking-wider border border-outline-variant">
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -368,6 +405,21 @@ const DosseraPage: React.FC = () => {
                                     </h5>
                                     <p className="font-body-sm text-body-sm text-on-surface-variant">
                                         {t("dosseraLanding.security.feature2_desc")}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="mt-1 w-6 h-6 rounded bg-secondary flex-shrink-0 flex items-center justify-center">
+                                    <span className="material-symbols-outlined text-[14px] text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>
+                                        done
+                                    </span>
+                                </div>
+                                <div>
+                                    <h5 className="font-bold font-body-md text-body-md text-primary">
+                                        {t("dosseraLanding.security.feature3_title")}
+                                    </h5>
+                                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                        {t("dosseraLanding.security.feature3_desc")}
                                     </p>
                                 </div>
                             </div>
@@ -471,7 +523,7 @@ const DosseraPage: React.FC = () => {
                 ref={ctaReveal}
                 className="py-section-gap px-4 sm:px-6 lg:px-container-margin fade-in-up"
             >
-                <div className="max-w-5xl mx-auto solid-panel p-12 rounded text-center border-t-4 border-t-primary bg-secondary-container/30">
+                <div className="max-w-5xl mx-auto solid-panel p-12 rounded text-center bg-secondary-container/30">
                     <h2 className="font-headline-lg text-headline-lg mb-6 text-primary">
                         {t("dosseraLanding.cta.title")}
                     </h2>

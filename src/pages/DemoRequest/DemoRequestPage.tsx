@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, Shield, Activity, Zap, CheckCircle } from "lucide-react";
+import { Shield, Activity, Gauge, CheckCircle } from "lucide-react";
+import WebsiteHeader from "../../layouts/Website/Header";
 import WebsiteFooter from "../../layouts/Website/Footer";
 
 export default function DemoRequestPage() {
@@ -62,28 +62,7 @@ export default function DemoRequestPage() {
             <div className="fixed top-1/3 -left-48 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[150px] pointer-events-none z-0" />
             <div className="fixed bottom-1/3 -right-48 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[150px] pointer-events-none z-0" />
 
-            {/* ─── SIMPLE HEADER ─── */}
-            <header className="relative z-10 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
-                <div className="flex justify-between items-center px-4 sm:px-6 lg:px-container-margin h-20 max-w-7xl mx-auto">
-                    <Link to="/" className="shrink-0" aria-label="DOSSERA">
-                        <img
-                            src="/dossera-logo.png"
-                            alt="DOSSERA"
-                            className="h-14 w-auto object-contain"
-                        />
-                    </Link>
-                    <Link
-                        to="/"
-                        className="inline-flex items-center gap-2 text-gray-500 hover:text-emerald-700 font-body-md text-body-md transition-colors group"
-                    >
-                        <ArrowLeft
-                            size={16}
-                            className="group-hover:-translate-x-0.5 transition-transform"
-                        />
-                        {t("dosseraLanding.demo.header.retour_site")}
-                    </Link>
-                </div>
-            </header>
+            <WebsiteHeader variant="minimal" />
 
             {/* ─── MAIN CONTENT ─── */}
             <section className="relative z-10 py-16 lg:py-24 px-4 sm:px-6 lg:px-container-margin">
@@ -121,7 +100,7 @@ export default function DemoRequestPage() {
                                         {[
                                             { label: "AES-256", icon: Shield },
                                             { label: "99.9%", icon: Activity },
-                                            { label: "< 100ms", icon: Zap },
+                                            { label: "< 100ms", icon: Gauge },
                                         ].map(({ label, icon: Icon }) => (
                                             <div
                                                 key={label}
@@ -151,7 +130,7 @@ export default function DemoRequestPage() {
                                     {t("dosseraLanding.demo.main.title")}
                                 </h2>
                                 <p className="font-body-sm text-body-sm text-amber-700 bg-amber-50 border border-amber-200/50 rounded-xl px-4 py-3 mb-6 leading-relaxed">
-                                    La démonstration en direct sera disponible prochainement. Laissez-nous vos coordonnées, nous vous contacterons dès son lancement.
+                                    {t("dosseraLanding.demo.coming_soon.desc")}
                                 </p>
 
                                 {status === "success" ? (
@@ -170,7 +149,7 @@ export default function DemoRequestPage() {
                                             {t("dosseraLanding.demo.form.success")}
                                         </p>
                                         <p className="font-body-sm text-body-sm text-gray-500">
-                                            Nous vous tiendrons informé dès que la démonstration sera disponible.
+                                            {t("dosseraLanding.demo.coming_soon.success")}
                                         </p>
                                     </motion.div>
                                 ) : (
@@ -319,7 +298,7 @@ export default function DemoRequestPage() {
                                     desc: t("dosseraLanding.demo.tech.availability_desc"),
                                 },
                                 {
-                                    icon: Zap,
+                                    icon: Gauge,
                                     label: t("dosseraLanding.demo.tech.access_label"),
                                     desc: t("dosseraLanding.demo.tech.access_desc"),
                                 },
