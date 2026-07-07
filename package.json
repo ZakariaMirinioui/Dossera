@@ -13,6 +13,8 @@
     },
     "dependencies": {
         "@lordicon/react": "^1.11.0",
+        "@react-three/drei": "^9.122.0",
+        "@react-three/fiber": "^8.18.0",
         "firebase": "^12.12.0",
         "framer-motion": "10.16.16",
         "i18next": "^23.7.6",
@@ -22,7 +24,9 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-i18next": "^13.5.0",
-        "react-router-dom": "6.21.1"
+        "react-parallax-tilt": "^1.7.333",
+        "react-router-dom": "6.21.1",
+        "three": "^0.185.1"
     },
     "devDependencies": {
         "@iconify/react": "^4.1.1",

@@ -11,12 +11,38 @@
     },
     pain: {
         title: "What we solve",
-        card1_title: "30 minutes to find a single document",
-        card1_after: "DOSSERA: found in ~30 seconds",
-        card2_title: "2 days to compile ministry reports",
-        card2_after: "DOSSERA: generated in seconds",
-        card3_title: "No audit trail, no accountability",
-        card3_after: "DOSSERA: forensic log of every action",
+        subtitle: "The real cost of manual judicial archive management",
+        stats: [
+            { value: "12+", label: "hours/week", desc: "lost by clerks searching paper files" },
+            { value: "3-6", label: "months", desc: "average case resolution delay" },
+            { value: "74%", label: "compliance gap", desc: "of Moroccan courts report audit gaps" },
+        ],
+        items: [
+            {
+                before: "30 minutes to find a single document in a room of 10,000+ files",
+                after: "Found in ~30 seconds — keyword or semantic search across the entire archive",
+            },
+            {
+                before: "2 days to compile quarterly ministry reports by hand",
+                after: "Generated in seconds with one click — complete with audit trail",
+            },
+            {
+                before: "No audit trail — no way to prove who accessed what or when",
+                after: "Forensic-grade immutable log of every read, write, export, and deletion",
+            },
+            {
+                before: "Paper files deteriorate — humidity and handling degrade originals over time",
+                after: "Digital preservation with physical-to-digital cross-reference (Block → Row → Section)",
+            },
+            {
+                before: "New clerks spend months learning the filing system from retiring staff",
+                after: "Structured digital archive with consistent taxonomy — no tribal knowledge required",
+            },
+            {
+                before: "Cross-court case lookup requires phone calls, faxes, and physical courier",
+                after: "Unified search across your institution's entire document corpus — instant, from any desk",
+            },
+        ],
     },
     architecture: {
         title: "Built for judicial scale",
@@ -33,6 +59,13 @@
         resilience_desc: "A three-tier caching layer (L1 in-memory LRU → L2 Redis cluster → L3 database) with per-service circuit breakers for PostgreSQL, Redis, Meilisearch, and MinIO. Tuned for 50+ concurrent judicial clerks on LAN traffic.",
         circuit_title: "Circuit Breaker Protection",
         circuit_desc: "Each external service has independent failure thresholds (5 failures / 30s timeout). When a service degrades, the system isolates it — no cascading failures, no downtime.",
+        telemetry_label: "Live System Telemetry",
+        telemetry_ingestion_rate: "Ingestion Rate",
+        telemetry_search_p50: "P50 Search Latency",
+        telemetry_ocr_accuracy: "Arabic OCR Accuracy",
+        deployment_label: "Deployment Footprint",
+        deployment_hardware: "32 GB RAM · 8 cores · 500 GB SSD",
+        deployment_os: "Ubuntu 22.04 LTS / RHEL 9",
     },
     capabilities: {
         title: "Core capabilities",
@@ -130,6 +163,73 @@
             desc: "Expanding from court deployments to law firm and notarial office pilots, with multi-tenancy support and simplified onboarding.",
         },
     },
+    useCases: {
+        title: "Use cases by institution",
+        subtitle: "JAMS adapts to the scale and complexity of your institution.",
+        small_title: "Small Court",
+        small_sub: "1–10 clerks · 10K–50K documents",
+        small_desc: "Streamlined archive search and automated report generation for courts with limited IT staff. Deploy on a single server, manage from a browser.",
+        large_title: "Large Court",
+        large_sub: "10–50 clerks · 50K–500K documents",
+        large_desc: "Multi-user concurrent access with role-based permissions. Circuit breaker resilience for production workloads. Full audit trail compliance.",
+        ministry_title: "Ministry-Level",
+        ministry_sub: "50+ clerks · 500K+ documents",
+        ministry_desc: "Multi-instance deployment across multiple courts with unified oversight. Centralized analytics, cross-court search, and advanced Arabic OCR training.",
+    },
+    compliance: {
+        title: "Compliance & standards",
+        subtitle: "Built to meet Moroccan and international regulatory requirements.",
+        items: [
+            { name: "Law 09-08", status: "Compliant", desc: "Moroccan data protection law for automated processing of personal data." },
+            { name: "GDPR", status: "Architecture-aligned", desc: "EU General Data Protection Regulation — on-premise architecture enables compliance." },
+            { name: "ISO 27001", status: "In Progress", desc: "Information security management — controls aligned with standard requirements." },
+            { name: "Moroccan Judicial Standards", status: "Compliant", desc: "Built for the specific workflows and procedures of Moroccan courts." },
+        ],
+    },
+    techSpecs: {
+        title: "Technical specifications",
+        subtitle: "For IT procurement officers and infrastructure teams.",
+        hardware: "Hardware Requirements",
+        hardware_desc: "Single server deployment: 32 GB RAM, 8 CPU cores, 500 GB SSD (expandable). Network: 1 Gbps LAN. No internet connection required for core operations.",
+        software: "Software Stack",
+        software_desc: "Ubuntu 22.04 LTS / RHEL 9 · Docker · PostgreSQL 16 · Redis 7 · MinIO · Meilisearch · Tesseract.js · ONNX Runtime · Node.js 20",
+        network: "Network Requirements",
+        network_desc: "Internal LAN for clerk workstations. Optional secure VPN for remote oversight by authorized administrators. No open ports required on public internet.",
+        security: "Security Architecture",
+        security_desc: "SSE-C encryption at rest for document storage. TLS 1.3 for all internal communications. Hardware-bound license keys. Role-based access control with audit logging.",
+        backup: "Backup & Recovery",
+        backup_desc: "Automated daily backups of PostgreSQL and MinIO data. 14-day retention cycle. Graceful degradation to read-only on license expiry — no data lockout.",
+    },
+    faq: {
+        title: "Frequently asked questions",
+        subtitle: "Answers to common questions from judicial procurement teams.",
+        items: [
+            {
+                q: "How long does deployment take?",
+                a: "Initial installation takes 2–4 hours. Full migration of existing digital archives typically completes within 2–4 weeks, depending on volume.",
+            },
+            {
+                q: "What hardware do we need?",
+                a: "A single server with 32 GB RAM, 8 CPU cores, and 500 GB SSD. All components run on Ubuntu 22.04 LTS or RHEL 9 within your existing infrastructure.",
+            },
+            {
+                q: "Can it integrate with our existing systems?",
+                a: "JAMS provides REST APIs for integration. We work with your IT team during deployment to connect with case management systems and existing databases.",
+            },
+            {
+                q: "How is data migrated from paper archives?",
+                a: "We support batch scanning workflows. Documents are scanned, automatically OCR'd, and linked back to their physical locations using the Block → Row → Section model.",
+            },
+            {
+                q: "What training do you provide?",
+                a: "We train your administrative staff and power users during deployment. Training covers: document ingestion, search, report generation, and system administration.",
+            },
+            {
+                q: "What happens after the license expires?",
+                a: "The system degrades to read-only mode — you retain full access to all documents and archives. No data is locked, deleted, or held hostage.",
+            },
+        ],
+    },
     book: {
         title: "30 minutes. No pitch. Real assessment.",
         sub: "Book a discovery call. We assess your situation honestly — and we tell you exactly what JAMS can do for your institution, or if we are not the right fit.",
@@ -157,5 +257,11 @@
         dossera_how: "The Platform",
         dossera_architecture: "Architecture",
         dossera_book: "Book a Call",
+        before: "Before",
+        after: "After",
     },
+    useCases_nav: "Use Cases",
+    compliance_nav: "Compliance",
+    techSpecs_nav: "Tech Specs",
+    faq_nav: "FAQ",
 } as const;

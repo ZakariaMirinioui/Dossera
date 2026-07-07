@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useActiveSection } from "../../../hooks/useActiveSection";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
@@ -52,6 +52,9 @@ const WebsiteHeader: React.FC = () => {
 		].join(" ");
 	};
 
+	const { scrollYProgress } = useScroll();
+	const progressScaleX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
 	const isRtl = i18n.language === "ar";
 
 	return (
@@ -74,7 +77,7 @@ const WebsiteHeader: React.FC = () => {
 						<img
 							src={logo}
 							alt="DOSSERA"
-							className="h-8 md:h-9 w-auto"
+							className="h-14 w-auto"
 							style={{ objectFit: "contain" }}
 						/>
 					</Link>
@@ -115,6 +118,12 @@ const WebsiteHeader: React.FC = () => {
 						</button>
 					</div>
 				</div>
+
+				{/* Scroll progress bar */}
+				<motion.div
+					className="absolute bottom-0 left-0 h-[1px] bg-[var(--accent)]"
+					style={{ width: progressScaleX }}
+				/>
 			</header>
 
 			<AnimatePresence>

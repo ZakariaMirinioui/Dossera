@@ -16,7 +16,7 @@ const WebsiteFooter: React.FC = () => {
 						<img
 							src={logo}
 							alt="DOSSERA"
-							className="h-9 md:h-10 w-auto"
+							className="h-16 w-auto"
 							style={{ objectFit: "contain" }}
 						/>
 					</Link>
@@ -84,8 +84,18 @@ const WebsiteFooter: React.FC = () => {
 				<p className="footer-credit">{t("footer.dossera_credit")}</p>
 
 				<div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 text-xs text-[var(--text-muted)]">
-					<p>&copy; {year} {t("footer.copyright")}</p>
-					<p>{t("footer.location_line")}</p>
+					<div className="flex items-center gap-4">
+						<p>&copy; {year} {t("footer.copyright")}</p>
+						<span className="hidden sm:inline text-[var(--border)]">·</span>
+						<a href="#" className="hover:text-[var(--accent)] transition-colors">Privacy Policy</a>
+						<span className="hidden sm:inline text-[var(--border)]">·</span>
+						<a href="#" className="hover:text-[var(--accent)] transition-colors">Terms of Service</a>
+					</div>
+					<div className="flex items-center gap-3">
+						<p>{t("footer.location_line")}</p>
+						<span className="w-px h-3 bg-[var(--border)]" />
+						<span className="font-mono text-[10px] tracking-wider text-[var(--accent)]">JAMS v1.9.0</span>
+					</div>
 				</div>
 			</div>
 		</footer>
