@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const WebsiteFooter: React.FC = () => {
@@ -33,6 +34,11 @@ const WebsiteFooter: React.FC = () => {
                             <a href="#securite" className="font-body-sm text-body-sm text-emerald-100/70 hover:text-white transition-all">
                                 {t("dosseraLanding.footer.securite_link")}
                             </a>
+                        </li>
+                        <li>
+                            <Link to="/livre-blanc" className="font-body-sm text-body-sm text-emerald-100/70 hover:text-white transition-all">
+                                {t("dosseraLanding.nav.livre_blanc")}
+                            </Link>
                         </li>
                         <li>
                             <a href="#" className="font-body-sm text-body-sm text-emerald-100/70 hover:text-white transition-all">

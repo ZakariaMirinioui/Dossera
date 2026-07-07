@@ -1,4 +1,5 @@
-﻿import { useTranslation } from "react-i18next";
+﻿import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useReveal } from "../../hooks/useReveal";
 import WebsiteHeader from "../../layouts/Website/Header";
 import WebsiteFooter from "../../layouts/Website/Footer";
@@ -51,16 +52,19 @@ const DosseraPage: React.FC = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <a
-                                href="#contact"
+                            <Link
+                                to="/demande-demo"
                                 className="bg-secondary-container text-primary px-8 py-4 rounded font-bold hover:bg-white transition-all btn-breathe inline-block text-center"
                             >
                                 {t("dosseraLanding.hero.cta_primary")}
-                            </a>
-                            <button className="border border-white/30 text-white px-8 py-4 rounded font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                            </Link>
+                            <Link
+                                to="/livre-blanc"
+                                className="border border-white/30 text-white px-8 py-4 rounded font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+                            >
                                 <span className="material-symbols-outlined">menu_book</span>
                                 {t("dosseraLanding.hero.cta_secondary")}
-                            </button>
+                            </Link>
                         </div>
                     </div>
 

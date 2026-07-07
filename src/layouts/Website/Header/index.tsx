@@ -5,12 +5,19 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../../components/LanguageSwitcher";
 
-const NAV_LINKS = [
+interface NavLink {
+    id: string;
+    key: string;
+    href?: string;
+}
+
+const NAV_LINKS: NavLink[] = [
     { id: "architecture", key: "dosseraLanding.nav.architecture" },
     { id: "specs", key: "dosseraLanding.nav.specifications" },
     { id: "securite", key: "dosseraLanding.nav.securite" },
+    { id: "livre-blanc", key: "dosseraLanding.nav.livre_blanc", href: "/livre-blanc" },
     { id: "contact", key: "dosseraLanding.nav.contact" },
-] as const;
+];
 
 const WebsiteHeader: React.FC = () => {
     const { t, i18n } = useTranslation();
@@ -67,16 +74,26 @@ const WebsiteHeader: React.FC = () => {
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-8">
-                        {NAV_LINKS.map(({ id, key }) => (
-                            <a
-                                key={id}
-                                href={"#" + id}
-                                onClick={(e) => scrollToSection(e, id)}
-                                className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
-                            >
-                                {t(key)}
-                            </a>
-                        ))}
+                        {NAV_LINKS.map(({ id, key, href }) =>
+                            href ? (
+                                <Link
+                                    key={id}
+                                    to={href}
+                                    className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
+                                >
+                                    {t(key)}
+                                </Link>
+                            ) : (
+                                <a
+                                    key={id}
+                                    href={"#" + id}
+                                    onClick={(e) => scrollToSection(e, id)}
+                                    className="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors nav-link-underline"
+                                >
+                                    {t(key)}
+                                </a>
+                            ),
+                        )}
                         <a
                             href="https://jams.dossera.app"
                             target="_blank"
@@ -133,16 +150,27 @@ const WebsiteHeader: React.FC = () => {
                                 <LanguageSwitcher />
                             </div>
 
-                            {NAV_LINKS.map(({ id, key }) => (
-                                <a
-                                    key={id}
-                                    href={"#" + id}
-                                    onClick={(e) => scrollToSection(e, id)}
-                                    className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
-                                >
-                                    {t(key)}
-                                </a>
-                            ))}
+                            {NAV_LINKS.map(({ id, key, href }) =>
+                                href ? (
+                                    <Link
+                                        key={id}
+                                        to={href}
+                                        onClick={() => setMobileOpen(false)}
+                                        className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
+                                    >
+                                        {t(key)}
+                                    </Link>
+                                ) : (
+                                    <a
+                                        key={id}
+                                        href={"#" + id}
+                                        onClick={(e) => scrollToSection(e, id)}
+                                        className="py-3 text-on-surface-variant border-b border-outline-variant font-body-md text-body-md hover:text-primary transition-colors"
+                                    >
+                                        {t(key)}
+                                    </a>
+                                ),
+                            )}
 
                             <a
                                 href="https://jams.dossera.app"
