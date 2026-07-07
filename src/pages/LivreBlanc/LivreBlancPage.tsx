@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, useMotionValue, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Menu, X, ArrowDown, ChevronRight, Mail, Download, BookOpen } from "lucide-react";
+import { Menu, X, ChevronRight, Mail, Download, BookOpen } from "lucide-react";
 import WebsiteFooter from "../../layouts/Website/Footer";
 import LanguageSwitcher from "../../components/LanguageSwitcher";
 import { useReveal } from "../../hooks/useReveal";
@@ -73,8 +73,12 @@ export default function LivreBlancPage() {
 
     const x = useMotionValue(0);
     const y = useMotionValue(0);
-    const rotateX = useTransform(y, [-0.5, 0.5], [8, -8]);
-    const rotateY = useTransform(x, [-0.5, 0.5], [-8, 8]);
+    const springX = useSpring(x, { stiffness: 120, damping: 14, mass: 0.8 });
+    const springY = useSpring(y, { stiffness: 120, damping: 14, mass: 0.8 });
+    const rotateX = useTransform(springY, [-0.5, 0.5], [6, -6]);
+    const rotateY = useTransform(springX, [-0.5, 0.5], [-6, 6]);
+    const glowX = useTransform(springX, [-0.5, 0.5], ["-20%", "120%"]);
+    const glowY = useTransform(springY, [-0.5, 0.5], ["-20%", "120%"]);
 
     useEffect(() => {
         setMobileOpen(false);
@@ -266,17 +270,23 @@ export default function LivreBlancPage() {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="group bg-white text-emerald-900 px-8 py-4 rounded-full font-bold text-[15px] hover:bg-emerald-50 transition-all active:scale-[0.97] flex items-center justify-center gap-3 shadow-lg shadow-emerald-900/20">
-                                <Download size={18} className="group-hover:-translate-y-[1px] transition-transform" />
+                            <button
+                                disabled
+                                className="group relative bg-white/60 text-emerald-900/50 px-8 py-4 rounded-full font-bold text-[15px] cursor-not-allowed flex items-center justify-center gap-3"
+                            >
+                                <Download size={18} />
                                 {t("dosseraLanding.whitepaper.hero.download_pdf")}
-                                <span className="w-7 h-7 rounded-full bg-emerald-900/10 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
-                                    <ArrowDown size={14} className="text-emerald-900" />
+                                <span className="absolute -top-2.5 -right-2.5 bg-amber-400 text-amber-900 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                    Coming Soon
                                 </span>
                             </button>
-                            <button className="border border-white/25 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-white/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]">
+                            <a
+                                href="#solutions"
+                                className="border border-white/25 text-white px-8 py-4 rounded-full font-bold text-[15px] hover:bg-white/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
+                            >
                                 <BookOpen size={18} />
                                 {t("dosseraLanding.whitepaper.hero.read_online")}
-                            </button>
+                            </a>
                         </div>
                     </motion.div>
 
@@ -296,7 +306,7 @@ export default function LivreBlancPage() {
                                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
                             >
                                 <div className="absolute inset-0 rounded-[calc(2rem-2px)] bg-gradient-to-br from-emerald-400/40 via-white/20 to-emerald-600/40" />
-                                <div className="relative w-full h-full rounded-[calc(2rem-2px)] bg-gradient-to-b from-emerald-900 to-emerald-950 p-8 flex flex-col items-center justify-center border border-white/10 overflow-hidden">
+                                <div className="relative w-full h-full rounded-[calc(2rem-2px)] bg-gradient-to-b from-emerald-900 to-emerald-950 flex items-center justify-center border border-white/10 overflow-hidden">
                                     <div
                                         className="absolute inset-0 opacity-[0.04]"
                                         style={{
@@ -304,24 +314,15 @@ export default function LivreBlancPage() {
                                             backgroundSize: "24px 24px",
                                         }}
                                     />
-                                    <img
-                                        src="/dossera-logo.png"
-                                        alt="DOSSERA"
-                                        className="w-28 h-28 mb-6 brightness-0 invert opacity-70"
+                                    <motion.div
+                                        className="absolute inset-0 w-32 h-32 rounded-full bg-white/10 blur-[60px] pointer-events-none"
+                                        style={{ left: glowX, top: glowY }}
                                     />
-                                    <div className="w-16 h-[2px] bg-emerald-500/30 mb-6" />
-                                    <div className="text-center">
-                                        <div className="font-headline-md text-headline-md font-bold text-white mb-2">
-                                            {t("dosseraLanding.whitepaper.hero.title")}
-                                        </div>
-                                        <div className="font-body-sm text-body-sm text-emerald-100/50">
-                                            v2.4 — {new Date().getFullYear()}
-                                        </div>
-                                    </div>
-                                    <div className="absolute bottom-6 left-8 right-8 flex items-center justify-between text-[10px] text-emerald-100/30 font-label-md uppercase tracking-widest">
-                                        <span>DOSSERA</span>
-                                        <span>{t("dosseraLanding.whitepaper.hero.subtitle")}</span>
-                                    </div>
+                                    <img
+                                        src="/whitepaper-mockup.svg"
+                                        alt="Livre Blanc JAMS"
+                                        className="w-full h-full object-contain p-6"
+                                    />
                                 </div>
                             </motion.div>
                         </div>

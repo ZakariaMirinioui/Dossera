@@ -1,4 +1,5 @@
-﻿import { Link } from "react-router-dom";
+﻿import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useReveal } from "../../hooks/useReveal";
 import WebsiteHeader from "../../layouts/Website/Header";
@@ -17,13 +18,35 @@ const ARCH_TIERS = [
     { key: "l3", icon: "storage" },
 ] as const;
 
+const SERVICES = [
+    { svcKey: "svc1", iconKey: "svc1_icon", titleKey: "svc1_title", descKey: "svc1_desc" },
+    { svcKey: "svc2", iconKey: "svc2_icon", titleKey: "svc2_title", descKey: "svc2_desc" },
+    { svcKey: "svc3", iconKey: "svc3_icon", titleKey: "svc3_title", descKey: "svc3_desc" },
+    { svcKey: "svc4", iconKey: "svc4_icon", titleKey: "svc4_title", descKey: "svc4_desc" },
+    { svcKey: "svc5", iconKey: "svc5_icon", titleKey: "svc5_title", descKey: "svc5_desc" },
+    { svcKey: "svc6", iconKey: "svc6_icon", titleKey: "svc6_title", descKey: "svc6_desc" },
+] as const;
+
+const FAQ_KEYS = [
+    { qKey: "q1", aKey: "a1" },
+    { qKey: "q2", aKey: "a2" },
+    { qKey: "q3", aKey: "a3" },
+    { qKey: "q4", aKey: "a4" },
+    { qKey: "q5", aKey: "a5" },
+] as const;
+
 const DosseraPage: React.FC = () => {
     const { t } = useTranslation();
+    const [openFaq, setOpenFaq] = useState<number | null>(null);
 
     const heroReveal = useReveal<HTMLElement>();
+    const painsReveal = useReveal<HTMLElement>();
     const archReveal = useReveal<HTMLElement>();
     const specsReveal = useReveal<HTMLElement>();
+    const servicesReveal = useReveal<HTMLElement>();
     const securityReveal = useReveal<HTMLElement>();
+    const howReveal = useReveal<HTMLElement>();
+    const faqReveal = useReveal<HTMLElement>();
     const ctaReveal = useReveal<HTMLElement>();
     const bookReveal = useReveal<HTMLElement>();
 
@@ -92,6 +115,42 @@ const DosseraPage: React.FC = () => {
                                 </p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── PAINS ─── */}
+            <section
+                ref={painsReveal}
+                id="defis"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-surface-container-low fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-12 text-center max-w-3xl mx-auto">
+                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                            {t("dosseraLanding.pains.title")}
+                        </h2>
+                        <p className="font-body-md text-body-md text-on-surface-variant">
+                            {t("dosseraLanding.pains.subtitle")}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {(["pain1", "pain2", "pain3", "pain4"] as const).map((p) => (
+                            <div key={p} className="solid-panel p-8 rounded flex gap-5 items-start">
+                                <div className="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span className="material-symbols-outlined text-error text-2xl">warning</span>
+                                </div>
+                                <div>
+                                    <h3 className="font-headline-md text-headline-md mb-2 text-primary">
+                                        {t(`dosseraLanding.pains.${p}_title`)}
+                                    </h3>
+                                    <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                        {t(`dosseraLanding.pains.${p}_desc`)}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -200,6 +259,42 @@ const DosseraPage: React.FC = () => {
                 </div>
             </section>
 
+            {/* ─── SERVICES / CAPACITÉS TECHNIQUES ─── */}
+            <section
+                ref={servicesReveal}
+                id="services"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-16 text-center max-w-3xl mx-auto">
+                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                            {t("dosseraLanding.services.title")}
+                        </h2>
+                        <p className="font-body-md text-body-md text-on-surface-variant">
+                            {t("dosseraLanding.services.subtitle")}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {SERVICES.map(({ svcKey, iconKey, titleKey, descKey }) => (
+                            <div key={svcKey} className="solid-panel p-6 rounded group hover:border-secondary transition-all duration-300">
+                                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
+                                    <span className="material-symbols-outlined text-primary text-2xl">
+                                        {t(`dosseraLanding.services.${iconKey}`)}
+                                    </span>
+                                </div>
+                                <h3 className="font-headline-md text-headline-md mb-3 text-primary">
+                                    {t(`dosseraLanding.services.${titleKey}`)}
+                                </h3>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                    {t(`dosseraLanding.services.${descKey}`)}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* ─── SECURITY & RESILIENCE ─── */}
             <section
                 ref={securityReveal}
@@ -281,6 +376,96 @@ const DosseraPage: React.FC = () => {
                 </div>
             </section>
 
+            {/* ─── HOW IT WORKS ─── */}
+            <section
+                ref={howReveal}
+                id="comment-ca-marche"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-surface-container-low fade-in-up"
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="mb-16 text-center max-w-3xl mx-auto">
+                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                            {t("dosseraLanding.howItWorks.title")}
+                        </h2>
+                        <p className="font-body-md text-body-md text-on-surface-variant">
+                            {t("dosseraLanding.howItWorks.subtitle")}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                        {(["step1", "step2", "step3"] as const).map((step, idx) => (
+                            <div key={step} className="relative flex flex-col items-center text-center">
+                                <div className="w-16 h-16 rounded-full bg-primary text-secondary-container flex items-center justify-center text-headline-md font-bold mb-6 relative z-10">
+                                    {idx + 1}
+                                </div>
+                                {idx < 2 && (
+                                    <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-primary/20" />
+                                )}
+                                <h3 className="font-headline-md text-headline-md mb-3 text-primary">
+                                    {t(`dosseraLanding.howItWorks.${step}_title`)}
+                                </h3>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant max-w-xs leading-relaxed">
+                                    {t(`dosseraLanding.howItWorks.${step}_desc`)}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ─── FAQ ─── */}
+            <section
+                ref={faqReveal}
+                id="faq"
+                className="py-section-gap px-4 sm:px-6 lg:px-container-margin bg-white fade-in-up"
+            >
+                <div className="max-w-3xl mx-auto">
+                    <div className="mb-12 text-center">
+                        <h2 className="font-headline-lg text-headline-lg mb-4 text-primary">
+                            {t("dosseraLanding.faq.title")}
+                        </h2>
+                    </div>
+
+                    <div className="space-y-3">
+                        {FAQ_KEYS.map(({ qKey, aKey }, idx) => {
+                            const isOpen = openFaq === idx;
+                            return (
+                                <div
+                                    key={qKey}
+                                    className="solid-panel rounded overflow-hidden transition-shadow duration-200"
+                                >
+                                    <button
+                                        type="button"
+                                        onClick={() => setOpenFaq(isOpen ? null : idx)}
+                                        className="w-full flex items-center justify-between p-5 text-left"
+                                    >
+                                        <span className="font-headline-sm text-headline-sm text-primary pr-4">
+                                            {t(`dosseraLanding.faq.${qKey}`)}
+                                        </span>
+                                        <span
+                                            className={`material-symbols-outlined text-primary transition-transform duration-300 flex-shrink-0 ${
+                                                isOpen ? "rotate-180" : ""
+                                            }`}
+                                        >
+                                            expand_more
+                                        </span>
+                                    </button>
+                                    <div
+                                        className={`transition-all duration-300 overflow-hidden ${
+                                            isOpen ? "max-h-96" : "max-h-0"
+                                        }`}
+                                    >
+                                        <p className="px-5 pb-5 font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                            {t(`dosseraLanding.faq.${aKey}`)}
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
             {/* ─── FINAL CTA ─── */}
             <section
                 ref={ctaReveal}
@@ -301,7 +486,7 @@ const DosseraPage: React.FC = () => {
                             {t("dosseraLanding.cta.primary")}
                         </a>
                         <a
-                            href="mailto:contact@dossera.gov.ma"
+                            href="mailto:zakmirinioui@gmail.com"
                             className="border border-primary text-primary px-10 py-5 rounded font-bold text-lg hover:bg-white transition-all inline-block"
                         >
                             {t("dosseraLanding.cta.secondary")}
@@ -334,8 +519,6 @@ const DosseraPage: React.FC = () => {
 
             {/* ─── FOOTER ─── */}
             <WebsiteFooter />
-
-            {/* IntersectionObserver for fade-in-up animations */}
         </div>
     );
 };

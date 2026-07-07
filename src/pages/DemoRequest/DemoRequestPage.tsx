@@ -147,9 +147,12 @@ export default function DemoRequestPage() {
                     >
                         <div className="p-[2px] rounded-[2rem] bg-gradient-to-br from-emerald-200 via-white to-emerald-100">
                             <div className="relative rounded-[calc(2rem-2px)] bg-white/95 backdrop-blur-xl p-8 lg:p-10">
-                                <h2 className="font-headline-md text-headline-md text-emerald-900 mb-8">
+                                <h2 className="font-headline-md text-headline-md text-emerald-900 mb-3">
                                     {t("dosseraLanding.demo.main.title")}
                                 </h2>
+                                <p className="font-body-sm text-body-sm text-amber-700 bg-amber-50 border border-amber-200/50 rounded-xl px-4 py-3 mb-6 leading-relaxed">
+                                    La démonstration en direct sera disponible prochainement. Laissez-nous vos coordonnées, nous vous contacterons dès son lancement.
+                                </p>
 
                                 {status === "success" ? (
                                     <motion.div
@@ -167,7 +170,7 @@ export default function DemoRequestPage() {
                                             {t("dosseraLanding.demo.form.success")}
                                         </p>
                                         <p className="font-body-sm text-body-sm text-gray-500">
-                                            {t("dosseraLanding.book.form_success")}
+                                            Nous vous tiendrons informé dès que la démonstration sera disponible.
                                         </p>
                                     </motion.div>
                                 ) : (
