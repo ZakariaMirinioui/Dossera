@@ -2,31 +2,24 @@
 import { initReactI18next } from 'react-i18next';
 import en from './locales/en/translation.json';
 import fr from './locales/fr/translation.json';
-import ar from './locales/ar/translation.json';
 import dosseraLandingEn from './copy/dosseraLanding.en';
 import dosseraLandingFr from './copy/dosseraLanding.fr';
-import dosseraLandingAr from './copy/dosseraLanding.ar';
 
 const resources = {
     en: { translation: { ...en, dosseraLanding: dosseraLandingEn } },
     fr: { translation: { ...fr, dosseraLanding: dosseraLandingFr } },
-    ar: { translation: { ...ar, dosseraLanding: dosseraLandingAr } },
 };
 
-const SUPPORTED_LANGS = ['fr', 'en', 'ar'];
+const SUPPORTED_LANGS = ['fr', 'en'];
 
 const getBrowserLanguage = () => {
     const browserLang = navigator.language.split('-')[0];
     return SUPPORTED_LANGS.includes(browserLang) ? browserLang : 'fr';
 };
 
-const setDocumentDirection = (lng: string) => {
-    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = lng;
-};
-
 const detectedLang = localStorage.getItem('language') || getBrowserLanguage();
-setDocumentDirection(detectedLang);
+document.documentElement.lang = detectedLang;
+document.documentElement.dir = 'ltr';
 
 i18n
     .use(initReactI18next)
@@ -40,7 +33,7 @@ i18n
     });
 
 i18n.on('languageChanged', (lng) => {
-    setDocumentDirection(lng);
+    document.documentElement.lang = lng;
     localStorage.setItem('language', lng);
 });
 

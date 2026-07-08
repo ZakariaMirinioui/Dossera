@@ -167,6 +167,7 @@ export default {
         },
         summary: {
             title: "Résumé Stratégique",
+            desc: "JAMS repose sur une infrastructure virtualisée Proxmox VE avec trois niveaux de cache (L1 mémoire LRU, L2 Redis Cluster, L3 PostgreSQL/MinIO) offrant une latence inférieure à 1ms sur les données chaudes. Le réseau est micro-segmenté en 5 VLANs étanches via pfSense (Staff, Archives, DMZ, SOC, Honeypot), avec routage inter-VLAN désactivé par défaut. L'ensemble est conteneurisé sous Docker et automatisé via Ansible pour un déploiement industrialisé.",
             quote: "JAMS n'est pas un simple système d'archivage. C'est une infrastructure souveraine qui garantit l'intégrité, la disponibilité et la confidentialité des données judiciaires sur le long terme, en s'appuyant sur une architecture client-serveur découplée et un moteur de cache multi-niveaux.",
             author: "Équipe Technique DOSSERA",
         },

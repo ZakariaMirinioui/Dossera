@@ -67,7 +67,7 @@ const WebsiteHeader: React.FC<Props> = ({ variant = "main" }) => {
                 ].join(" ")}
             >
                 <div className="flex items-center px-4 sm:px-6 lg:px-container-margin h-20 max-w-7xl mx-auto">
-                    <Link to="/" className="shrink-0 mr-auto" aria-label="DOSSERA">
+                    <Link to="/" className="shrink-0 mr-auto" aria-label="DOSSERA" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                         <img
                             src="/dossera-logo.png"
                             alt="DOSSERA"

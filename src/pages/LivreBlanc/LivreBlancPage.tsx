@@ -224,7 +224,7 @@ export default function LivreBlancPage() {
                                 {t("dosseraLanding.whitepaper.summary.title")}
                             </h2>
                             <p className="font-body-md text-body-md text-gray-500 leading-relaxed">
-                                {t("dosseraLanding.whitepaper.chapters.chap1_desc")}
+                                {t("dosseraLanding.whitepaper.summary.desc")}
                             </p>
                         </div>
 

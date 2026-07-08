@@ -5,7 +5,6 @@ import { Globe } from 'lucide-react';
 const LANGUAGES = [
     { code: 'fr', labelKey: 'common.language_fr' },
     { code: 'en', labelKey: 'common.language_en' },
-    { code: 'ar', labelKey: 'common.language_ar' },
 ];
 
 const LanguageSwitcher: React.FC = () => {

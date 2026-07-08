@@ -14,10 +14,6 @@
         scroll-behavior: smooth;
     }
 
-    [lang="ar"] {
-        font-family: 'Cairo', sans-serif;
-    }
-
     [lang="fr"] {
         font-family: 'Inter', sans-serif;
     }
@@ -82,11 +78,6 @@
         transition: width 0.3s ease;
     }
 
-    [dir="rtl"] .nav-link-underline::after {
-        left: auto;
-        right: 0;
-    }
-
     .nav-link-underline:hover::after {
         width: 100%;
     }
@@ -139,12 +130,6 @@
         outline: none;
     }
 
-    [lang="ar"] .form-field input,
-    [lang="ar"] .form-field textarea,
-    [lang="ar"] .form-field select {
-        font-family: 'Cairo', sans-serif;
-    }
-
     .form-field input:focus,
     .form-field textarea:focus,
     .form-field select:focus {
@@ -162,11 +147,6 @@
         pointer-events: none;
         background: #ffffff;
         padding: 0 4px;
-    }
-
-    [dir="rtl"] .form-field label {
-        left: auto;
-        right: 14px;
     }
 
     .form-field input:focus~label,
