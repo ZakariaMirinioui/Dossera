@@ -1,6 +1,7 @@
-import { useRef, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
+import { useScrollReveal } from './useScrollReveal';
 
-const TESTIMONIALS = [
+const PROOF = [
     {
         quote: 'Hours of manual archive search became milliseconds. Our teams stopped hunting folders and started finding answers — the workflow simply vanished.',
         author: 'ARCHIVE DIRECTOR',
@@ -38,83 +39,125 @@ const TESTIMONIALS = [
     },
 ];
 
+const ARROW_LEFT = (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+    </svg>
+);
+
+const ARROW_RIGHT = (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12h14M12 5l7 7-7 7" />
+    </svg>
+);
+
 export default function TestimonialsCarousel() {
-    const trackRef = useRef<HTMLDivElement>(null);
-    const [isDragging, setIsDragging] = useState(false);
-    const [startX, setStartX] = useState(0);
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [progress, setProgress] = useState(0);
+    const ref = useScrollReveal<HTMLElement>({ stagger: 0.05 });
+    const count = PROOF.length;
+    const [active, setActive] = useState(0);
 
-    const onMouseDown = (e: React.MouseEvent) => {
-        if (!trackRef.current) return;
-        setIsDragging(true);
-        setStartX(e.pageX - trackRef.current.offsetLeft);
-        setScrollLeft(trackRef.current.scrollLeft);
+    const go = useCallback(
+        (dir: number) => {
+            setActive((a) => (a + dir + count) % count);
+        },
+        [count]
+    );
+
+    const position = (i: number): string => {
+        const diff = (i - active + count) % count;
+        if (diff === 0) return ' is-active';
+        if (diff === 1) return ' is-next';
+        if (diff === count - 1) return ' is-prev';
+        return '';
     };
-
-    const onMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging || !trackRef.current) return;
-        e.preventDefault();
-        const x = e.pageX - trackRef.current.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        trackRef.current.scrollLeft = scrollLeft - walk;
-    };
-
-    const onMouseUp = () => setIsDragging(false);
-
-    const onScroll = () => {
-        const el = trackRef.current;
-        if (!el) return;
-        const max = el.scrollWidth - el.clientWidth;
-        setProgress(max > 0 ? el.scrollLeft / max : 0);
-    };
-
-    useEffect(() => {
-        const el = trackRef.current;
-        if (!el) return;
-        el.addEventListener('scroll', onScroll, { passive: true });
-        const onLeave = () => setIsDragging(false);
-        el.addEventListener('mouseleave', onLeave);
-        return () => {
-            el.removeEventListener('scroll', onScroll);
-            el.removeEventListener('mouseleave', onLeave);
-        };
-    }, []);
 
     return (
-        <section className="oevra-testimonials" id="testimonials">
-            <div className="oevra-testimonials__inner">
-                <div className="oevra-testimonials__header">
-                    <span className="oevra-testimonials__count">(07)</span>
-                    <span className="oevra-testimonials__label">client outcomes</span>
-                    <span className="oevra-testimonials__hint">— drag to explore</span>
-                </div>
+        <section className="oevra-proof" id="testimonials" ref={ref}>
+            <div className="oevra-proof__inner">
+                <header className="oevra-proof__header" data-reveal>
+                    <span className="oevra-proof__count">(07)</span>
+                    <span className="oevra-proof__label">client outcomes</span>
+                </header>
 
                 <div
-                    className={`oevra-testimonials__track ${isDragging ? 'oevra-testimonials__track--dragging' : ''}`}
-                    ref={trackRef}
-                    onMouseDown={onMouseDown}
-                    onMouseMove={onMouseMove}
-                    onMouseUp={onMouseUp}
+                    className="oevra-proof__stage"
+                    role="group"
+                    aria-roledescription="carousel"
+                    aria-label="Proof statements"
+                    tabIndex={0}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                        if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            go(-1);
+                        }
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            go(1);
+                        }
+                    }}
+                    data-reveal
                 >
-                    {TESTIMONIALS.map((t, i) => (
-                        <div className="oevra-testimonials__card" key={i}>
-                            <div className="oevra-testimonials__card-dot" />
-                            <span className="oevra-testimonials__card-index">{String(i + 1).padStart(2, '0')}</span>
-                            <p className="oevra-testimonials__card-quote">{t.quote}</p>
-                            <div className="oevra-testimonials__card-meta">
-                                <span className="oevra-testimonials__card-author">— {t.author}</span>
-                                <span className="oevra-testimonials__card-role">{t.role}</span>
-                            </div>
-                        </div>
+                    {PROOF.map((t, i) => (
+                        <blockquote
+                            key={i}
+                            className={`oevra-proof__card${position(i)}`}
+                            aria-hidden={i !== active}
+                        >
+                            <span className="oevra-proof__card-index">
+                                {String(i + 1).padStart(2, '0')}
+                            </span>
+                            <p className="oevra-proof__card-quote">{t.quote}</p>
+                            <footer className="oevra-proof__card-meta">
+                                <span className="oevra-proof__card-role">— {t.role}</span>
+                                <span className="oevra-proof__card-author">{t.author}</span>
+                            </footer>
+                        </blockquote>
                     ))}
                 </div>
 
-                <div className="oevra-testimonials__progress" aria-hidden="true">
-                    <span
-                        className="oevra-testimonials__progress-bar"
-                        style={{ transform: `scaleX(${progress})` }}
-                    />
+                <div className="oevra-proof__controls" data-reveal>
+                    <div className="oevra-proof__dots" role="group" aria-label="Choose proof">
+                        {PROOF.map((_, i) => (
+                            <button
+                                key={i}
+                                type="button"
+                                className={`oevra-proof__dot${i === active ? ' is-active' : ''}`}
+                                aria-label={`Show proof ${i + 1}`}
+                                aria-current={i === active}
+                                onClick={() => setActive(i)}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="oevra-proof__index" aria-hidden="true">
+                        <span className="oevra-proof__index-current">
+                            {String(active + 1).padStart(2, '0')}
+                        </span>
+                        <span> / {String(count).padStart(2, '0')}</span>
+                    </div>
+
+                    <div className="oevra-proof__arrows">
+                        <button
+                            type="button"
+                            className="oevra-proof__arrow"
+                            aria-label="Previous proof"
+                            onClick={() => go(-1)}
+                        >
+                            {ARROW_LEFT}
+                        </button>
+                        <button
+                            type="button"
+                            className="oevra-proof__arrow"
+                            aria-label="Next proof"
+                            onClick={() => go(1)}
+                        >
+                            {ARROW_RIGHT}
+                        </button>
+                    </div>
+
+                    <p className="oevra-proof__sr" role="status">
+                        proof {active + 1} of {count}
+                    </p>
                 </div>
             </div>
         </section>

@@ -26,9 +26,9 @@ npm run build
 |---:|---|---|---|
 | 1 | Stabilize foundations | ✅ COMPLETE | `PHASE_1_PLAN.md` |
 | 2 | Hero + Header | ✅ COMPLETE | `PHASE_2_PLAN.md` |
-| 3 | Signature scroll scene (SovereignStoryScene) | ⬜ PENDING | — |
-| 4 | Capability index | ⬜ PENDING | — |
-| 5 | Metrics + Proof | ⬜ PENDING | — |
+| 3 | Signature scroll scene (SovereignStoryScene) | ✅ COMPLETE | `PHASE_3_PLAN.md` |
+| 4 | Capability index | ✅ COMPLETE | `PHASE_4_PLAN.md` |
+| 5 | Metrics + Proof | ✅ COMPLETE | `PHASE_5_PLAN.md` |
 | 6 | Engagement + Commercial path | ⬜ PENDING | — |
 | 7 | Contact + Form | ⬜ PENDING | — |
 | 8 | Final CTA + Footer | ⬜ PENDING | — |
@@ -86,11 +86,12 @@ Reference timeline: §65 (0–10% intro, 10–25% OCR, 25–40% enrichment, 40�
 
 This should be one of DOSSERA's strongest interaction sections.
 
-### Phase 5 — Metrics + Proof
-- [ ] Scroll entrance (soft color handoff into black band, no hard cut)
-- [ ] Metric count-in only where genuinely numeric
-- [ ] Proof card states + controlled carousel (no endless auto-rotation)
-- [ ] Legitimate content only — never fabricate claims
+### Phase 5 — Metrics + Proof ✅ COMPLETE (2026-09-15)
+- [x] Scroll entrance (soft color handoff into black band, no hard cut)
+- [x] Metric count-in only where genuinely numeric (99.9% / 98.2% / 5 count up; <100 ms stays static)
+- [x] Proof card states + controlled carousel (prev/next arrows, dots, index `0X / 07`, keyboard, no endless auto-rotation)
+- [x] Legitimate content only — never fabricate claims
+- [x] Hover minimal: label strengthens + green underline; proof card translateY(−3px)
 
 ### Phase 6 — Engagement + Commercial path
 - [ ] Segmented decision surface (Self-discovery vs Institutional discovery)
@@ -166,3 +167,6 @@ This should be one of DOSSERA's strongest interaction sections.
 |---|---|---|---|
 | 2026-09-15 | 1 | Complete | Tokens, hooks, Accordion, cleanup — see PHASE_1_PLAN.md |
 | 2026-09-15 | 2 | Complete | Hero/header choreography — see PHASE_2_PLAN.md |
+| 2026-09-15 | 3 | Complete | SovereignStoryScene, Lenis/ScrollTrigger sync — see PHASE_3_PLAN.md |
+| 2026-09-15 | 4 | Complete | CapabilityIndex, tablist a11y — see PHASE_4_PLAN.md |
+| 2026-09-15 | 5 | Complete | Stats band handoff + proof deck — see PHASE_5_PLAN.md |
