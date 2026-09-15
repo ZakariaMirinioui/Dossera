@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import NoiseOverlay from './components/NoiseOverlay';
 import CustomCursor from './components/CustomCursor';
 import OevraNav from './components/OevraNav';
 import HeroSection from './components/HeroSection';
+import SovereignStoryScene from './components/SovereignStoryScene';
 import TrustMarquee from './components/TrustMarquee';
 import AppIntroSection from './components/AppIntroSection';
-import FeaturesShowcase from './components/FeaturesShowcase';
 import AppFeatures from './components/AppFeatures';
 import StatsWall from './components/StatsWall';
 import TestimonialsCarousel from './components/TestimonialsCarousel';
@@ -16,6 +18,8 @@ import FinalCTA from './components/FinalCTA';
 import OevraFooter from './components/OevraFooter';
 import usePrefersReducedMotion from './components/usePrefersReducedMotion';
 import './oevra.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function OevraClonePage() {
     const lenisRef = useRef<Lenis | null>(null);
@@ -31,6 +35,7 @@ export default function OevraClonePage() {
         });
 
         lenisRef.current = lenis;
+        lenis.on('scroll', ScrollTrigger.update);
 
         let rafId = 0;
         function raf(time: number) {
@@ -69,9 +74,9 @@ export default function OevraClonePage() {
             <OevraNav />
             <main>
                 <HeroSection />
+                <SovereignStoryScene />
                 <TrustMarquee />
                 <AppIntroSection />
-                <FeaturesShowcase />
                 <AppFeatures />
                 <StatsWall />
                 <TestimonialsCarousel />

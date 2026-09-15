@@ -61,14 +61,16 @@ Implement:
 
 QA: fresh page load, hard refresh, slow network, keyboard only, mobile, reduced motion
 
-### Phase 3 — Signature scroll scene (SovereignStoryScene)
+### Phase 3 — Signature scroll scene (SovereignStoryScene) ✅ COMPLETE (2026-09-15)
 Build:
-- [ ] Sticky viewport with scroll progress
-- [ ] Multiple content states (OCR → semantic → retrieval → governance → sovereignty)
-- [ ] Layered document visual with depth movement
-- [ ] State labels + final proof state
-- [ ] GSAP ScrollTrigger integration (deferred from Phase 1)
-- [ ] Mobile fallback (short reveals instead of long pin)
+- [x] Sticky viewport with scroll progress
+- [x] Multiple content states (OCR → semantic → retrieval → governance → sovereignty)
+- [x] Layered document visual with depth movement
+- [x] State labels + final proof state (0 cloud dependency + CTA)
+- [x] GSAP ScrollTrigger integration (deferred from Phase 1)
+- [x] Mobile fallback (stacked narrative instead of long pin)
+- [x] Reduced-motion fallback (static composed content, no GSAP)
+- [x] Lenis → ScrollTrigger sync
 
 Critical rule: the scene must feel continuous — no obvious reset between states.
 Reference timeline: §65 (0–10% intro, 10–25% OCR, 25–40% enrichment, 40–58% semantic,
