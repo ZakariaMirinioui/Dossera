@@ -236,6 +236,7 @@ export default {
         securite: "الأمان",
         contact: "اتصل بنا",
         livre_blanc: "الورقة البيضاء",
+        oevra_clone: "Oevra Clone",
         open_menu: "فتح القائمة",
         close_menu: "إغلاق القائمة",
     },

@@ -236,6 +236,7 @@
         securite: "Security",
         contact: "Contact",
         livre_blanc: "Whitepaper",
+        oevra_clone: "Oevra Clone",
         open_menu: "Open menu",
         close_menu: "Close menu",
     },

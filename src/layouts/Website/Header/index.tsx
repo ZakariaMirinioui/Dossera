@@ -17,6 +17,7 @@ const MAIN_NAV: NavLink[] = [
     { id: "specs", key: "dosseraLanding.nav.specifications", href: "/specifications" },
     { id: "securite", key: "dosseraLanding.nav.securite", href: "/securite" },
     { id: "livre-blanc", key: "dosseraLanding.nav.livre_blanc", href: "/livre-blanc" },
+    { id: "oevra-clone", key: "dosseraLanding.nav.oevra_clone", href: "/oevra-clone" },
     { id: "contact", key: "dosseraLanding.nav.contact", href: "/#contact" },
 ];
 
@@ -25,6 +26,7 @@ const MINIMAL_NAV: NavLink[] = [
     { id: "architecture", key: "dosseraLanding.nav.architecture", href: "/architecture" },
     { id: "securite", key: "dosseraLanding.nav.securite", href: "/securite" },
     { id: "livre-blanc", key: "dosseraLanding.nav.livre_blanc", href: "/livre-blanc" },
+    { id: "oevra-clone", key: "dosseraLanding.nav.oevra_clone", href: "/oevra-clone" },
 ];
 
 interface Props {

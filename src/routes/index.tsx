@@ -8,6 +8,7 @@ import SpecificationsPage from '@pages/Specifications/SpecificationsPage';
 import SecuritePage from '@pages/Securite/SecuritePage';
 import LivreBlancPage from '@pages/LivreBlanc/LivreBlancPage';
 import DemoRequestPage from '@pages/DemoRequest/DemoRequestPage';
+import OevraClonePage from '@pages/OevraClone/OevraClonePage';
 import NotFound from '@pages/NotFound';
 
 export default function BaseRoutes() {
@@ -22,6 +23,7 @@ export default function BaseRoutes() {
                     <Route path="/securite" element={<SecuritePage />} />
                     <Route path="/livre-blanc" element={<LivreBlancPage />} />
                     <Route path="/demande-demo" element={<DemoRequestPage />} />
+                    <Route path="/oevra-clone" element={<OevraClonePage />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </Suspense>

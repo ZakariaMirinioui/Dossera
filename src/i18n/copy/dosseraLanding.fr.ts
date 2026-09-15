@@ -236,6 +236,7 @@ export default {
         securite: "Sécurité",
         contact: "Contact",
         livre_blanc: "Livre Blanc",
+        oevra_clone: "Oevra Clone",
         open_menu: "Ouvrir le menu",
         close_menu: "Fermer le menu",
     },
