@@ -468,7 +468,7 @@ const DosseraPage: React.FC = () => {
                             {t("dosseraLanding.cta.primary")}
                         </a>
                         <a
-                            href="mailto:zakmirinioui@gmail.com"
+                            href="mailto:dossera.support@gmail.com"
                             className="border border-primary text-primary px-10 py-5 rounded font-bold text-lg hover:bg-white transition-all inline-block"
                         >
                             {t("dosseraLanding.cta.secondary")}

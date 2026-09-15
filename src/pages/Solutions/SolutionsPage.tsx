@@ -191,7 +191,7 @@ export default function SolutionsPage() {
                         <Link to="/demande-demo" className="bg-primary text-secondary-container px-10 py-5 rounded font-bold text-lg btn-breathe inline-block hover:bg-primary-container transition-colors">
                             {t("dosseraLanding.solutionsPage.cta_demo")}
                         </Link>
-                        <a href="mailto:zakmirinioui@gmail.com" className="border border-primary text-primary px-10 py-5 rounded font-bold text-lg hover:bg-white transition-all inline-block">
+                        <a href="mailto:dossera.support@gmail.com" className="border border-primary text-primary px-10 py-5 rounded font-bold text-lg hover:bg-white transition-all inline-block">
                             {t("dosseraLanding.solutionsPage.cta_contact")}
                         </a>
                     </div>

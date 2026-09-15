@@ -78,14 +78,14 @@ const WebsiteFooter: React.FC = () => {
                     <ul className="space-y-4">
                         <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
                             <span className="material-symbols-outlined text-sm">mail</span>
-                            <a href="mailto:zakmirinioui@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
-                                zakmirinioui@gmail.com
+                            <a href="mailto:dossera.support@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
+                                dossera.support@gmail.com
                             </a>
                         </li>
                         <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
                             <span className="material-symbols-outlined text-sm">mail</span>
-                            <a href="mailto:faridreguig07@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
-                                faridreguig07@gmail.com
+                            <a href="mailto:dossera.support@gmail.com" className="font-body-sm text-body-sm hover:text-white transition-colors">
+                                dossera.support@gmail.com
                             </a>
                         </li>
                         <li className="flex items-center gap-2 text-emerald-100/70 hover:text-white transition-colors">
@@ -104,9 +104,9 @@ const WebsiteFooter: React.FC = () => {
                 </p>
                 <p className="font-body-sm text-body-sm text-center text-emerald-50/30 mt-2">
                     Développé par{" "}
-                    <a href="mailto:zakmirinioui@gmail.com" className="hover:text-white transition-colors">Zakaria Mirirnioui</a>
+                    <a href="mailto:dossera.support@gmail.com" className="hover:text-white transition-colors">Zakaria Mirirnioui</a>
                     {" · "}Sécurité par{" "}
-                    <a href="mailto:farid.reguig@example.com" className="hover:text-white transition-colors">Farid Reguig</a> (Wazuh)
+                    <a href="mailto:dossera.support@gmail.com" className="hover:text-white transition-colors">Farid Reguig</a> (Wazuh)
                 </p>
             </div>
         </footer>
