@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
 
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$%&*+#<>';
 
@@ -18,6 +19,7 @@ export default function ScrambleText({
     const [display, setDisplay] = useState(text);
     const interval = useRef<ReturnType<typeof setInterval> | null>(null);
     const hovered = useRef(false);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
         const el = document.activeElement;
@@ -25,8 +27,7 @@ export default function ScrambleText({
     }, []);
 
     const scramble = () => {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduced) {
+        if (prefersReducedMotion) {
             setDisplay(text);
             return;
         }

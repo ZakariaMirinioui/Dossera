@@ -22,6 +22,17 @@
 
     --oevra-pad: clamp(1.5rem, 5vw, 8rem);
     --oevra-pad-xs: clamp(1rem, 3vw, 2.5rem);
+
+    /* ── Motion tokens (single source of truth — see motionTokens.ts) ── */
+    --oevra-ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+    --oevra-ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+    --oevra-ease-linear: linear;
+    --oevra-ease-snap: cubic-bezier(0.43, 0.195, 0.02, 1);
+
+    --oevra-dur-micro: 180ms;
+    --oevra-dur-ui: 320ms;
+    --oevra-dur-content: 650ms;
+    --oevra-dur-scene: 1000ms;
 }
 
 /* ── Reset scoping ── */
@@ -124,8 +135,8 @@
 [data-reveal] {
     opacity: 0;
     transform: translateY(34px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity var(--oevra-dur-scene) var(--oevra-ease-editorial),
+                transform var(--oevra-dur-scene) var(--oevra-ease-editorial);
 }
 
 [data-reveal].is-revealed {
@@ -413,7 +424,7 @@
     border-radius: 3rem;
     background: var(--oevra-black);
     color: var(--oevra-white);
-    transition: background 0.4s cubic-bezier(0.43, 0.195, 0.02, 1),
+    transition: background 0.4s var(--oevra-ease-snap),
                 box-shadow 0.4s ease;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
@@ -424,7 +435,7 @@
 }
 
 .oevra-hero__cta svg {
-    transition: transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: transform 0.4s var(--oevra-ease-snap);
 }
 
 .oevra-hero__cta:hover svg {
@@ -470,7 +481,7 @@
 .oevra-hero__enter {
     opacity: 0;
     transform: translateY(26px);
-    animation: oevra-hero-enter 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: oevra-hero-enter var(--oevra-dur-scene) var(--oevra-ease-editorial) forwards;
 }
 
 @keyframes oevra-hero-enter {
@@ -584,7 +595,7 @@
     background: var(--oevra-black);
     color: var(--oevra-white);
     border-radius: 3rem;
-    transition: transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: transform 0.4s var(--oevra-ease-snap);
     margin-bottom: 5rem;
 }
 
@@ -593,7 +604,7 @@
 }
 
 .oevra-intro__cta svg {
-    transition: transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: transform 0.4s var(--oevra-ease-snap);
 }
 
 .oevra-intro__cta:hover svg {
@@ -657,8 +668,8 @@
 .oevra-media {
     position: absolute;
     transform-origin: center;
-    transition: opacity 0.7s cubic-bezier(0.43, 0.195, 0.02, 1),
-                transform 0.9s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: opacity 0.7s var(--oevra-ease-snap),
+                transform 0.9s var(--oevra-ease-snap);
     will-change: transform, opacity;
 }
 
@@ -709,7 +720,7 @@
 }
 
 .oevra-media__inner {
-    transition: transform 0.9s cubic-bezier(0.43, 0.195, 0.02, 1),
+    transition: transform 0.9s var(--oevra-ease-snap),
                 opacity 0.7s ease, filter 0.7s ease;
 }
 
@@ -902,7 +913,50 @@
     max-width: 420px;
 }
 
-/* Accordion list */
+/* ═══════════════════════════════════════════════════
+   ACCORDION (shared primitive)
+   ═══════════════════════════════════════════════════ */
+.oevra-accordion__item {
+    border-bottom: 1px solid var(--oevra-grey);
+}
+
+.oevra-accordion__trigger {
+    width: 100%;
+    display: block;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+}
+
+.oevra-accordion__trigger:focus-visible {
+    outline: 2px solid var(--oevra-green);
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.oevra-accordion__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows var(--oevra-dur-content) var(--oevra-ease-snap),
+                opacity var(--oevra-dur-ui) var(--oevra-ease-soft);
+}
+
+.oevra-accordion__panel.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+.oevra-accordion__panel-inner {
+    overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════
+   APP FEATURES — accordion list
+   ═══════════════════════════════════════════════════ */
 .oevra-app-features__list {
     border-top: 1px solid var(--oevra-grey);
 }
@@ -926,27 +980,19 @@
     transition: color 0.3s ease;
 }
 
-.oevra-app-features__item--open .oevra-app-features__item-header {
+.oevra-app-features__item.is-open .oevra-app-features__item-header {
     color: var(--oevra-green);
 }
 
 .oevra-app-features__item-toggle {
     font-size: 1.4rem;
     font-weight: 300;
-    transition: transform 0.4s ease;
+    transition: transform var(--oevra-dur-content) var(--oevra-ease-snap);
     line-height: 1;
 }
 
-.oevra-app-features__item-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s cubic-bezier(0.43, 0.195, 0.02, 1),
-                padding 0.5s cubic-bezier(0.43, 0.195, 0.02, 1);
-}
-
-.oevra-app-features__item-body--open {
-    max-height: 500px;
-    padding-bottom: 1.5rem;
+.oevra-app-features__item.is-open .oevra-app-features__item-toggle {
+    transform: rotate(45deg);
 }
 
 .oevra-app-features__item-desc {
@@ -976,6 +1022,10 @@
     position: absolute;
     left: 0;
     color: var(--oevra-green);
+}
+
+.oevra-app-features__item .oevra-accordion__panel-inner {
+    padding-bottom: 1.5rem;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1246,7 +1296,7 @@
 }
 
 .oevra-pricing__app-cta svg {
-    transition: transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: transform 0.4s var(--oevra-ease-snap);
 }
 
 .oevra-pricing__app-cta:hover svg {
@@ -1272,8 +1322,8 @@
     display: inline-block;
     opacity: 0;
     transform: translateY(60px) scale(0.94);
-    transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 1.2s var(--oevra-ease-editorial),
+                transform 1.2s var(--oevra-ease-editorial);
 }
 
 .oevra-bigbrand--visible .oevra-bigbrand__text {
@@ -1312,26 +1362,6 @@
 .oevra-footer__right a:hover {
     color: var(--oevra-black);
 }
-
-/* ═══════════════════════════════════════════════════
-   REVEAL ANIMATIONS
-   ═══════════════════════════════════════════════════ */
-.oevra-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.oevra-reveal.oevra-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.oevra-reveal:nth-child(2) { transition-delay: 0.1s; }
-.oevra-reveal:nth-child(3) { transition-delay: 0.2s; }
-.oevra-reveal:nth-child(4) { transition-delay: 0.3s; }
-.oevra-reveal:nth-child(5) { transition-delay: 0.4s; }
 
 /* ═══════════════════════════════════════════════════
    MARQUEE / TRUST BAR
@@ -1599,7 +1629,7 @@
     display: block;
     transform-origin: left;
     transform: scaleX(0);
-    animation: oevra-bar-grow 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: oevra-bar-grow 1.1s var(--oevra-ease-editorial) forwards;
 }
 
 .oevra-media--active .oevra-media__appcard-bars span:nth-child(2) { animation-delay: 0.12s; }
@@ -1873,7 +1903,7 @@
     font-weight: 500;
     padding: 1rem 2rem;
     border-radius: 3rem;
-    transition: background 0.3s ease, color 0.3s ease, transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: background 0.3s ease, color 0.3s ease, transform 0.4s var(--oevra-ease-snap);
 }
 
 .oevra-final-cta__btn--primary {
@@ -1894,7 +1924,7 @@
 }
 
 .oevra-final-cta__btn svg {
-    transition: transform 0.4s cubic-bezier(0.43, 0.195, 0.02, 1);
+    transition: transform 0.4s var(--oevra-ease-snap);
 }
 
 .oevra-final-cta__btn:hover svg {
@@ -2110,7 +2140,6 @@
         animation: none;
     }
 
-    .oevra-reveal,
     [data-reveal] {
         opacity: 1;
         transform: none;

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import MagneticButton from './MagneticButton';
+import usePointerPosition from './usePointerPosition';
 
 const PHRASES = [
     'sovereign document intelligence',
@@ -8,11 +9,16 @@ const PHRASES = [
     '98%+ multilingual OCR',
 ];
 
+const PHRASE_INTERVAL_MS = 3400;
+const PHRASE_FADE_MS = 650;
+
 export default function HeroSection() {
     const [current, setCurrent] = useState(0);
     const [fading, setFading] = useState(false);
     const sectionRef = useRef<HTMLElement>(null);
     const glowRef = useRef<HTMLDivElement>(null);
+
+    const { target } = usePointerPosition({ smoothing: 0.2, enabled: true });
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -20,25 +26,23 @@ export default function HeroSection() {
             setTimeout(() => {
                 setCurrent((prev) => (prev + 1) % PHRASES.length);
                 setFading(false);
-            }, 650);
-        }, 3400);
+            }, PHRASE_FADE_MS);
+        }, PHRASE_INTERVAL_MS);
         return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
-        const onMove = (e: MouseEvent) => {
-            const section = sectionRef.current;
-            const glow = glowRef.current;
-            if (!section || !glow) return;
-            const rect = section.getBoundingClientRect();
-            if (e.clientY < rect.top || e.clientY > rect.bottom) return;
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            glow.style.translate = `${x}px ${y}px`;
-        };
-        window.addEventListener('mousemove', onMove, { passive: true });
-        return () => window.removeEventListener('mousemove', onMove);
-    }, []);
+        const section = sectionRef.current;
+        const glow = glowRef.current;
+        if (!section || !glow) return;
+
+        const rect = section.getBoundingClientRect();
+        if (target.y < rect.top || target.y > rect.bottom) return;
+
+        const x = target.x - rect.left;
+        const y = target.y - rect.top;
+        glow.style.translate = `${x}px ${y}px`;
+    }, [target]);
 
     return (
         <section className="oevra-hero" id="hero" ref={sectionRef}>

@@ -14,14 +14,15 @@ import PricingSection from './components/PricingSection';
 import BigBrandReveal from './components/BigBrandReveal';
 import FinalCTA from './components/FinalCTA';
 import OevraFooter from './components/OevraFooter';
+import usePrefersReducedMotion from './components/usePrefersReducedMotion';
 import './oevra.css';
 
 export default function OevraClonePage() {
     const lenisRef = useRef<Lenis | null>(null);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced) return;
+        if (prefersReducedMotion) return undefined;
 
         const lenis = new Lenis({
             duration: 1.2,
@@ -31,16 +32,19 @@ export default function OevraClonePage() {
 
         lenisRef.current = lenis;
 
+        let rafId = 0;
         function raf(time: number) {
             lenis.raf(time);
-            requestAnimationFrame(raf);
+            rafId = requestAnimationFrame(raf);
         }
-        requestAnimationFrame(raf);
+        rafId = requestAnimationFrame(raf);
 
         return () => {
+            lenisRef.current = null;
+            cancelAnimationFrame(rafId);
             lenis.destroy();
         };
-    }, []);
+    }, [prefersReducedMotion]);
 
     useEffect(() => {
         const handleAnchor = (e: MouseEvent) => {

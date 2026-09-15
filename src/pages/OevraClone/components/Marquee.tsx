@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
 
 interface MarqueeProps {
     items: string[];
@@ -13,12 +13,7 @@ export default function Marquee({
     className = '',
     reverse = false,
 }: MarqueeProps) {
-    const trackRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduced) return;
-    }, []);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     const row = [...items, ...items, ...items];
 
@@ -29,9 +24,8 @@ export default function Marquee({
         >
             <div
                 className="oevra-marquee__track"
-                ref={trackRef}
                 style={{
-                    animationDuration: `${speed}s`,
+                    animationDuration: prefersReducedMotion ? 'none' : `${speed}s`,
                     animationDirection: reverse ? 'reverse' : 'normal',
                 }}
             >

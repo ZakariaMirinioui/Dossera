@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
 
 interface CounterProps {
     value: number;
@@ -20,18 +21,18 @@ export default function Counter({
     const [display, setDisplay] = useState('0');
     const ref = useRef<HTMLSpanElement>(null);
     const started = useRef(false);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
         const el = ref.current;
         if (!el) return;
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting && !started.current) {
                         started.current = true;
-                        if (reduced) {
+                        if (prefersReducedMotion) {
                             setDisplay(value.toFixed(decimals));
                             return;
                         }
@@ -52,7 +53,7 @@ export default function Counter({
 
         observer.observe(el);
         return () => observer.disconnect();
-    }, [value, duration, decimals]);
+    }, [value, duration, decimals, prefersReducedMotion]);
 
     return (
         <span ref={ref} className={`oevra-counter ${className}`}>

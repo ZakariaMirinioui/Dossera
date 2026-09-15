@@ -1,4 +1,6 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
+import usePrefersReducedMotion from './usePrefersReducedMotion';
+import { EASE_SNAP, DURATION_CONTENT } from './motionTokens';
 
 interface MagneticProps {
     children: React.ReactNode;
@@ -20,16 +22,12 @@ export default function MagneticButton({
     const ref = useRef<HTMLElement>(null);
     const [transform, setTransform] = useState('translate3d(0,0,0)');
     const [active, setActive] = useState(false);
-    const reducedRef = useRef(false);
-
-    useEffect(() => {
-        reducedRef.current = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }, []);
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     const onMove = useCallback(
         (e: React.MouseEvent) => {
             const el = ref.current;
-            if (!el || reducedRef.current) return;
+            if (!el || prefersReducedMotion) return;
             const rect = el.getBoundingClientRect();
             const relX = e.clientX - rect.left - rect.width / 2;
             const relY = e.clientY - rect.top - rect.height / 2;
@@ -37,7 +35,7 @@ export default function MagneticButton({
                 `translate3d(${relX * strength}px, ${relY * strength}px, 0)`
             );
         },
-        [strength]
+        [strength, prefersReducedMotion]
     );
 
     const onLeave = useCallback(() => {
@@ -59,7 +57,7 @@ export default function MagneticButton({
             className={`oevra-magnetic ${className}`}
             style={{
                 transform: active ? 'translate3d(0,0,0) scale(1)' : transform,
-                transition: 'transform 0.5s cubic-bezier(0.43,0.195,0.02,1), background 0.3s ease, color 0.3s ease',
+                transition: `transform ${DURATION_CONTENT} ${EASE_SNAP}, background 0.3s ease, color 0.3s ease`,
                 willChange: 'transform',
             }}
         >
