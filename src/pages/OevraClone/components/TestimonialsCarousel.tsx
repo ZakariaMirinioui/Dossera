@@ -2,36 +2,39 @@ import { useRef, useState, useEffect } from 'react';
 
 const TESTIMONIALS = [
     {
-        quote: "It's like The Artist's Way, but for today. I love the focus on science-backed practices, which help me approach creative thinking from a new slant.",
-        author: 'CAIT',
+        quote: 'Hours of manual archive search became milliseconds. Our teams stopped hunting folders and started finding answers — the workflow simply vanished.',
+        author: 'ARCHIVE DIRECTOR',
+        role: 'Court of Appeal',
     },
     {
-        quote: "This is exactly what I needed to get unblocked. I've always been afraid to try things I wasn't 'good at,' but after a few weeks, I feel more free to create for the joy of it.",
-        author: 'EMILY',
+        quote: 'The 5-VLAN segmentation and SOC monitoring gave us something we never had: full visibility. Intrusion tests are detected and blocked in real time.',
+        author: 'IT ADMINISTRATOR',
+        role: 'Judicial institution',
     },
     {
-        quote: 'I feel like I\'m meeting my authentic self for the first time. The Creative Process is helping me reconnect with my authentic self in ways I never imagined.',
-        author: 'CARLOS',
+        quote: 'Arabic OCR above 98% changed everything. Thousands of scanned documents became searchable text overnight — no re-keying, no typing errors.',
+        author: 'DOCUMENTATION LEAD',
+        role: 'Court services',
     },
     {
-        quote: 'If you\'re a left-brained creative who wants to see measurable results, this app is for you. The neuroscience behind it grounded a lot of concepts I\'ve deemed too abstract.',
-        author: 'CHANEL',
+        quote: 'The deployment from bare metal to production took three weeks, with training included. No cloud, no third party — everything runs on-premise.',
+        author: 'PROJECT SPONSOR',
+        role: 'Institutional buyer',
     },
     {
-        quote: 'The evidence-based insights gave me a better understanding of how my own creative process works. I learned that sound is really effective for helping me get into the zone.',
-        author: 'CARLY',
+        quote: 'For the first time we have a certified, immutable audit trail. Every view, edit, and export is timestamped and unalterable. Compliance is now an outcome, not a threat.',
+        author: 'COMPLIANCE OFFICER',
+        role: 'Regulatory oversight',
     },
     {
-        quote: "This is the secret sauce to unlearning and relearning creativity in a way that'll make the practice stick for good. The dossera app gave me a clear, robust framework.",
-        author: 'MEG',
+        quote: 'AES-256 with 90-day key rotation, 2FA on everything, and a validated DRP with sub-24h RPO. Security stopped being a worry and became a fact.',
+        author: 'SECURITY MANAGER',
+        role: 'Datacenter operations',
     },
     {
-        quote: "The discouraging voice in my head used to be so loud. Thanks to dossera, I've finally started turning down my inner critic and opening my mind to new possibilities.",
-        author: 'DAVID',
-    },
-    {
-        quote: "As a busy parent and professional, I didn't think I had time for creativity. But with dossera's adaptable approach, I've found ways to weave in a daily practice.",
-        author: 'SOFIA',
+        quote: 'Our judges now search across decades of case history in less than 100 milliseconds. The confidence and speed this brings is transformative.',
+        author: 'HEAD OF RECORDS',
+        role: 'Court of First Instance',
     },
 ];
 
@@ -40,6 +43,7 @@ export default function TestimonialsCarousel() {
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+    const [progress, setProgress] = useState(0);
 
     const onMouseDown = (e: React.MouseEvent) => {
         if (!trackRef.current) return;
@@ -58,20 +62,32 @@ export default function TestimonialsCarousel() {
 
     const onMouseUp = () => setIsDragging(false);
 
+    const onScroll = () => {
+        const el = trackRef.current;
+        if (!el) return;
+        const max = el.scrollWidth - el.clientWidth;
+        setProgress(max > 0 ? el.scrollLeft / max : 0);
+    };
+
     useEffect(() => {
         const el = trackRef.current;
         if (!el) return;
+        el.addEventListener('scroll', onScroll, { passive: true });
         const onLeave = () => setIsDragging(false);
         el.addEventListener('mouseleave', onLeave);
-        return () => el.removeEventListener('mouseleave', onLeave);
+        return () => {
+            el.removeEventListener('scroll', onScroll);
+            el.removeEventListener('mouseleave', onLeave);
+        };
     }, []);
 
     return (
         <section className="oevra-testimonials" id="testimonials">
             <div className="oevra-testimonials__inner">
                 <div className="oevra-testimonials__header">
-                    <span className="oevra-testimonials__count">(09)</span>
-                    <span className="oevra-testimonials__label">words of affirmation</span>
+                    <span className="oevra-testimonials__count">(07)</span>
+                    <span className="oevra-testimonials__label">client outcomes</span>
+                    <span className="oevra-testimonials__hint">— drag to explore</span>
                 </div>
 
                 <div
@@ -84,10 +100,21 @@ export default function TestimonialsCarousel() {
                     {TESTIMONIALS.map((t, i) => (
                         <div className="oevra-testimonials__card" key={i}>
                             <div className="oevra-testimonials__card-dot" />
+                            <span className="oevra-testimonials__card-index">{String(i + 1).padStart(2, '0')}</span>
                             <p className="oevra-testimonials__card-quote">{t.quote}</p>
-                            <span className="oevra-testimonials__card-author">— {t.author}</span>
+                            <div className="oevra-testimonials__card-meta">
+                                <span className="oevra-testimonials__card-author">— {t.author}</span>
+                                <span className="oevra-testimonials__card-role">{t.role}</span>
+                            </div>
                         </div>
                     ))}
+                </div>
+
+                <div className="oevra-testimonials__progress" aria-hidden="true">
+                    <span
+                        className="oevra-testimonials__progress-bar"
+                        style={{ transform: `scaleX(${progress})` }}
+                    />
                 </div>
             </div>
         </section>

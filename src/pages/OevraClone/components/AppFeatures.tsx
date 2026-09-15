@@ -1,112 +1,104 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import { useScrollReveal } from './useScrollReveal';
+import ScrambleText from './ScrambleText';
 
 const APP_FEATURES = [
     {
-        id: 'creative-process',
+        id: 'jams',
         num: '01',
-        title: 'THE CREATIVE PROCESS',
-        subtitle: 'the creative process down to a science',
-        desc: 'Meet your creative OS — a suite of daily practices, tools, courses and more, designed based on science and psychology for holistic support.',
+        title: 'The JAMS Platform',
+        eyebrow: 'core',
+        desc: 'A decoupled client-server platform handling the full lifecycle of judicial documents — from digitization and multilingual OCR, through certified immutable archiving, to instant semantic search.',
         details: [
-            'A daily practice to get you started for any creative activity',
-            'Our proprietary 5-step process comes alive in an interactive, immersive experience',
-            'Creative prompt generator inspired by Brian Eno\'s Oblique Strategies',
-            'Science-backed exercises to support creativity',
-            'Ambient soundscapes designed to support focus and flow states',
+            'Five-stage workflow: digitize, archive, search, secure, scale',
+            'Bilingual UI — Arabic and French with perfect RTL rendering',
+            'Version 2.4, built for institutional requirements',
+            'Live dashboards with real-time monitoring (Socket.IO)',
         ],
     },
     {
-        id: 'flow-state',
+        id: 'infrastructure',
         num: '02',
-        title: 'THE FLOW STATE',
-        subtitle: null,
-        desc: 'A science-based tool to guide any task into deep focus and flow. Powered by sound, rhythm, and cadence.',
+        title: 'Sovereign Infrastructure',
+        eyebrow: 'in your datacenter',
+        desc: 'Every service virtualized on Proxmox VE in your own datacenter, protected by a pfSense firewall. Zero cloud dependency — your data never leaves the institution.',
         details: [
-            'Different timer modes for various work styles',
-            'Quotes and inspirational breaks during pauses',
-            'Focus support with helpful tips during breaks',
-            'Do Not Disturb mode for uninterrupted sessions',
+            'Type-1 bare-metal hypervisor with complete VM isolation',
+            'ZFS snapshots for instant backups and live migration',
+            'Automatic failover to secondary node in high-availability mode',
+            'Five isolated VLANs with Default-Deny inter-VLAN routing',
+            'Geographic blocking of non-Moroccan IPs at the firewall',
         ],
     },
     {
-        id: 'get-unblocked',
+        id: 'security',
         num: '03',
-        title: 'GET UNBLOCKED',
-        subtitle: null,
-        desc: 'Move past obstacles like self-doubt and perfectionism. Get Unblocked is designed to help you overcome the most common barriers.',
+        title: 'Security in Depth',
+        eyebrow: '8 layers',
+        desc: 'Eight layers of defense protect sensitive judicial data — from physical firewall down to AES-256 encryption and mandatory 2FA, all correlated in real time by the SOC.',
         details: [
-            'Action plans for every type of creative block',
-            'Daily progress tracking with streak tracker',
-            'Creative warmups inspired by Oblique Strategies',
-            'Techniques based on psychology and neuroscience',
+            'pfSense firewall with Stateful Packet Inspection',
+            'Wazuh SIEM with agent-based event correlation',
+            'CrowdSec dynamic blocking of suspicious behavior',
+            'T-Pot honeypot captures intrusion attempts (IoCs only)',
+            'AES-256 at rest, TLS 1.3 in transit, 90-day key rotation',
+            '2FA on all admin access — TOTP, FIDO2, or both',
         ],
     },
     {
-        id: 'courses',
+        id: 'deployment',
         num: '04',
-        title: 'SELF-PACED COURSES',
-        subtitle: null,
-        desc: 'Research-backed lessons to integrate creativity into daily life.',
+        title: 'Deployment & Training',
+        eyebrow: '2–4 weeks',
+        desc: 'A validated, industrialized rollout — from bare metal to production in two to four weeks, with team training and a proven disaster recovery plan delivered at completion.',
         details: [
-            'The Creative Mind — learn how creativity works in the brain',
-            'Creativity for Mental Health — explore creativity and wellness',
-            'Advanced Praxis for Professionals — deepen your daily practice',
+            'Ansible-driven deployment, update, and backup playbooks',
+            'Week 1: Proxmox + pfSense foundation',
+            'Weeks 2–4: JAMS stack, SOC integration, staff training',
+            'Validated Disaster Recovery Plan (DRP) delivered',
+            'RPO under 24 hours with off-site backups',
         ],
     },
     {
-        id: 'community',
+        id: 'evolution',
         num: '05',
-        title: 'COMMUNITY & COWORKING',
-        subtitle: null,
-        desc: 'Connect with fellow creatives. Meet collaborators, share your work, and find support.',
+        title: 'Support & Evolution',
+        eyebrow: 'roadmap',
+        desc: 'A clear, continuous roadmap — next-generation SIEM, ML-based behavioral anomaly detection, and a certified digital safe with key vault.',
         details: [
-            'Connect with fellow creatives for cross-pollination of ideas',
-            'Co-Flow virtual coworking for motivation and focus',
-            'Support and accountability from people who get it',
+            '2nd-generation SIEM with cross-VLAN correlation',
+            'ML-based anomaly detection on archive access patterns',
+            'Digital safe with key vault and certified dematerialization',
+            'External security audit by a DGSSI-accredited body',
+            'Quarterly resilience testing of the DRP',
         ],
     },
 ];
 
 export default function AppFeatures() {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
-    const sectionRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('oevra-visible');
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        const els = sectionRef.current?.querySelectorAll('.oevra-reveal');
-        els?.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-    }, []);
+    const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.05 });
 
     return (
-        <section className="oevra-app-features" ref={sectionRef}>
+        <section className="oevra-app-features" id="features" ref={ref}>
             <div className="oevra-app-features__inner">
-                <div className="oevra-app-features__header oevra-reveal">
-                    <h2 className="oevra-app-features__title">
-                        app features
+                <div className="oevra-app-features__header">
+                    <h2 className="oevra-app-features__title" data-reveal>
+                        what we provide
                     </h2>
-                    <p className="oevra-app-features__subtitle">
-                        the creative<br />process<br />down to<br />a science
+                    <p className="oevra-app-features__subtitle" data-reveal>
+                        one platform.<br />
+                        every document.<br />
+                        total control.
                     </p>
-                    <p className="oevra-app-features__desc">
-                        Meet your creative OS — a suite of daily practices,
-                        tools, courses and more, designed based on science
-                        and psychology for holistic support.
+                    <p className="oevra-app-features__desc" data-reveal>
+                        A sovereign document OS for judicial institutions — a suite of
+                        capabilities designed around science, security, and operational reality,
+                        for holistic support of your archives.
                     </p>
                 </div>
 
-                <div className="oevra-app-features__list oevra-reveal">
+                <div className="oevra-app-features__list" data-reveal>
                     {APP_FEATURES.map((feat, i) => {
                         const isOpen = openIndex === i;
                         return (
@@ -117,10 +109,13 @@ export default function AppFeatures() {
                                 <button
                                     className="oevra-app-features__item-header"
                                     onClick={() => setOpenIndex(isOpen ? null : i)}
+                                    data-cursor="hover"
                                 >
                                     <span className="oevra-app-features__item-title">
-                                        {feat.title}
+                                        <span className="oevra-app-features__item-num">{feat.num}</span>
+                                        <ScrambleText text={feat.title} />
                                     </span>
+                                    <span className="oevra-app-features__item-eyebrow">{feat.eyebrow}</span>
                                     <span className="oevra-app-features__item-toggle">
                                         {isOpen ? '−' : '+'}
                                     </span>

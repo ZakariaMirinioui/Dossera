@@ -1,63 +1,73 @@
-import { useEffect, useRef } from 'react';
+import { useScrollReveal } from './useScrollReveal';
+import Counter from './Counter';
+import MagneticButton from './MagneticButton';
+
+const STEPS = [
+    { num: '01', label: 'DIGITIZE' },
+    { num: '02', label: 'ARCHIVE' },
+    { num: '03', label: 'SEARCH' },
+    { num: '04', label: 'SECURE' },
+    { num: '05', label: 'SCALE' },
+];
+
+const MINI_STATS = [
+    { value: 98.2, decimals: 1, suffix: '%', label: 'OCR accuracy' },
+    { value: 100, suffix: 'ms', label: 'search response' },
+    { value: 8, suffix: '', label: 'security layers' },
+];
 
 export default function AppIntroSection() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('oevra-visible');
-                    }
-                });
-            },
-            { threshold: 0.15 }
-        );
-
-        const els = sectionRef.current?.querySelectorAll('.oevra-reveal');
-        els?.forEach((el) => observer.observe(el));
-
-        return () => observer.disconnect();
-    }, []);
+    const ref = useScrollReveal<HTMLDivElement>({ stagger: 0.1 });
 
     return (
-        <section className="oevra-intro" id="about" ref={sectionRef}>
+        <section className="oevra-intro" id="about" ref={ref}>
             <div className="oevra-intro__inner">
-                <div className="oevra-intro__badge oevra-reveal">
-                    <span>available now</span>
+                <div className="oevra-intro__badge" data-reveal>
+                    <span>sovereign by design</span>
                 </div>
 
-                <h2 className="oevra-intro__title oevra-reveal">
-                    the immersive portal<br />
-                    that supports<br />
-                    your creative practice
+                <h2 className="oevra-intro__title" data-reveal>
+                    the sovereign platform<br />
+                    that transforms your<br />
+                    document operations
                 </h2>
 
-                <p className="oevra-intro__desc oevra-reveal">
-                    Whether or not you consider yourself creative, dossera is designed to train your
-                    brain to think more creatively — with structured daily practices, guided exercises,
-                    focus tools, courses, and everything you need to break through creative blocks.
+                <p className="oevra-intro__desc" data-reveal>
+                    Millions of paper documents. Endless manual searches. Escalating compliance
+                    risk. DOSSERA replaces fragile paper workflows with a certified, immutable,
+                    AI-assisted archive — designed to run entirely in your own datacenter, with
+                    zero cloud dependency.
                 </p>
 
-                <a href="#features" className="oevra-intro__cta oevra-reveal">
-                    Get the app
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
+                <div data-reveal>
+                    <MagneticButton
+                        as="a"
+                        href="#features"
+                        className="oevra-intro__cta"
+                    >
+                        Explore the platform
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </MagneticButton>
+                </div>
 
-                <div className="oevra-intro__steps oevra-reveal">
-                    {[
-                        { num: '01', label: 'BE MORE CREATIVE' },
-                        { num: '02', label: 'DEEP FOCUS AND FLOW' },
-                        { num: '03', label: 'GET INSPIRED' },
-                        { num: '04', label: 'THINK BIGGER' },
-                        { num: '05', label: 'GET UNBLOCKED' },
-                    ].map((step) => (
+                <div className="oevra-intro__steps" data-reveal>
+                    {STEPS.map((step) => (
                         <div className="oevra-intro__step" key={step.num}>
                             <span className="oevra-intro__step-num">{step.num}</span>
                             <span className="oevra-intro__step-label">{step.label}</span>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="oevra-intro__stats" data-reveal>
+                    {MINI_STATS.map((s, i) => (
+                        <div className="oevra-intro__stat" key={i}>
+                            <span className="oevra-intro__stat-value">
+                                <Counter value={s.value} suffix={s.suffix} decimals={s.decimals ?? 0} />
+                            </span>
+                            <span className="oevra-intro__stat-label">{s.label}</span>
                         </div>
                     ))}
                 </div>

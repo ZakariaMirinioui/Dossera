@@ -24,7 +24,7 @@ export default function BigBrandReveal() {
 
     return (
         <div className="oevra-bigbrand" ref={ref} aria-hidden="true">
-            <span className="oevra-bigbrand__text">oevra</span>
+            <span className="oevra-bigbrand__text">dossera</span>
         </div>
     );
 }
