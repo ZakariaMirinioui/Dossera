@@ -9,7 +9,7 @@ import HeroSection from './components/HeroSection';
 import SovereignStoryScene from './components/SovereignStoryScene';
 import TrustMarquee from './components/TrustMarquee';
 import AppIntroSection from './components/AppIntroSection';
-import AppFeatures from './components/AppFeatures';
+import CapabilityIndex from './components/CapabilityIndex';
 import StatsWall from './components/StatsWall';
 import TestimonialsCarousel from './components/TestimonialsCarousel';
 import PricingSection from './components/PricingSection';
@@ -77,7 +77,7 @@ export default function OevraClonePage() {
                 <SovereignStoryScene />
                 <TrustMarquee />
                 <AppIntroSection />
-                <AppFeatures />
+                <CapabilityIndex />
                 <StatsWall />
                 <TestimonialsCarousel />
                 <PricingSection />

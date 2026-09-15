@@ -76,11 +76,13 @@ Critical rule: the scene must feel continuous — no obvious reset between state
 Reference timeline: §65 (0–10% intro, 10–25% OCR, 25–40% enrichment, 40–58% semantic,
 58–75% retrieval, 75–90% governance, 90–100% sovereignty).
 
-### Phase 4 — Capability index
-- [ ] Interactive capability rows (01 Document ingestion → 02 OCR → 03 Semantic search → 04 Permissions + audit → 05 On-premise)
-- [ ] Linked visual response (row hover/focus updates product visual)
-- [ ] Description/accent updates
-- [ ] Keyboard: Tab, Enter, Space, Arrow keys, Escape
+### Phase 4 — Capability index ✅ COMPLETE (2026-09-15)
+- [x] Interactive capability rows (01 Document ingestion → 02 OCR → 03 Semantic search → 04 Permissions + audit → 05 On-premise)
+- [x] Linked visual response (row hover/focus updates product visual)
+- [x] Description/accent updates (live detail block: desc, points, meta chips)
+- [x] Keyboard: Tab, Enter, Space, Arrow keys, Escape (roving tabindex + Home/End)
+- [x] ARIA tablist/tab/tabpanel + aria-live status
+- [x] Reused primitives: ScrambleText, useScrollReveal, scene overlay CSS, data-cursor
 
 This should be one of DOSSERA's strongest interaction sections.
 
