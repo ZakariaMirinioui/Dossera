@@ -3,7 +3,33 @@ export default {
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
+            /* ══ DOSSERA sovereign design system (mirror of .oevra-app tokens in
+                  src/pages/OevraClone/oevra.css). Additive — legacy tokens below
+                  are preserved for the other marketing pages. ══ */
             colors: {
+                canvas: {
+                    base: "#F4F2EC",
+                    raised: "#FBFAF6",
+                    recessed: "#EAE7DD",
+                },
+                ink: {
+                    primary: "#14150F",
+                    secondary: "#5B5D4F",
+                    tertiary: "#9A9C8C",
+                },
+                accent: {
+                    DEFAULT: "#5C7A3A",
+                    sovereign: "#5C7A3A",
+                    "sovereign-dim": "#8DA36A",
+                },
+                surface: {
+                    dark: "#101109",
+                    "dark-raised": "#1B1C12",
+                },
+                line: {
+                    hairline: "rgba(20, 21, 15, 0.10)",
+                    "hairline-dark": "rgba(255, 255, 255, 0.10)",
+                },
                 primary: {
                     DEFAULT: "#064E3B",
                     container: "#065F46",
@@ -58,6 +84,19 @@ export default {
                 sans: ["Inter", "system-ui", "sans-serif"],
                 display: ["Cairo", "sans-serif"],
                 arabic: ["Cairo", "sans-serif"],
+                /* DOSSERA sovereign type */
+                "dz-display": ["'Space Grotesk Variable'", "sans-serif"],
+                "dz-body": ["'DM Sans Variable'", "sans-serif"],
+                "dz-mono": ["'JetBrains Mono Variable'", "ui-monospace", "monospace"],
+            },
+            transitionTimingFunction: {
+                premium: "cubic-bezier(0.16, 1, 0.3, 1)",
+                "soft-out": "cubic-bezier(0.22, 1, 0.36, 1)",
+                snap: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+            },
+            backgroundImage: {
+                "glow-sovereign":
+                    "radial-gradient(circle, rgba(92, 122, 58, 0.16), transparent 70%)",
             },
             fontSize: {
                 "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],

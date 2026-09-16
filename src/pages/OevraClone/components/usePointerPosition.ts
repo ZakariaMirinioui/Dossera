@@ -8,6 +8,13 @@ export interface PointerPosition {
 const lerp = (current: number, target: number, factor: number) =>
     current + (target - current) * factor;
 
+const ORIGIN: PointerPosition = { x: 0, y: 0 };
+
+const centered = (): PointerPosition =>
+    typeof window !== 'undefined'
+        ? { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+        : ORIGIN;
+
 /**
  * Centralized pointer tracking with requestAnimationFrame + lerp smoothing.
  *
@@ -21,10 +28,7 @@ export function usePointerPosition(options?: {
 }): { position: PointerPosition; target: PointerPosition } {
     const { smoothing = 0.15, enabled = true } = options ?? {};
 
-    const init: PointerPosition =
-        typeof window !== 'undefined'
-            ? { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-            : { x: 0, y: 0 };
+    const init = centered();
 
     const [target, setTarget] = useState<PointerPosition>(init);
     const [position, setPosition] = useState<PointerPosition>(init);
@@ -33,9 +37,9 @@ export function usePointerPosition(options?: {
 
     useEffect(() => {
         if (!enabled) {
-            targetRef.current = init;
-            setPosition(init);
-            setTarget(init);
+            targetRef.current = ORIGIN;
+            setPosition(ORIGIN);
+            setTarget(ORIGIN);
             return;
         }
 

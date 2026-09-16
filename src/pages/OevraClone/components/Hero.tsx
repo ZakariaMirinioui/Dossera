@@ -27,11 +27,6 @@ export default function Hero() {
     const { hero } = content;
     const reduced = useReducedMotion();
 
-    const play = () => {
-        const el = document.getElementById('capabilities');
-        el?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
-    };
-
     return (
         <section className="dz-hero" id="hero">
             <div className="dz-glow dz-glow--top-right" aria-hidden="true" />
@@ -73,9 +68,9 @@ export default function Hero() {
                         </MagneticButton>
 
                         <MagneticButton
-                            as="button"
+                            as="a"
+                            href={hero.secondaryHref}
                             className="dz-btn dz-btn--ghost dz-btn--lg"
-                            onClick={play}
                         >
                             <span className="dz-btn__play" aria-hidden="true">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">

@@ -5,7 +5,6 @@ import MagneticButton from './MagneticButton';
 export default function Header() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const lastY = useRef(0);
     const menuRef = useRef<HTMLElement>(null);
     const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -13,9 +12,7 @@ export default function Header() {
 
     useEffect(() => {
         const onScroll = () => {
-            const y = window.scrollY;
-            setScrolled(y > 80);
-            lastY.current = y;
+            setScrolled(window.scrollY > 80);
         };
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);

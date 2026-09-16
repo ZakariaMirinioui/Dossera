@@ -77,18 +77,21 @@ function PinnedGallery() {
                 },
             });
 
+            /* Overlapping crossfade: frame N+1 begins fading in just before
+               frame N starts fading out, so the left stage never goes blank
+               between the five 20% scroll segments. */
             frames.forEach((frame, i) => {
-                const segStart = (i * 20) / 100;
-                tl.fromTo(
-                    frame,
-                    { opacity: 0, scale: 0.98 },
-                    { opacity: 1, scale: 1, duration: 0.16, ease: 'power1.out', immediateRender: false },
-                    segStart
-                ).to(
-                    frame,
-                    { opacity: 0, duration: 0.1, ease: 'power1.in' },
-                    segStart + 0.17
-                );
+                if (i > 0) {
+                    tl.fromTo(
+                        frame,
+                        { opacity: 0, scale: 0.98 },
+                        { opacity: 1, scale: 1, duration: 0.14, ease: 'power1.out', immediateRender: false },
+                        i * 0.2 - 0.08
+                    );
+                }
+                if (i < frames.length - 1) {
+                    tl.to(frame, { opacity: 0, duration: 0.12, ease: 'power1.in' }, (i + 1) * 0.2 + 0.02);
+                }
             });
 
             steps.forEach((step, i) => {

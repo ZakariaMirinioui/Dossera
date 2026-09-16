@@ -40,10 +40,10 @@ export default function FinalCTA() {
 
             gsap.fromTo(
                 wordRef.current,
-                { x: 0, opacity: 0.85 },
+                { x: 24, opacity: 0 },
                 {
-                    x: -60,
-                    opacity: 0.35,
+                    x: -70,
+                    opacity: 0.06,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: sectionRef.current,
