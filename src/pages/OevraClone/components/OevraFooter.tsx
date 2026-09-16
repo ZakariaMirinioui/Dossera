@@ -1,21 +1,21 @@
+import { content } from '../content/dosseraLanding';
+import Reveal from './Reveal';
+
+/* ═══════════════════════════════════════════════════
+   OevraFooter — quiet engraving, no ornament.
+   ═══════════════════════════════════════════════════ */
+
 export default function OevraFooter() {
+    const { footer } = content;
+
     return (
-        <footer className="oevra-footer">
-            <div className="oevra-footer__inner">
-                <div className="oevra-footer__left">
-                    <span className="oevra-footer__copy">
-                        &copy; 2026 DOSSERA — JAMS System
-                    </span>
-                    <span className="oevra-footer__sovereign">
-                        built in Khouribga · sovereign by design
-                    </span>
-                </div>
-                <div className="oevra-footer__right">
-                    <a href="#about" data-cursor="hover">Platform</a>
-                    <a href="#contact" data-cursor="hover">Contact</a>
-                    <a href="/demande-demo" data-cursor="hover">Request demo</a>
-                    <a href="/" data-cursor="hover">Back to site</a>
-                </div>
+        <footer className="dz-footer">
+            <div className="dz-footer__inner">
+                <Reveal className="dz-footer__word">dossera</Reveal>
+                <Reveal className="dz-footer__line" delay={0.06}>
+                    <span className="dz-footer__tag">{footer.sovereign}</span>
+                    <span className="dz-footer__copy">{footer.copy}</span>
+                </Reveal>
             </div>
         </footer>
     );

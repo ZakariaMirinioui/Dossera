@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import usePrefersReducedMotion from './usePrefersReducedMotion';
 import usePointerPosition from './usePointerPosition';
 
+type CursorMode = 'default' | 'hover' | 'drag';
+
 export default function CustomCursor() {
-    const [hovering, setHovering] = useState(false);
+    const [mode, setMode] = useState<CursorMode>('default');
     const [visible, setVisible] = useState(false);
     const [down, setDown] = useState(false);
 
@@ -19,7 +21,13 @@ export default function CustomCursor() {
     useEffect(() => {
         const onOver = (e: MouseEvent) => {
             const el = e.target as HTMLElement;
-            setHovering(!!el.closest('a, button, [data-cursor="hover"]'));
+            if (el.closest('[data-cursor="drag"]')) {
+                setMode('drag');
+            } else if (el.closest('a, button, [data-cursor="hover"]')) {
+                setMode('hover');
+            } else {
+                setMode('default');
+            }
         };
 
         const onDown = () => setDown(true);
@@ -47,12 +55,14 @@ export default function CustomCursor() {
     return (
         <>
             <div
-                className={`oevra-cursor oevra-cursor__ring ${show ? 'is-visible' : ''} ${hovering ? 'is-hover' : ''} ${down ? 'is-down' : ''}`}
+                className={`oevra-cursor oevra-cursor__ring ${show ? 'is-visible' : ''} is-mode-${mode} ${down && mode === 'drag' ? 'is-grab' : ''}`}
                 style={{ transform: `translate3d(${target.x}px, ${target.y}px, 0)` }}
                 aria-hidden="true"
-            />
+            >
+                {mode === 'drag' && <span className="oevra-cursor__label">DRAG</span>}
+            </div>
             <div
-                className={`oevra-cursor oevra-cursor__dot ${show ? 'is-visible' : ''} ${hovering ? 'is-hover' : ''}`}
+                className={`oevra-cursor oevra-cursor__dot ${show ? 'is-visible' : ''} is-mode-${mode}`}
                 style={{ transform: `translate3d(${position.x}px, ${position.y}px, 0)` }}
                 aria-hidden="true"
             />

@@ -2,18 +2,21 @@ import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/dm-sans';
+import '@fontsource-variable/jetbrains-mono';
 import NoiseOverlay from './components/NoiseOverlay';
 import CustomCursor from './components/CustomCursor';
-import OevraNav from './components/OevraNav';
-import HeroSection from './components/HeroSection';
-import SovereignStoryScene from './components/SovereignStoryScene';
-import TrustMarquee from './components/TrustMarquee';
-import AppIntroSection from './components/AppIntroSection';
-import CapabilityIndex from './components/CapabilityIndex';
-import StatsWall from './components/StatsWall';
-import TestimonialsCarousel from './components/TestimonialsCarousel';
-import PricingSection from './components/PricingSection';
-import BigBrandReveal from './components/BigBrandReveal';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import DocumentStackSection from './components/DocumentStackSection';
+import CapabilityGallery from './components/CapabilityGallery';
+import ComplianceMarquee from './components/ComplianceMarquee';
+import SovereignPlatformSection from './components/SovereignPlatformSection';
+import CapabilityList from './components/CapabilityList';
+import MeasuredOutcomes from './components/MeasuredOutcomes';
+import TestimonialCarousel from './components/TestimonialCarousel';
+import PricingCards from './components/PricingCards';
 import FinalCTA from './components/FinalCTA';
 import OevraFooter from './components/OevraFooter';
 import usePrefersReducedMotion from './components/usePrefersReducedMotion';
@@ -71,18 +74,18 @@ export default function OevraClonePage() {
         <div className="oevra-app">
             <NoiseOverlay />
             <CustomCursor />
-            <OevraNav />
+            <Header />
             <main>
-                <HeroSection />
-                <SovereignStoryScene />
-                <TrustMarquee />
-                <AppIntroSection />
-                <CapabilityIndex />
-                <StatsWall />
-                <TestimonialsCarousel />
-                <PricingSection />
+                <Hero />
+                <DocumentStackSection />
+                <CapabilityGallery />
+                <ComplianceMarquee />
+                <SovereignPlatformSection />
+                <CapabilityList />
+                <MeasuredOutcomes />
+                <TestimonialCarousel />
+                <PricingCards />
                 <FinalCTA />
-                <BigBrandReveal />
             </main>
             <OevraFooter />
         </div>
