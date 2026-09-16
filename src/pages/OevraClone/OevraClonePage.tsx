@@ -33,7 +33,7 @@ export default function OevraClonePage() {
         if (prefersReducedMotion) return undefined;
 
         const lenis = new Lenis({
-            duration: 0.85,
+            duration: 0.7,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             touchMultiplier: 2,
             wheelMultiplier: 1.05,

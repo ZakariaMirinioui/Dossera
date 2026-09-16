@@ -107,17 +107,16 @@
 .oevra-app > .dz-footer { position: relative; z-index: 1; }
 
 /* ═══════════════════════════════════════════════════
-   AURORA BACKGROUND — animated sovereign glass layer
+   AURORA BACKGROUND — animated sovereign field (perf-first)
    ───────────────────────────────────────────────────
-   Ported from the fluted-glass AuroraHero technique,
-   recolored to the DOSSERA sovereign palette and
-   throttled hard for an institutional register:
-   - two repeating gradient fields (fabric stripes + olive bands)
-     drift on GPU-composited transforms (translate3d only)
-   - an SVG displacement filter refracts the fields like
-     rolled glass (Chrome/Edge/Firefox; degrades gracefully)
-   - radial mask concentrates intensity at the hero and
-     keeps ~20% presence down the page for "alive" scroll
+   Single drifting gradient field. The whole effect is ONE
+   composited layer animated by `transform: translate3d` only —
+   zero SVG filters, zero per-frame re-rasterization:
+   - the field is pre-blurred once into a cached texture (kept
+     tiny: blur filter is applied statically, not per frame)
+   - the drift keyframe moves only the cached layer on the GPU
+   - radial mask concentrates intensity at the hero and fades
+     to a whisper down the page ("alive" scroll, cheap)
    - `prefers-reduced-motion` → static wash, animation off
    ═══════════════════════════════════════════════════ */
 .dz-aurora {
@@ -127,9 +126,11 @@
     pointer-events: none;
     overflow: hidden;
     isolation: isolate;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 
-    --aur-stripe: #E7E1D1;
-    --aur-stripe-soft: #F7F4EB;
+    --aur-stripe: rgba(231, 225, 209, 0.6);
+    --aur-stripe-soft: rgba(247, 244, 235, 0.5);
     --aur-band-a: #5C7A3A;
     --aur-band-b: #8DA36A;
     --aur-band-c: #D9D3BF;
@@ -168,57 +169,35 @@
     );
 }
 
-/* Filtered group — refracts the moving field like rolled glass.
-   (One filter over one moving layer = minimal compositing.) */
-.dz-aurora__glass {
-    position: absolute;
-    inset: -4%;
-    pointer-events: none;
-}
-
-@supports (filter: url('#dzFlutedGlass')) {
-    .dz-aurora__glass {
-        filter: url('#dzFlutedGlass');
-        -webkit-filter: url('#dzFlutedGlass');
-    }
-}
-
-/* Single drifting field — stripes + olive bands, pre-blurred onto a
-   cached texture, animated via GPU transform only. The layer is just
-   oversized enough (130%) to hide edges during the ±12vw sweep. */
+/* Single drifting field — stripes + olive bands, blurred once onto a
+   cached texture, then moved by GPU transform only. Footprint kept just
+   oversized enough to hide edges during a small ±5vw / ±2vh sweep, so
+   the composited surface stays small (less GPU memory / overdraw). */
 .dz-aurora__layer {
     position: absolute;
-    top: -18%;
-    left: -15%;
-    width: 130%;
-    height: 138%;
+    top: -9%;
+    left: -7%;
+    width: 114%;
+    height: 118%;
     background-image: var(--aur-stripes), var(--aur-bands);
-    filter: blur(18px) opacity(38%) saturate(115%);
-    -webkit-filter: blur(18px) opacity(38%) saturate(115%);
+    filter: blur(3px) opacity(52%) saturate(105%);
+    -webkit-filter: blur(3px) opacity(52%) saturate(105%);
+    transform: translateZ(0);
     will-change: transform;
-    animation: dz-aurora-drift 140s var(--ease-soft-out) infinite alternate;
+    animation: dz-aurora-drift 100s var(--ease-soft-out) infinite alternate;
 }
 
 @keyframes dz-aurora-drift {
     from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(-12vw, 4vh, 0); }
+    to   { transform: translate3d(-5vw, 2vh, 0); }
 }
 
-.dz-aurora__filter {
-    position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Reduced motion — static wash, no movement, no refraction.
-   Belt: attribute set by the hook + suspenders: media query. */
-.dz-aurora[data-reduced='true'] .dz-aurora__glass,
+/* Reduced motion — static wash, no animation. */
 .dz-aurora[data-reduced='true'] .dz-aurora__layer {
     filter: none;
     -webkit-filter: none;
     animation: none;
+    transform: translateZ(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -229,14 +208,13 @@
     }
 }
 
-/* Mobile — drop the displacement filter (GPU cost) and soften blur. */
+/* Mobile — lower blur/opacity so the small raster stays cheap. */
 @media (max-width: 1023px) {
-    .dz-aurora__glass { filter: none; -webkit-filter: none; }
-    .dz-aurora__layer { filter: blur(12px) opacity(26%) saturate(110%); }
+    .dz-aurora__layer { filter: blur(4px) opacity(34%) saturate(102%); }
     .dz-pricing__card,
     .dz-testi__card {
-        -webkit-backdrop-filter: blur(10px) saturate(1.2);
-        backdrop-filter: blur(10px) saturate(1.2);
+        -webkit-backdrop-filter: blur(8px) saturate(1.2);
+        backdrop-filter: blur(8px) saturate(1.2);
     }
 }
 
@@ -245,8 +223,8 @@
    ═══════════════════════════════════════════════════ */
 .dz-glass {
     background: rgba(251, 250, 246, 0.6);
-    -webkit-backdrop-filter: blur(22px) saturate(1.35);
-    backdrop-filter: blur(22px) saturate(1.35);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
     border: 1px solid rgba(20, 21, 15, 0.07);
     box-shadow: 0 24px 48px -20px rgba(20, 21, 15, 0.14),
         inset 0 1px 0 rgba(255, 255, 255, 0.6);
@@ -254,8 +232,8 @@
 
 .dz-glass--dark {
     background: rgba(16, 17, 9, 0.5);
-    -webkit-backdrop-filter: blur(22px) saturate(1.2);
-    backdrop-filter: blur(22px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    backdrop-filter: blur(14px) saturate(1.15);
     border: 1px solid rgba(255, 255, 255, 0.07);
     box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.04);
@@ -276,54 +254,67 @@
     .oevra-app button { cursor: none; }
 }
 
+/* Base wrapper — positioned purely by transform (imperative rAF DOM
+   writes in <CustomCursor />); margin offsets center each layer. */
 .oevra-cursor {
     position: fixed;
     top: 0;
     left: 0;
     pointer-events: none;
     z-index: 10000;
-    border-radius: 50%;
     will-change: transform;
     opacity: 0;
+    transition: opacity 300ms var(--ease-soft-out);
 }
 
-.oevra-cursor__ring {
+.oevra-cursor--ring {
     width: 40px;
     height: 40px;
     margin: -20px 0 0 -20px;
-    border: 1.5px solid rgba(20, 21, 15, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: width 0.3s var(--ease-soft-out), height 0.3s var(--ease-soft-out),
-                margin 0.3s var(--ease-soft-out), border-color 0.3s var(--ease-soft-out),
-                opacity 0.3s var(--ease-soft-out), background 0.3s var(--ease-soft-out);
 }
 
-.oevra-cursor__dot {
+.oevra-cursor--dot {
     width: 6px;
     height: 6px;
     margin: -3px 0 0 -3px;
     background: var(--accent-sovereign);
-    transition: opacity 0.3s var(--ease-soft-out);
+    border-radius: 50%;
+}
+
+/* Inner ring visual — grows/shrinks via GPU composited `transform:
+   scale()` (never width/height/margin), so mode changes never hit
+   layout on the hot path. */
+.oevra-cursor__ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1.5px solid rgba(20, 21, 15, 0.35);
+    transform: scale(1);
+    transition: transform 380ms var(--ease-soft-out),
+                border-color 260ms var(--ease-soft-out),
+                background-color 260ms var(--ease-soft-out);
+    will-change: transform;
 }
 
 .oevra-cursor.is-visible { opacity: 1; }
 
-.oevra-cursor__ring.is-mode-hover {
-    width: 64px;
-    height: 64px;
-    margin: -32px 0 0 -32px;
+.oevra-cursor--ring.is-mode-hover .oevra-cursor__ring {
+    transform: scale(1.6);
     border-color: var(--accent-sovereign);
     background: rgba(92, 122, 58, 0.08);
 }
 
-.oevra-cursor__ring.is-mode-drag {
-    width: 82px;
-    height: 82px;
-    margin: -41px 0 0 -41px;
+.oevra-cursor--ring.is-mode-drag .oevra-cursor__ring {
+    transform: scale(2.05);
     background: var(--ink-primary);
     border-color: var(--ink-primary);
+}
+
+.oevra-cursor--ring.is-mode-drag.is-grab .oevra-cursor__ring {
+    transform: scale(1.8);
 }
 
 .oevra-cursor__label {
@@ -347,14 +338,6 @@
 /* ═══════════════════════════════════════════════════
    NOISE / GRAIN OVERLAY — mandatory atmosphere layer
    ═══════════════════════════════════════════════════ */
-@keyframes oevra-noise {
-    0%   { transform: translateZ(0); }
-    25%  { transform: translate3d(-4%, -3%, 0); }
-    50%  { transform: translate3d(3%, -5%, 0); }
-    75%  { transform: translate3d(-3%, 4%, 0); }
-    100% { transform: translate3d(4%, 3%, 0); }
-}
-
 .noise-layer {
     position: fixed;
     inset: 0;
@@ -375,38 +358,36 @@
     background-size: 256px 256px;
     opacity: var(--grain-opacity);
     mix-blend-mode: overlay;
-    animation: oevra-noise 3s steps(4) infinite;
 }
 
 /* ═══════════════════════════════════════════════════
    SHARED PRIMITIVES
    ═══════════════════════════════════════════════════ */
 
-/* Ambient glow blobs — slow CSS drift, off main thread */
-@keyframes dz-glow-drift {
-    0%   { transform: translate3d(0, 0, 0) scale(1); }
-    50%  { transform: translate3d(4%, -6%, 0) scale(1.08); }
-    100% { transform: translate3d(-3%, 4%, 0) scale(0.96); }
-}
+/* ── SHARED PRIMITIVES ────────────────────────────── */
 
+/* Ambient glow blobs — STATIC soft-focus radial washes. Each is a
+   single cached blurred texture (blur is applied once at raster), so
+   they add no per-frame animation work. */
 .dz-glow {
     position: absolute;
-    width: min(64vw, 760px);
+    width: min(56vw, 660px);
     aspect-ratio: 1;
     border-radius: 50%;
     background: var(--glow-sovereign);
-    filter: blur(64px);
+    filter: blur(36px);
+    -webkit-filter: blur(36px);
     pointer-events: none;
     z-index: 0;
-    animation: dz-glow-drift 26s ease-in-out infinite alternate;
     opacity: 0.9;
+    transform: translateZ(0);
 }
 
 .dz-glow--top-right { top: -12%; right: -18%; }
-.dz-glow--bottom-left { bottom: -16%; left: -20%; animation-delay: -8s; }
+.dz-glow--bottom-left { bottom: -16%; left: -20%; }
 .dz-glow--story { top: 20%; right: -22%; }
-.dz-glow--platform { top: -10%; left: -20%; animation-delay: -4s; }
-.dz-glow--pricing { bottom: -18%; right: -16%; animation-delay: -12s; }
+.dz-glow--platform { top: -10%; left: -20%; }
+.dz-glow--pricing { bottom: -18%; right: -16%; }
 
 /* Eyebrow labels — mono, uppercase, letterspaced */
 .dz-eyebrow {
@@ -555,8 +536,8 @@
 
 .dz-header--scrolled {
     background: rgba(251, 250, 246, 0.5);
-    -webkit-backdrop-filter: blur(20px) saturate(1.3);
-    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    backdrop-filter: blur(12px) saturate(1.25);
     border-bottom-color: rgba(20, 21, 15, 0.06);
     box-shadow: 0 12px 32px -18px rgba(20, 21, 15, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.55);
@@ -720,8 +701,8 @@
     border-radius: 999px;
     background: rgba(251, 250, 246, 0.5);
     border: 1px solid rgba(20, 21, 15, 0.06);
-    -webkit-backdrop-filter: blur(14px) saturate(1.3);
-    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(8px) saturate(1.25);
+    backdrop-filter: blur(8px) saturate(1.25);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
         0 10px 28px -18px rgba(20, 21, 15, 0.18);
 }
@@ -1981,8 +1962,8 @@
 .dz-testi__card {
     flex: none;
     background: rgba(251, 250, 246, 0.55);
-    -webkit-backdrop-filter: blur(20px) saturate(1.3);
-    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    backdrop-filter: blur(12px) saturate(1.25);
     border: 1px solid rgba(20, 21, 15, 0.06);
     border-radius: 20px;
     padding: clamp(1.8rem, 3.4vw, 2.8rem);
@@ -2168,8 +2149,8 @@
 .dz-pricing__card {
     position: relative;
     background: rgba(251, 250, 246, 0.6);
-    -webkit-backdrop-filter: blur(22px) saturate(1.35);
-    backdrop-filter: blur(22px) saturate(1.35);
+    -webkit-backdrop-filter: blur(12px) saturate(1.25);
+    backdrop-filter: blur(12px) saturate(1.25);
     border: 1px solid rgba(20, 21, 15, 0.07);
     border-radius: 24px;
     padding: 2.4rem 2.2rem 2.2rem;
@@ -2847,7 +2828,7 @@
 /* ═══════════════════════════════════════════════════
    COUNTER
    ═══════════════════════════════════════════════════ */
-.oevra-counter { font: inherit; color: inherit; will-change: contents; }
+.oevra-counter { font: inherit; color: inherit; }
 
 /* ═══════════════════════════════════════════════════
    RESPONSIVE
