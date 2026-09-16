@@ -92,6 +92,10 @@ Legend: ✅ done · ⬜ pending · 🔶 in progress / partial
 | 20 | Register token mirror in `tailwind.config.js` | ✅ | canvas/ink/accent/surface/line tokens, `dz-*` fonts, premium ease, glow-sovereign |
 | 21 | Delete dead pre-overhaul components | ✅ | 15 orphan files removed; tsc + build still green |
 | 22 | In-browser manual QA sweep | ⬜ | See §10 QA checklist |
+| 23 | Animated background (AuroraHero → sovereign) | ✅ | `AuroraBackground.tsx` + `.dz-aurora` CSS: olive/olive bands on warm canvas, GPU `translate3d` drift (160s/96s), SVG fluted-glass displacement (`url(#dzFlutedGlass)`), top-anchored radial mask, translucent section washes (`--canvas-wash*`) so it glows through the whole page |
+| 24 | Glassmorphism (restrained) | ✅ | `.dz-glass`/`.dz-glass--dark` utilities + `@supports` fallbacks; applied to header-scrolled, hero eyebrow pill, pricing cards, testimonial cards; `prefers-reduced-motion` & <1024px gates |
+| 25 | Hero aurora clarity | ✅ | Mask re-anchored (0.96 alpha top), single layer opacity raised to 38%, band/stripe tints strengthened — the animated field now reads clearly behind the hero |
+| 26 | Performance pass | ✅ | Cursor rewritten imperative (react re-renders ~160/s → 0, smoothing 0.18→0.32, removed fighting CSS transitions); Lenis 1.2s→0.85s + wheelMultiplier; aurora 2 layers → 1, oversize 300%→130%, shift 28vw→12vw, dropped `soft-light` composite + stray `will-change` |
 
 ---
 
@@ -213,6 +217,8 @@ Legend: ✅ done · ⬜ pending · 🔶 in progress / partial
 - [x] `tailwind.config.js` token mirror — canvas/ink/accent/surface/line, `dz-display`/`dz-body`/`dz-mono`, `ease-premium`, `bg-glow-sovereign` (additive; legacy tokens untouched).
 - [x] `.eslintrc.cjs` created (root, TS + react-hooks + react-refresh), `npm run lint` clean under `--max-warnings 0`.
 - [x] Dead pre-overhaul components removed (OevraNav, HeroSection, SovereignStoryScene, TrustMarquee, AppIntroSection, CapabilityIndex, StatsWall, TestimonialsCarousel, PricingSection, BigBrandReveal, Marquee, Accordion, ScrambleText, SpotlightCard, useScrollReveal); tsc + build re-verified.
+- [x] Animated sovereign aurora sits beneath content (`z-index: 0` vs `main` at `1`); masked top-heavy so body copy keeps contrast; no horizontal overflow.
+- [x] Glass surfaces carry solid `@supports` fallbacks; reduced-motion → static wash; <1024px drops the displacement filter + heavy blur.
 - [ ] In-browser QA sweep (see §10).
 
 ---
@@ -227,9 +233,14 @@ npm run dev         (manual QA at http://localhost:5173/oevra-clone)
 ```
 
 ### Manual QA checklist (Phase 10, interaction & polish)
-- [ ] Fresh load: no ghosted hero sub, no empty CTA pills, no blank scroll regions.
-- [ ] Header crossfade after marker; nav underline draw; magnetic CTA.
-- [ ] Hero band bleeds off bottom; next section reveals more of terminal on scroll.
+- [ ] Fresh load: animated sovereign aurora paints instantly behind the hero (olive wash, subtle), content staggers in over it.
+- [ ] Aurora is *clearly* visible under the hero headline + terminal band and fades to a whisper further down; no visible seams/edges during the drift.
+- [ ] Scroll feels immediate/responsive (Lenis 0.85s); no sluggish trailing on wheel or trackpad.
+- [ ] Custom cursor follows tightly (no noticeable lag), ring snaps to pointer, dot trails ≤ a few frames; DRAG state scales down smoothly.
+- [ ] Header crossfade after marker; scrolled state is frosted glass over the aurora; nav underline draw; magnetic CTA.
+- [ ] Hero eyebrow appears as a glass chip with the pulsing live-dot; hero band bleeds off bottom; next section reveals more of terminal on scroll.
+- [ ] Body sections render as translucent canvas washes (olive glow subtly visible behind cards), not flat colour.
+- [ ] Pricing + testimonial cards read as frosted glass (blur visible behind featured card).
 - [ ] Gallery pin: each 100vh segment shows a different visual with NO blank gap between frames; rail fills and counter reaches 05/05.
 - [ ] Marquee loops seamlessly at any desktop width; pauses on hover; edge fade visible.
 - [ ] Accordion: open row ↔ terminal LED pulse sync (ingest→PFSENSE, ocr→NODE1, semantic→NODE2, govern/rack→DOSSERA).
@@ -237,9 +248,9 @@ npm run dev         (manual QA at http://localhost:5173/oevra-clone)
 - [ ] Metrics count-up only numeric values; `<100 ms` static.
 - [ ] Pricing featured card border + ribbon; hover lift + glow.
 - [ ] Final wordmark parallax x-drift + top-edge fade; CTAs open mailto / demo route.
-- [ ] 375px / 768px: stacked gallery, hamburger menu, full-width CTAs, no horizontal overflow.
-- [ ] `prefers-reduced-motion: reduce`: no GSAP pins, marquee static, cursor native, all content visible.
-- [ ] No console errors across the session.
+- [ ] 375px / 768px: stacked gallery, hamburger menu, full-width CTAs, no horizontal overflow; aurora shows as a faint static wash.
+- [ ] `prefers-reduced-motion: reduce`: no GSAP pins, no drift, marquee static, cursor native, all content visible, aurora still resolves static.
+- [ ] No console errors across the session (incl. no invalid `filter`/missing-id warnings for `dzFlutedGlass`).
 
 ---
 
@@ -251,3 +262,5 @@ npm run dev         (manual QA at http://localhost:5173/oevra-clone)
 | 2026-09-16 | Master-prompt overhaul: content config + full component suite + design system in `oevra.css` built; build green |
 | 2026-09-16 | PLAN.md created (this file); remaining: tailwind token mirror, lint config, dead-code removal, gallery crossfade overlap fix, manual QA |
 | 2026-09-16 | ✅ tailwind token mirror (sovereign tokens additive) · `.eslintrc.cjs` wired + lint green (fixed `usePointerPosition` deps warning) · 15 dead components removed · gallery crossfades overlapped (no blank frame window) · Header `lastY` removed · hero secondary CTA → Lenis anchor · final wordmark opacity corrected to watermark 0→0.06. `tsc` / `build` / `lint` all clean. Remaining: §10 manual QA |
+| 2026-09-16 | ✅ **Animated sovereign aurora** (`AuroraBackground.tsx`): fluted-glass AuroraHero technique ported & recolored to the olive/canvas palette; GPU `translate3d` drift ×2 layers (160s/96s), `url(#dzFlutedGlass)` SVG displacement, top-heavy radial mask, `--canvas-wash*` translucency across light sections, glassmorphism on header/eyebrow/pricing/testimonial with `@supports` fallbacks; reduced-motion & <1024px gates. `tsc` / `build` / `lint` clean. Remaining: §10 manual QA (aurora intensity, Glass regressions) |
+| 2026-09-16 | ✅ **Hero-clarity + performance pass**: aurora mask/intensity re-anchored for a vivid hero; single drifting layer + 130% oversize (from 2 layers / 300%) + dropped `soft-light` composite; cursor rewritten to imperative rAF DOM writes (zero React re-renders while moving) with snappier 0.32 catch; removed `usePointerPosition`; Lenis 1.2s→0.85s. `tsc` / `build` / `lint` clean. Remaining: §10 manual QA |

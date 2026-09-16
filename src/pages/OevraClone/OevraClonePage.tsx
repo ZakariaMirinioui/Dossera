@@ -20,6 +20,7 @@ import PricingCards from './components/PricingCards';
 import FinalCTA from './components/FinalCTA';
 import OevraFooter from './components/OevraFooter';
 import usePrefersReducedMotion from './components/usePrefersReducedMotion';
+import AuroraBackground from './components/AuroraBackground';
 import './oevra.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,9 +33,10 @@ export default function OevraClonePage() {
         if (prefersReducedMotion) return undefined;
 
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: 0.85,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             touchMultiplier: 2,
+            wheelMultiplier: 1.05,
         });
 
         lenisRef.current = lenis;
@@ -72,6 +74,7 @@ export default function OevraClonePage() {
 
     return (
         <div className="oevra-app">
+            <AuroraBackground />
             <NoiseOverlay />
             <CustomCursor />
             <Header />

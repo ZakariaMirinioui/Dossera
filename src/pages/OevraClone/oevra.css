@@ -63,6 +63,12 @@
     --pad-xs: clamp(1.25rem, 3vw, 2rem);
     --section-y: clamp(6rem, 5rem + 6vw, 11rem);
     --max-width: 1280px;
+
+    /* Translucent section washes — reveal the aurora beneath while
+       keeping ink-copy contrast on canvas (see AURORA BACKGROUND). */
+    --canvas-wash: rgba(244, 242, 236, 0.78);
+    --canvas-wash-recessed: rgba(234, 231, 221, 0.8);
+    --canvas-wash-raised: rgba(251, 250, 246, 0.78);
 }
 
 /* ── Reset scoping ───────────────────────────────── */
@@ -94,6 +100,172 @@
 }
 .oevra-app img { display: block; max-width: 100%; }
 .oevra-app em { font-style: italic; }
+
+/* Synonyms that resolve `--canvas-wash*` while the aurora is not mounted
+   (e.g. isolated component previews); keeps bleeding-edge identical. */
+.oevra-app main,
+.oevra-app > .dz-footer { position: relative; z-index: 1; }
+
+/* ═══════════════════════════════════════════════════
+   AURORA BACKGROUND — animated sovereign glass layer
+   ───────────────────────────────────────────────────
+   Ported from the fluted-glass AuroraHero technique,
+   recolored to the DOSSERA sovereign palette and
+   throttled hard for an institutional register:
+   - two repeating gradient fields (fabric stripes + olive bands)
+     drift on GPU-composited transforms (translate3d only)
+   - an SVG displacement filter refracts the fields like
+     rolled glass (Chrome/Edge/Firefox; degrades gracefully)
+   - radial mask concentrates intensity at the hero and
+     keeps ~20% presence down the page for "alive" scroll
+   - `prefers-reduced-motion` → static wash, animation off
+   ═══════════════════════════════════════════════════ */
+.dz-aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    isolation: isolate;
+
+    --aur-stripe: #E7E1D1;
+    --aur-stripe-soft: #F7F4EB;
+    --aur-band-a: #5C7A3A;
+    --aur-band-b: #8DA36A;
+    --aur-band-c: #D9D3BF;
+    --aur-stripes: repeating-linear-gradient(
+        100deg,
+        var(--aur-stripe) 0%,
+        var(--aur-stripe) 6%,
+        transparent 9%,
+        transparent 11%,
+        var(--aur-stripe) 16%
+    );
+    --aur-bands: repeating-linear-gradient(
+        100deg,
+        var(--aur-band-a) 0%,
+        var(--aur-band-b) 6%,
+        var(--aur-band-a) 13%,
+        var(--aur-band-c) 19%,
+        var(--aur-band-a) 28%
+    );
+
+    mask-image: radial-gradient(
+        ellipse 140% 115% at 50% -16%,
+        rgba(0, 0, 0, 0.96) 0%,
+        rgba(0, 0, 0, 0.8) 26%,
+        rgba(0, 0, 0, 0.4) 48%,
+        rgba(0, 0, 0, 0.16) 70%,
+        transparent 92%
+    );
+    -webkit-mask-image: radial-gradient(
+        ellipse 140% 115% at 50% -16%,
+        rgba(0, 0, 0, 0.96) 0%,
+        rgba(0, 0, 0, 0.8) 26%,
+        rgba(0, 0, 0, 0.4) 48%,
+        rgba(0, 0, 0, 0.16) 70%,
+        transparent 92%
+    );
+}
+
+/* Filtered group — refracts the moving field like rolled glass.
+   (One filter over one moving layer = minimal compositing.) */
+.dz-aurora__glass {
+    position: absolute;
+    inset: -4%;
+    pointer-events: none;
+}
+
+@supports (filter: url('#dzFlutedGlass')) {
+    .dz-aurora__glass {
+        filter: url('#dzFlutedGlass');
+        -webkit-filter: url('#dzFlutedGlass');
+    }
+}
+
+/* Single drifting field — stripes + olive bands, pre-blurred onto a
+   cached texture, animated via GPU transform only. The layer is just
+   oversized enough (130%) to hide edges during the ±12vw sweep. */
+.dz-aurora__layer {
+    position: absolute;
+    top: -18%;
+    left: -15%;
+    width: 130%;
+    height: 138%;
+    background-image: var(--aur-stripes), var(--aur-bands);
+    filter: blur(18px) opacity(38%) saturate(115%);
+    -webkit-filter: blur(18px) opacity(38%) saturate(115%);
+    will-change: transform;
+    animation: dz-aurora-drift 140s var(--ease-soft-out) infinite alternate;
+}
+
+@keyframes dz-aurora-drift {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-12vw, 4vh, 0); }
+}
+
+.dz-aurora__filter {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Reduced motion — static wash, no movement, no refraction.
+   Belt: attribute set by the hook + suspenders: media query. */
+.dz-aurora[data-reduced='true'] .dz-aurora__glass,
+.dz-aurora[data-reduced='true'] .dz-aurora__layer {
+    filter: none;
+    -webkit-filter: none;
+    animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dz-aurora .dz-aurora__layer {
+        filter: none;
+        -webkit-filter: none;
+        animation: none;
+    }
+}
+
+/* Mobile — drop the displacement filter (GPU cost) and soften blur. */
+@media (max-width: 1023px) {
+    .dz-aurora__glass { filter: none; -webkit-filter: none; }
+    .dz-aurora__layer { filter: blur(12px) opacity(26%) saturate(110%); }
+    .dz-pricing__card,
+    .dz-testi__card {
+        -webkit-backdrop-filter: blur(10px) saturate(1.2);
+        backdrop-filter: blur(10px) saturate(1.2);
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   GLASS UTILITIES — restrained glassmorphism
+   ═══════════════════════════════════════════════════ */
+.dz-glass {
+    background: rgba(251, 250, 246, 0.6);
+    -webkit-backdrop-filter: blur(22px) saturate(1.35);
+    backdrop-filter: blur(22px) saturate(1.35);
+    border: 1px solid rgba(20, 21, 15, 0.07);
+    box-shadow: 0 24px 48px -20px rgba(20, 21, 15, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.dz-glass--dark {
+    background: rgba(16, 17, 9, 0.5);
+    -webkit-backdrop-filter: blur(22px) saturate(1.2);
+    backdrop-filter: blur(22px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* No-backdrop-filter fallback — solid panels so content never breaks. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .dz-glass { background: var(--canvas-raised); }
+    .dz-glass--dark { background: var(--surface-dark-raised); }
+}
 
 /* ═══════════════════════════════════════════════════
    CUSTOM CURSOR
@@ -133,7 +305,7 @@
     height: 6px;
     margin: -3px 0 0 -3px;
     background: var(--accent-sovereign);
-    transition: opacity 0.3s var(--ease-soft-out), transform 0.1s ease;
+    transition: opacity 0.3s var(--ease-soft-out);
 }
 
 .oevra-cursor.is-visible { opacity: 1; }
@@ -152,10 +324,6 @@
     margin: -41px 0 0 -41px;
     background: var(--ink-primary);
     border-color: var(--ink-primary);
-}
-
-.oevra-cursor__ring.is-mode-drag.is-grab {
-    transform: scale(0.88);
 }
 
 .oevra-cursor__label {
@@ -386,12 +554,18 @@
 }
 
 .dz-header--scrolled {
-    background: rgba(251, 250, 246, 0.85);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    border-bottom-color: var(--line-hairline);
+    background: rgba(251, 250, 246, 0.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    backdrop-filter: blur(20px) saturate(1.3);
+    border-bottom-color: rgba(20, 21, 15, 0.06);
+    box-shadow: 0 12px 32px -18px rgba(20, 21, 15, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.55);
     padding-top: 0.9rem;
     padding-bottom: 0.9rem;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .dz-header--scrolled { background: rgba(251, 250, 246, 0.92); }
 }
 
 .dz-header--menu-open { background: var(--canvas-base); backdrop-filter: none; }
@@ -542,6 +716,18 @@
     letter-spacing: 0.2em;
     color: var(--accent-sovereign);
     margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+    padding: 0.55rem 1.05rem;
+    border-radius: 999px;
+    background: rgba(251, 250, 246, 0.5);
+    border: 1px solid rgba(20, 21, 15, 0.06);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+        0 10px 28px -18px rgba(20, 21, 15, 0.18);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .dz-hero__eyebrow { background: var(--canvas-raised); }
 }
 
 .dz-hero__live-dot {
@@ -656,7 +842,7 @@
 .dz-story {
     position: relative;
     z-index: 1;
-    background: var(--canvas-base);
+    background: var(--canvas-wash);
     padding: var(--section-y) var(--pad);
 }
 
@@ -839,7 +1025,7 @@
    CAPABILITY GALLERY — pinned scroll (desktop)
    ═══════════════════════════════════════════════════ */
 .dz-gallery {
-    background: var(--canvas-recessed);
+    background: var(--canvas-wash-recessed);
     position: relative;
 }
 
@@ -949,7 +1135,7 @@
 /* Stacked fallback (mobile / reduced motion) */
 .dz-gallery--stacked {
     padding: var(--section-y) var(--pad-xs);
-    background: var(--canvas-base);
+    background: var(--canvas-wash);
 }
 
 .dz-gallery__stacked-inner {
@@ -1093,7 +1279,7 @@
 .dz-platform {
     position: relative;
     padding: var(--section-y) var(--pad);
-    background: var(--canvas-base);
+    background: var(--canvas-wash);
 }
 
 .dz-platform__inner {
@@ -1294,7 +1480,7 @@
 .dz-list {
     position: relative;
     padding: var(--section-y) var(--pad);
-    background: var(--canvas-recessed);
+    background: var(--canvas-wash-recessed);
 }
 
 .dz-list__inner {
@@ -1747,8 +1933,7 @@
 .dz-testi {
     position: relative;
     padding: var(--section-y) var(--pad);
-    background: var(--canvas-base);
-    overflow: hidden;
+    background: var(--canvas-wash);
 }
 
 .dz-testi__inner { max-width: var(--max-width); margin: 0 auto; }
@@ -1795,14 +1980,17 @@
 
 .dz-testi__card {
     flex: none;
-    background: var(--canvas-raised);
-    border: 1px solid var(--line-hairline);
+    background: rgba(251, 250, 246, 0.55);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    backdrop-filter: blur(20px) saturate(1.3);
+    border: 1px solid rgba(20, 21, 15, 0.06);
     border-radius: 20px;
     padding: clamp(1.8rem, 3.4vw, 2.8rem);
     display: flex;
     flex-direction: column;
     gap: 1.3rem;
-    box-shadow: 0 18px 44px -16px rgba(16, 17, 9, 0.12);
+    box-shadow: 0 18px 44px -16px rgba(16, 17, 9, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
     opacity: 0.55;
     transform: scale(0.96);
     cursor: grab;
@@ -1932,7 +2120,7 @@
 .dz-pricing {
     position: relative;
     padding: var(--section-y) var(--pad);
-    background: var(--canvas-base);
+    background: var(--canvas-wash);
     overflow: hidden;
 }
 
@@ -1979,14 +2167,17 @@
 
 .dz-pricing__card {
     position: relative;
-    background: var(--canvas-raised);
-    border: 1px solid var(--line-hairline);
+    background: rgba(251, 250, 246, 0.6);
+    -webkit-backdrop-filter: blur(22px) saturate(1.35);
+    backdrop-filter: blur(22px) saturate(1.35);
+    border: 1px solid rgba(20, 21, 15, 0.07);
     border-radius: 24px;
     padding: 2.4rem 2.2rem 2.2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     overflow: hidden;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
     transition: transform 420ms var(--ease-premium),
                 box-shadow 420ms var(--ease-premium),
                 border-color 420ms var(--ease-premium);
@@ -2008,7 +2199,8 @@
 
 .dz-pricing__card:hover {
     transform: translateY(-4px) scale(1.015);
-    box-shadow: 0 16px 40px -12px rgba(20, 21, 15, 0.18);
+    box-shadow: 0 16px 40px -12px rgba(20, 21, 15, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
     border-color: rgba(92, 122, 58, 0.35);
 }
 
@@ -2099,7 +2291,7 @@
 .dz-final {
     position: relative;
     padding: clamp(8rem, 16vh, 12rem) var(--pad) clamp(6rem, 12vh, 10rem);
-    background: var(--canvas-raised);
+    background: var(--canvas-wash-raised);
     text-align: center;
     overflow: hidden;
 }
@@ -2201,7 +2393,7 @@
 .dz-footer {
     position: relative;
     padding: 2.4rem var(--pad) 3.2rem;
-    background: var(--canvas-base);
+    background: var(--canvas-wash-raised);
     border-top: 1px solid var(--line-hairline);
 }
 
