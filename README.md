@@ -1,8 +1,9 @@
 # DOSSERA Website
 
-<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="public/dossera-logo.png">
   <img src="public/dossera-logo.png" alt="Dossera" width="400">
-</p>
+</picture>
 
 DOSSERA - Sovereign Document Intelligence Platform
 
