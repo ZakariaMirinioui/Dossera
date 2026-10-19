@@ -38,8 +38,5 @@
                 }
             ]
         }
-    ],
-    "env": {
-        "VITE_FORMSPREE_ENDPOINT": "@formspree_endpoint"
-    }
+    ]
 }

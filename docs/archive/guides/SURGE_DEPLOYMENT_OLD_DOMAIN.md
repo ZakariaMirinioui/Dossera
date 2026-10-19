@@ -1,4 +1,8 @@
-# Déploiement — DOSSERA JAMS
+# Archived: DOSSERA JAMS Surge deployment
+
+This guide targets an earlier Surge domain and is retained for historical
+reference. Use the current [Surge deployment guide](../../deployment/surge.md)
+instead.
 
 ## Prérequis
 

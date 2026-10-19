@@ -1,4 +1,8 @@
-# 🚀 DOSSERA Deployment Guide - Vercel
+# Archived: DOSSERA Vercel deployment guide
+
+This guide is retained as historical material. Its deployment details and
+verification checklist are superseded by the current
+[Surge deployment guide](../../deployment/surge.md).
 
 Deploy your DOSSERA website to **Vercel** — the optimal platform for React apps.
 

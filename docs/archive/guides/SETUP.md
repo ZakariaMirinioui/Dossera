@@ -1,4 +1,8 @@
-# 🚀 DOSSERA Website - Project Setup Guide
+# Archived: DOSSERA Website Setup Guide
+
+This setup checklist describes an earlier project bootstrap and is retained for
+historical reference. Follow the current [Surge deployment guide](../../deployment/surge.md)
+and root [README](../../../README.md) instead.
 
 This is a **production-ready DOSSERA website** separated from the portfolio. Deploy to **Vercel**.
 
@@ -166,4 +170,4 @@ dossera-website/
 
 ---
 
-**Questions?** See [DOSSERA_DEPLOYMENT.md](./DOSSERA_DEPLOYMENT.md)
+**Questions?** See the current [Surge deployment guide](../../deployment/surge.md).
